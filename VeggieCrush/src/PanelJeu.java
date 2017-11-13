@@ -4,12 +4,17 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class PanelJeu extends JPanel implements ActionListener {
 
@@ -18,8 +23,15 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private String prev;
 	private String next;
 	private JButton prevJButton;
+  	private BufferedImage iconPlante1=null;
 
 	public PanelJeu(){
+		try {
+			iconPlante1 = ImageIO.read(new File("images/herbe1.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setLayout(new MigLayout("", "[][grow][][][]", "[][grow][grow][grow][grow][grow]"));
 
 		JLabel lblTimer = new JLabel("Timer");
@@ -75,7 +87,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++)
 			{
-				b[i][j] = new JButton("("+(i+1)+") "+"("+(j+1)+")");
+				//b[i][j] = new JButton("("+(i+1)+") "+"("+(j+1)+")");
+				b[i][j] = new JButton(new ImageIcon(iconPlante1));
 				b[i][j].addActionListener(this);
 				b[i][j].setActionCommand("click");
 				panel_4.add(b[i][j]);
