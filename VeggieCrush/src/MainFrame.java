@@ -1,7 +1,7 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-
+// MIPA COMMENTAIRE
 public class MainFrame {
 
 	private JFrame frame;
