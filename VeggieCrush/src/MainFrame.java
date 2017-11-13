@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import java.awt.GridLayout;
 import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
@@ -11,6 +13,7 @@ import javax.swing.JLabel;
 public class MainFrame {
 
 	private JFrame frame;
+	private JTabbedPane onglet;
 
 	/**
 	 * Launch the application.
@@ -40,33 +43,27 @@ public class MainFrame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setLocationRelativeTo(null);
+	    frame.setTitle("Jeu de merde");
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setSize(800, 600);
+
+	    JPanel[] tPan = {   new PanelJeu(Color.RED), new PanelCraft(Color.GREEN), new PanelDemandes(Color.BLUE)};
+
+	    onglet = new JTabbedPane();
+
+	    int i = 0;
+
+	    for(JPanel pan : tPan){
+	      onglet.add("Onglet n° "+(++i), pan);
+	    }
+
+	    frame.getContentPane().add(onglet);
+
+	    frame.setVisible(true);
+	    frame.setResizable(false);
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		frame.getContentPane().add(tabbedPane);
-		
-		JPanel panel1 = new JPanel();
-		tabbedPane.addTab("Récupérer matières", null, panel1, null);
-		panel1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JLabel lblTest = new JLabel("test");
-		panel1.add(lblTest);
-		
-		JPanel panel2 = new JPanel();
-		tabbedPane.addTab("Crafter", null, panel2, null);
-		panel2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JLabel lblTest2 = new JLabel("test 2");
-		panel2.add(lblTest2);
-		
-		JPanel panel3 = new JPanel();
-		tabbedPane.addTab("Demandes", null, panel3, null);
-		panel3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JLabel lblTest3 = new JLabel("test3");
-		panel3.add(lblTest3);
 	}
 
 }
