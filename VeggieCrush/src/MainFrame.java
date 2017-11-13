@@ -11,7 +11,7 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 // MIPA COMMENTAIRE
 public class MainFrame {
-
+//zob
 	private JFrame frame;
 	private JTabbedPane onglet;
 
