@@ -1,41 +1,69 @@
-import java.awt.EventQueue;
+import java.awt.Color;
 
 import javax.swing.JFrame;
 
-public class test_craft {
+import javax.swing.JTabbedPane;
 
-	private JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					test_craft window = new test_craft();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+public class test_craft extends JFrame {
 
-	/**
-	 * Create the application.
-	 */
-	public test_craft() {
-		initialize();
-	}
+  private JTabbedPane onglet;
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 799, 600);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
+   
+
+  public test_craft(){
+
+    this.setLocationRelativeTo(null);
+
+    this.setTitle("Gérer vos conteneurs");
+
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    this.setSize(400, 200);
+
+      
+
+    //Création de plusieurs Panneau
+
+    Panneau[] tPan = {   new Panneau(Color.RED), new Panneau(Color.GREEN), new Panneau(Color.BLUE)};
+
+      
+
+    //Création de notre conteneur d'onglets
+
+    onglet = new JTabbedPane();
+
+    int i = 0;
+
+    for(Panneau pan : tPan){
+
+      //Méthode d'ajout d'onglet
+
+      onglet.add("Onglet n° "+(++i), pan);
+
+      //Vous pouvez aussi utiliser la méthode addTab
+
+      //onglet.addTab("Onglet n° "+(++i), pan);
+
+
+    }
+
+    //On passe ensuite les onglets au content pane
+
+    this.getContentPane().add(onglet);
+
+    this.setVisible(true);
+
+  }
+
+   
+
+  public static void main(String[] args){
+
+	  test_craft fen = new test_craft();
+	  fen.setBounds(100, 100, 800, 600);
+	  fen.setResizable(false);
+
+  }   
 
 }
