@@ -11,7 +11,9 @@ import javax.swing.JTable;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 import net.miginfocom.swing.MigLayout;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,16 +34,10 @@ public class PanelCraft extends JPanel{
 	  	add(panel, "cell 1 4,grow");
 	  	panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 	  	
-	  	JButton btn_inv_plante1 = new JButton("New button");
-	  	
-	  	
+	  	/*JButton btn_inv_plante1 = new JButton("New button");
 	  	JButton btn_inv_plante2 = new JButton("New button");
-	  	
 	  	JButton btn_inv_plante3 = new JButton("New button");
-	  	
-	  	
-	  	JButton btn_inv_plante4 = new JButton("New button");
-	  	
+	  	JButton btn_inv_plante4 = new JButton("New button");*/
 	  	
 	  	BufferedImage iconPlante1=null;
 	  	BufferedImage iconPlante2=null;
@@ -71,7 +67,7 @@ public class PanelCraft extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	  	btn_inv_plante1 = new JButton(new ImageIcon(iconPlante1));
+	  	/*btn_inv_plante1 = new JButton(new ImageIcon(iconPlante1));
 	  	btn_inv_plante1.setBorderPainted(false);
 	  	btn_inv_plante1.setFocusPainted(false);
 	  	btn_inv_plante1.setContentAreaFilled(false);
@@ -117,15 +113,64 @@ public class PanelCraft extends JPanel{
 	  	panel.add(btn_inv_plante1);
 	  	panel.add(btn_inv_plante2);
 	  	panel.add(btn_inv_plante3);
-	  	panel.add(btn_inv_plante4);
+	  	panel.add(btn_inv_plante4);*/
 	  	
+	  	JLabel inv_plante1,inv_plante2,inv_plante3, inv_plante4;
+	  	inv_plante1 = new JLabel();
+	  	inv_plante2 = new JLabel();
+	  	inv_plante3 = new JLabel();
+	  	inv_plante4 = new JLabel();
+	  	inv_plante1.setSize(75,75);
+	  	inv_plante2.setSize(75,75);
+	  	inv_plante3.setSize(75,75);
+	  	inv_plante4.setSize(75,75);
+	  	inv_plante1.setIcon(new ImageIcon(iconPlante1));
+	  	inv_plante2.setIcon(new ImageIcon(iconPlante2));
+	  	inv_plante3.setIcon(new ImageIcon(iconPlante3));
+	  	inv_plante4.setIcon(new ImageIcon(iconPlante4));
+	  	
+	  	MouseListener ml = new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {}
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            
+                JComponent jc = (JComponent)e.getSource();
+                TransferHandler th = jc.getTransferHandler();
+                th.exportAsDrag(jc, e, TransferHandler.COPY);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+
+            @Override
+            public void mouseEntered(MouseEvent e) {}
+
+            @Override
+            public void mouseExited(MouseEvent e) {}
+        };
+        
+        inv_plante1.addMouseListener(ml);
+        inv_plante2.addMouseListener(ml);
+        inv_plante3.addMouseListener(ml);
+        inv_plante4.addMouseListener(ml);
+        
+        inv_plante1.setTransferHandler(new TransferHandler("icon"));
+        inv_plante2.setTransferHandler(new TransferHandler("icon"));
+        inv_plante3.setTransferHandler(new TransferHandler("icon"));
+        inv_plante4.setTransferHandler(new TransferHandler("icon"));
+        
+        panel.add(inv_plante1);
+        panel.add(inv_plante2);
+        panel.add(inv_plante3);
+        panel.add(inv_plante4);
+
 	  	
 	  	JButton btnNewButton = new JButton("Inventaire");
 	  	btnNewButton.setActionCommand("Inventaire");
-	  	btnNewButton.addActionListener(new ActionListener() {
-	  		public void actionPerformed(ActionEvent arg0) {
-	  		}
-	  	});
+	  	
 	  	
 	  	JPanel panel_2 = new JPanel();
 	  	add(panel_2, "cell 1 7,grow");
