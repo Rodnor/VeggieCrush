@@ -46,21 +46,23 @@ public class MainFrame {
 		frame.setLocationRelativeTo(null);
 	    frame.setTitle("Jeu de merde");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setSize(900, 600);
+	    frame.setSize(800, 600);
 
-	    JPanel[] tPan = {   new PanelJeu(), new PanelJeu(), new PanelDemandes(Color.BLUE)};
+	    JPanel[] tPan = {   new PanelJeu(Color.RED), new PanelCraft(Color.GREEN), new PanelDemandes(Color.BLUE)};
 
 	    onglet = new JTabbedPane();
-	    onglet.add("Jeu", tPan[0]);
-	    onglet.add("Craft", tPan[1]);
-	    onglet.add("Demandes", tPan[2]);
 
+	    int i = 0;
+
+	    for(JPanel pan : tPan){
+	      onglet.add("Onglet n° "+(++i), pan);
+	    }
 
 	    frame.getContentPane().add(onglet);
 
 	    frame.setVisible(true);
 	    frame.setResizable(false);
-		frame.setBounds(100, 100, 900, 600);
+		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
