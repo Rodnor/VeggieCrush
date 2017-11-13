@@ -1,4 +1,4 @@
-import java.awt.Color;
+/*import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import javax.swing.JPanel;
@@ -143,4 +143,4 @@ public class PanelCraft extends JPanel{
 	    g.setFont(new Font("Arial", Font.BOLD, 15));
 	    g.drawString(this.message, 10, 20);
 	  }
-}
+}*/
