@@ -48,7 +48,7 @@ public class MainFrame {
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setSize(900, 600);
 
-	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft(), new PanelDemandes(Color.BLUE)};
+	    JPanel[] tPan = {   new PanelJeu(), new PanelJeu(), new PanelDemandes(Color.BLUE)};
 
 	    onglet = new JTabbedPane();
 	    onglet.add("Jeu", tPan[0]);
