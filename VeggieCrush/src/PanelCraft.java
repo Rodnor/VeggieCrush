@@ -5,14 +5,13 @@ import javax.swing.JPanel;
 
 public class PanelCraft extends JPanel{
 	  private Color color = Color.white;
-	  private static int COUNT = 0;
 	  private String message = "";
 	   
 	  public PanelCraft(){}
 	  
 	  public PanelCraft(Color color){
 	    this.color = color;
-	    this.message = "Contenu du panneau N°" + (++COUNT);
+	    this.message = "Le panel de craft";
 	  }
 	  
 	  public void paintComponent(Graphics g){
