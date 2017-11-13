@@ -46,7 +46,7 @@ public class MainFrame {
 		frame.setLocationRelativeTo(null);
 	    frame.setTitle("Jeu de merde");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setSize(900, 600);
+	    frame.setSize(900, 750);
 
 	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft(), new PanelDemandes(Color.BLUE)};
 
@@ -60,7 +60,7 @@ public class MainFrame {
 
 	    frame.setVisible(true);
 	    frame.setResizable(false);
-		frame.setBounds(100, 100, 900, 600);
+		frame.setBounds(100, 100, 900, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
