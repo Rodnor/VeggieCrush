@@ -20,18 +20,12 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 	private JButton b[][] = new JButton[9][9];
 	private int numClic=0;
-	private String prev;
-	private String next;
+	private ImageIcon prev;
+	private ImageIcon next;
 	private JButton prevJButton;
-  	private BufferedImage iconPlante1=null;
+  	private BufferedImage iconPlante=null;
 
 	public PanelJeu(){
-		try {
-			iconPlante1 = ImageIO.read(new File("images/herbe1.jpg"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		setLayout(new MigLayout("", "[][grow][][][]", "[][grow][grow][grow][grow][grow]"));
 
 		JLabel lblTimer = new JLabel("Timer");
@@ -87,8 +81,17 @@ public class PanelJeu extends JPanel implements ActionListener {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++)
 			{
+				try {
+					iconPlante = ImageIO.read(new File("images/herbe"+String.valueOf((int)((Math.random()*4)+1))+".jpg"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				//b[i][j] = new JButton("("+(i+1)+") "+"("+(j+1)+")");
-				b[i][j] = new JButton(new ImageIcon(iconPlante1));
+				b[i][j] = new JButton(new ImageIcon(iconPlante));
+				b[i][j].setBorderPainted(false);
+				b[i][j].setFocusPainted(false);
+				b[i][j].setContentAreaFilled(false);
 				b[i][j].addActionListener(this);
 				b[i][j].setActionCommand("click");
 				panel_4.add(b[i][j]);
@@ -107,7 +110,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 			for (int row = 0; row < 9; row++) {
 				for (int col = 0; col < 9; col++) {
 					if (b[row][col] == e.getSource()){
-						prev = b[row][col].getText();
+						prev = (ImageIcon) b[row][col].getIcon();
 						prevJButton = b[row][col];
 						numClic++;
 					}
@@ -117,9 +120,9 @@ public class PanelJeu extends JPanel implements ActionListener {
 			for (int row = 0; row < 9; row++) {
 				for (int col = 0; col < 9; col++) {
 					if (b[row][col] == e.getSource()){
-						next = b[row][col].getText();
-						b[row][col].setText(prev);
-						prevJButton.setText(next);
+						next = (ImageIcon) b[row][col].getIcon();
+						b[row][col].setIcon(prev);
+						prevJButton.setIcon(next);
 						numClic++;
 					}
 				}
