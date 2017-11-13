@@ -48,25 +48,25 @@ public class PanelCraft extends JPanel{
 	  	BufferedImage iconPlante3=null;
 	  	BufferedImage iconPlante4=null;
 		try {
-			iconPlante1 = ImageIO.read(new File("images\\herbe1.jpg"));
+			iconPlante1 = ImageIO.read(new File("images/herbe1.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	  	try {
-			iconPlante2 = ImageIO.read(new File("images\\herbe2.jpg"));
+			iconPlante2 = ImageIO.read(new File("images/herbe2.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	  	try {
-			iconPlante3 = ImageIO.read(new File("images\\herbe3.jpg"));
+			iconPlante3 = ImageIO.read(new File("images/herbe3.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	  	try {
-			iconPlante4 = ImageIO.read(new File("images\\herbe4.jpg"));
+			iconPlante4 = ImageIO.read(new File("images/herbe4.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
