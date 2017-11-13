@@ -120,10 +120,6 @@ public class PanelCraft extends JPanel{
 	  	inv_plante2 = new JLabel();
 	  	inv_plante3 = new JLabel();
 	  	inv_plante4 = new JLabel();
-	  	inv_plante1.setSize(75,75);
-	  	inv_plante2.setSize(75,75);
-	  	inv_plante3.setSize(75,75);
-	  	inv_plante4.setSize(75,75);
 	  	inv_plante1.setIcon(new ImageIcon(iconPlante1));
 	  	inv_plante2.setIcon(new ImageIcon(iconPlante2));
 	  	inv_plante3.setIcon(new ImageIcon(iconPlante3));
@@ -171,10 +167,67 @@ public class PanelCraft extends JPanel{
 	  	JButton btnNewButton = new JButton("Inventaire");
 	  	btnNewButton.setActionCommand("Inventaire");
 	  	
+	  	BufferedImage iconCompoVide=null;
+	  	try {
+	  		iconCompoVide = ImageIO.read(new File("images/vide.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	  	
 	  	JPanel panel_2 = new JPanel();
 	  	add(panel_2, "cell 1 7,grow");
 	  	add(btnNewButton, "cell 0 9");
+	  	
+	  	JLabel compo1,compo2,compo3, compo4;
+	  	compo1 = new JLabel();
+	  	compo2 = new JLabel();
+	  	compo3 = new JLabel();
+	  	compo4 = new JLabel();
+	  	compo1.setIcon(new ImageIcon(iconCompoVide));
+	  	compo2.setIcon(new ImageIcon(iconCompoVide));
+	  	compo3.setIcon(new ImageIcon(iconCompoVide));
+	  	compo4.setIcon(new ImageIcon(iconCompoVide));
+	  	
+	  	
+	  	MouseListener m2 = new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {}
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            
+                JComponent jc = (JComponent)e.getSource();
+                TransferHandler th = jc.getTransferHandler();
+                th.exportAsDrag(jc, e, TransferHandler.COPY);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+
+            @Override
+            public void mouseEntered(MouseEvent e) {}
+
+            @Override
+            public void mouseExited(MouseEvent e) {}
+        };
+        
+        compo1.addMouseListener(m2);
+        compo2.addMouseListener(m2);
+        compo3.addMouseListener(m2);
+        compo4.addMouseListener(m2);
+        
+        compo1.setTransferHandler(new TransferHandler("icon"));
+        compo2.setTransferHandler(new TransferHandler("icon"));
+        compo3.setTransferHandler(new TransferHandler("icon"));
+        compo4.setTransferHandler(new TransferHandler("icon"));
+        
+        panel_2.add(compo1);
+        panel_2.add(compo2);
+        panel_2.add(compo3);
+        panel_2.add(compo4);
+
 	  	
 	  	JButton btnNewButton_1 = new JButton("Crafter !");
 	  	add(btnNewButton_1, "cell 2 9");}
