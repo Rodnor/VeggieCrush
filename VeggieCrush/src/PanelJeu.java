@@ -171,14 +171,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 						for (int row = 0; row < 9; row++) {
 							for (int col = 0; col < 9; col++) {
 								if (b[row][col] == e.getSource()){
-									/*System.out.println("Ligne case précédente : "+this.row);
-									System.out.println("colonne case précédente : "+this.col);
-									System.out.println("Ligne courante : "+row);
-									System.out.println("Colonne courante : "+col);
-									System.out.println("Ligne suivante : "+(row+1));
-									System.out.println("Colonne suivante : "+(col+1));
-									System.out.println("Ligne précédente : "+(row-1));
-									System.out.println("Colonne précédente : "+(col-1));*/
 									if(row+1 == this.row && col == this.col || row-1 == this.row && col == this.col || row == this.row && col+1 == this.col || row == this.row && col-1 == this.col)
 											canSwitch=true;
 									
