@@ -41,7 +41,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int col;
 
 	public PanelJeu(){
-		
+
 		setLayout(new MigLayout("", "[][][grow][][][][grow]", "[][][grow][grow][grow][grow][grow][]"));
 
 		lblTimer = new JLabel("Temps restant : "+String.valueOf(tempsTotal));
@@ -117,7 +117,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		JLabel label_3 = new JLabel(String.valueOf(0+herbe4Bonus));
 		add(label_3, "cell 5 6");
-		
+
 		JButton btnJouer = new JButton("Jouer !");
 		btnJouer.addActionListener(this);
 		btnJouer.setActionCommand("jouer");
@@ -126,8 +126,9 @@ public class PanelJeu extends JPanel implements ActionListener {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++)
 			{
+				int rand = (int)((Math.random()*4)+1);
 				try {
-					iconPlante = ImageIO.read(new File("images/herbe"+String.valueOf((int)((Math.random()*4)+1))+".jpg"));
+					iconPlante = ImageIO.read(new File("images/herbe"+String.valueOf(rand)+".jpg"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -137,6 +138,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 				b[i][j].setContentAreaFilled(false);
 				b[i][j].addActionListener(this);
 				b[i][j].setActionCommand("click");
+				b[i][j].setName(String.valueOf(rand));
 				panel_4.add(b[i][j]);
 			}
 		}
@@ -150,7 +152,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() instanceof JButton) {
 			JButton btn = (JButton) e.getSource();
-			
+
 			if(btn.getActionCommand().equals("jouer")) {
 				startThreads();
 			} else {
@@ -171,10 +173,13 @@ public class PanelJeu extends JPanel implements ActionListener {
 						for (int row = 0; row < 9; row++) {
 							for (int col = 0; col < 9; col++) {
 								if (b[row][col] == e.getSource()){
-									if(row+1 == this.row && col == this.col || row-1 == this.row && col == this.col || row == this.row && col+1 == this.col || row == this.row && col-1 == this.col)
-											canSwitch=true;
-									
+									if(row+1 == this.row && col == this.col || row-1 == this.row && col == this.col || row == this.row && col+1 == this.col || row == this.row && col-1 == this.col) {
+										canSwitch=true;
+									}
+
 									if(b[row][col] != prevJButton && canSwitch) {
+										System.out.println(b[row][col].getName());
+										System.out.println(prevJButton.getName());
 										next = (ImageIcon) b[row][col].getIcon();
 										b[row][col].setIcon(prev);
 										prevJButton.setIcon(next);
@@ -191,7 +196,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 			}
 		}
 	}
-	
+
 	public void startThreads() {
 		gameRunning = true;
 		Thread t = new Thread() {
@@ -213,7 +218,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 			}
 		};
 		t.start();
-		
+
 		Thread t2 = new Thread() {
 			public void run() {
 				while(!stopGame) {
