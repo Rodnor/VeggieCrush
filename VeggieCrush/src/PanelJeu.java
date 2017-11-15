@@ -20,6 +20,10 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 	private JButton b[][] = new JButton[9][9];
 	private JPanel canvas;
+	private JLabel nbHerbe1;
+	private JLabel nbHerbe2;
+	private JLabel nbHerbe3;
+	private JLabel nbHerbe4;
 	private int numClic=0;
 	private ImageIcon prev;
 	private ImageIcon next;
@@ -76,8 +80,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 		JLabel lblX = new JLabel("x");
 		add(lblX, "cell 4 3");
 
-		JLabel label = new JLabel(String.valueOf(0+herbe1Bonus));
-		add(label, "cell 5 3");
+		nbHerbe1 = new JLabel(String.valueOf(0+herbe1Bonus));
+		add(nbHerbe1, "cell 5 3");
 
 		try {
 			icon = new ImageIcon(ImageIO.read(new File("images/herbe2.jpg")));
@@ -91,8 +95,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 		JLabel lblNewLabel = new JLabel("x");
 		add(lblNewLabel, "cell 4 4");
 
-		JLabel label_1 = new JLabel(String.valueOf(0+herbe2Bonus));
-		add(label_1, "cell 5 4");
+		nbHerbe2 = new JLabel(String.valueOf(0+herbe2Bonus));
+		add(nbHerbe2, "cell 5 4");
 
 		try {
 			icon = new ImageIcon(ImageIO.read(new File("images/herbe3.jpg")));
@@ -106,8 +110,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 		JLabel lblNewLabel_1 = new JLabel("x");
 		add(lblNewLabel_1, "cell 4 5");
 
-		JLabel label_2 = new JLabel(String.valueOf(0+herbe3Bonus));
-		add(label_2, "cell 5 5");
+		nbHerbe3= new JLabel(String.valueOf(0+herbe3Bonus));
+		add(nbHerbe3, "cell 5 5");
 
 		try {
 			icon = new ImageIcon(ImageIO.read(new File("images/herbe4.jpg")));
@@ -121,8 +125,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 		JLabel lblNewLabel_2 = new JLabel("x");
 		add(lblNewLabel_2, "cell 4 6");
 
-		JLabel label_3 = new JLabel(String.valueOf(0+herbe4Bonus));
-		add(label_3, "cell 5 6");
+		nbHerbe4 = new JLabel(String.valueOf(0+herbe4Bonus));
+		add(nbHerbe4, "cell 5 6");
 
 		JButton btnJouer = new JButton("Jouer !");
 		btnJouer.addActionListener(this);
@@ -131,7 +135,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		// On remplis le canevas
 		fillCanvas();
-		
+
 		// On met une herbe par coin
 		fillCanvasCorners();
 	}
@@ -152,7 +156,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 					if(numClic == 0) {
 						for (int row = 0; row < 9; row++) {
 							for (int col = 0; col < 9; col++) {
-								if (b[row][col] == e.getSource()){
+								if (b[row][col] == e.getSource() && row!=0 && col!=0) {
 									prev = (ImageIcon) b[row][col].getIcon();
 									prevJButton = b[row][col];
 									this.col=col;
@@ -191,7 +195,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 	public void startThreads() {
 		gameRunning = true;
-		
+
 		Thread t = new Thread() {
 			public void run() {
 				while(tempsTotal>=0 && gameRunning) {
@@ -232,7 +236,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		};
 		t2.start();
 	}
-	
+
 	public void fillCanvas() {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++)
@@ -254,7 +258,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 			}
 		}
 	}
-	
+
 	public void fillCanvasCorners() {
 		try {
 			b[0][0].setIcon(new ImageIcon(ImageIO.read(new File("images/herbe1.jpg"))));
@@ -264,38 +268,85 @@ public class PanelJeu extends JPanel implements ActionListener {
 		}
 		try {
 			b[0][8].setIcon(new ImageIcon(ImageIO.read(new File("images/herbe2.jpg"))));
-			b[0][0].setName("2");
+			b[0][8].setName("2");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
 			b[8][0].setIcon(new ImageIcon(ImageIO.read(new File("images/herbe3.jpg"))));
-			b[0][0].setName("3");
+			b[8][0].setName("3");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
 			b[8][8].setIcon(new ImageIcon(ImageIO.read(new File("images/herbe4.jpg"))));
-			b[0][0].setName("4");
+			b[8][8].setName("4");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void finDePartie() {
 		System.out.println("Fin du game !");
-		// Compter nombre de cases herbe 1 collées
+
+		explorer(b, b[0][0], 0, 0);
+
 		/*for (int row = 0; row < 9; row++) {
 			for (int col = 0; col < 9; col++) {
-				if(b[row][col].getName().equals(b[row][col+1].getName()) && b[row][col].getName().equals("1")) {
-					herbe1.add(b[row][col]);
-					herbe1.add(b[row][col+1]);
+				calculCasesAdjacente(b, b.length, row, col, "1");
+			}
+		}*/
+
+		for (int row = 0; row < 9; row++) {
+			for (int col = 0; col < 9; col++) {
+				if(herbe1.contains(b[row][col])) {
+					System.out.println("("+row+") ("+col+")");
 				}
 			}
 		}
-		System.out.println("Nombre d'herbes 1 : "+herbe1.size());*/
+
+		nbHerbe1.setText(String.valueOf(herbe1.size()));
 	}
-	
+
+	public void calculCasesAdjacente(JButton b[][], int size, int row, int col, String name) {
+		// Si l'élément est déjà marqué
+		if (herbe1.contains(b[row][col])) {
+			return;
+		}
+
+		// Si l'élément ne doit pas figurer dans la liste
+		if(!b[row][col].getName().equals(name)) {   
+			return; 
+		}
+
+		herbe1.add(b[row][col]);
+
+		// Contrôle des limites
+		if(row+1<size && col+1<size && row>0 && col>0) {
+			calculCasesAdjacente(b, size, row+1, col, name);
+			calculCasesAdjacente(b, size, row-1, col, name);
+			calculCasesAdjacente(b, size, row, col+1, name);
+			calculCasesAdjacente(b, size, row, col-1, name);
+		}
+
+	}
+
+	public void explorer(JButton graphe[][], JButton bouton, int rowCurrentButton, int colCurrentButton) {
+		herbe1.add(bouton);
+
+		for (int row = 0; row < 9; row++) {
+			for (int col = 0; col < 9; col++) {
+				if(row<9 && row>=0 && col>=0 && col<9) {
+					if(row+1 == rowCurrentButton && col == colCurrentButton || row-1 == rowCurrentButton && col == colCurrentButton || row == rowCurrentButton && col+1 == colCurrentButton || row == rowCurrentButton && col-1 == colCurrentButton) {
+						if(!herbe1.contains(graphe[row][col]) && graphe[row][col].getName().equals(bouton.getName())) {
+							explorer(graphe, graphe[row][col], row, col);
+						}
+					}
+				}
+			}
+		}       
+	}
+
 	public void sendDatasToDatabase() {
 		System.out.println("Datas sent to database");
 	}
