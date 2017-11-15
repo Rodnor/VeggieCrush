@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,19 +14,21 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class PanelJeu extends JPanel implements ActionListener {
 
 	private JButton b[][] = new JButton[9][9];
+	private JPanel canvas;
 	private int numClic=0;
 	private ImageIcon prev;
 	private ImageIcon next;
 	private JButton prevJButton;
 	private BufferedImage iconPlante=null;
-	private int nombreCoups=1000;
+	private int nombreCoups=10;
 	private int nombreCoupsBonus=0;
 	private int tempsBonus=0;
-	private int tempsBase=9999;
+	private int tempsBase=3;
 	private int tempsTotal=tempsBase+tempsBonus;
 	private int scoreBonus=0;
 	private int herbe1Bonus=0;
@@ -34,11 +37,14 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int herbe4Bonus=0;
 	private JLabel nbCoupsRestants;
 	private JLabel lblTimer;
-	private boolean stopGame=false;
 	private boolean gameRunning=false;
 	private boolean canSwitch=false;
 	private int row;
 	private int col;
+	private ArrayList<JButton> herbe1 = new ArrayList<JButton>();
+	private ArrayList<JButton> herbe2 = new ArrayList<JButton>();
+	private ArrayList<JButton> herbe3 = new ArrayList<JButton>();
+	private ArrayList<JButton> herbe4 = new ArrayList<JButton>();
 
 	public PanelJeu(){
 
@@ -53,9 +59,9 @@ public class PanelJeu extends JPanel implements ActionListener {
 		nbCoupsRestants = new JLabel(String.valueOf("Nombre de coups restants : "+(nombreCoups+nombreCoupsBonus)));
 		add(nbCoupsRestants, "cell 0 1");
 
-		JPanel panel_4 = new JPanel();
-		add(panel_4, "cell 0 2 3 5,alignx center,aligny center");
-		panel_4.setLayout(new GridLayout(9, 9, -14, -10));
+		canvas = new JPanel();
+		add(canvas, "cell 0 2 3 5,alignx center,aligny center");
+		canvas.setLayout(new GridLayout(9, 9, -14, -10));
 
 		ImageIcon icon=null;
 		try {
@@ -123,25 +129,11 @@ public class PanelJeu extends JPanel implements ActionListener {
 		btnJouer.setActionCommand("jouer");
 		add(btnJouer, "cell 1 7");
 
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++)
-			{
-				int rand = (int)((Math.random()*4)+1);
-				try {
-					iconPlante = ImageIO.read(new File("images/herbe"+String.valueOf(rand)+".jpg"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				b[i][j] = new JButton(new ImageIcon(iconPlante));
-				b[i][j].setBorderPainted(false);
-				b[i][j].setFocusPainted(false);
-				b[i][j].setContentAreaFilled(false);
-				b[i][j].addActionListener(this);
-				b[i][j].setActionCommand("click");
-				b[i][j].setName(String.valueOf(rand));
-				panel_4.add(b[i][j]);
-			}
-		}
+		// On remplis le canevas
+		fillCanvas();
+		
+		// On met une herbe par coin
+		fillCanvasCorners();
 	}
 
 	public void paintComponent(Graphics g){
@@ -199,9 +191,10 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 	public void startThreads() {
 		gameRunning = true;
+		
 		Thread t = new Thread() {
 			public void run() {
-				while(tempsTotal>=0 && stopGame==false) {
+				while(tempsTotal>=0 && gameRunning) {
 					lblTimer.setText("Temps restant : "+String.valueOf(tempsTotal));
 					try {
 						Thread.sleep(1000);
@@ -211,8 +204,10 @@ public class PanelJeu extends JPanel implements ActionListener {
 					}
 					// Fin de la partie
 					if(tempsTotal == 0) {
+						lblTimer.setText("Temps restant : 0");
 						gameRunning = false;
-						System.out.println("Fin du game !");
+						finDePartie();
+						sendDatasToDatabase();
 					}
 				}
 			}
@@ -221,11 +216,11 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		Thread t2 = new Thread() {
 			public void run() {
-				while(!stopGame) {
+				while(gameRunning) {
 					if(nombreCoups==0){
-						stopGame=true;
 						gameRunning = false;
-						System.out.println("Fin du game !");
+						finDePartie();
+						sendDatasToDatabase();
 					}
 					try {
 						Thread.sleep(1000);
@@ -236,5 +231,72 @@ public class PanelJeu extends JPanel implements ActionListener {
 			}
 		};
 		t2.start();
+	}
+	
+	public void fillCanvas() {
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++)
+			{
+				int rand = (int)((Math.random()*4)+1);
+				try {
+					iconPlante = ImageIO.read(new File("images/herbe"+String.valueOf(rand)+".jpg"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				b[i][j] = new JButton(new ImageIcon(iconPlante));
+				b[i][j].setBorderPainted(false);
+				b[i][j].setFocusPainted(false);
+				b[i][j].setContentAreaFilled(false);
+				b[i][j].addActionListener(this);
+				b[i][j].setActionCommand("click");
+				b[i][j].setName(String.valueOf(rand));
+				canvas.add(b[i][j]);
+			}
+		}
+	}
+	
+	public void fillCanvasCorners() {
+		try {
+			b[0][0].setIcon(new ImageIcon(ImageIO.read(new File("images/herbe1.jpg"))));
+			b[0][0].setName("1");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			b[0][8].setIcon(new ImageIcon(ImageIO.read(new File("images/herbe2.jpg"))));
+			b[0][0].setName("2");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			b[8][0].setIcon(new ImageIcon(ImageIO.read(new File("images/herbe3.jpg"))));
+			b[0][0].setName("3");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			b[8][8].setIcon(new ImageIcon(ImageIO.read(new File("images/herbe4.jpg"))));
+			b[0][0].setName("4");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void finDePartie() {
+		System.out.println("Fin du game !");
+		// Compter nombre de cases herbe 1 collées
+		/*for (int row = 0; row < 9; row++) {
+			for (int col = 0; col < 9; col++) {
+				if(b[row][col].getName().equals(b[row][col+1].getName()) && b[row][col].getName().equals("1")) {
+					herbe1.add(b[row][col]);
+					herbe1.add(b[row][col+1]);
+				}
+			}
+		}
+		System.out.println("Nombre d'herbes 1 : "+herbe1.size());*/
+	}
+	
+	public void sendDatasToDatabase() {
+		System.out.println("Datas sent to database");
 	}
 }
