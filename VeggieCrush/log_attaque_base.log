@@ -1,0 +1,121 @@
+2017-11-16 10:29:28 INFO  Test: 16 - Appel TEST_DEV getUser
+2017-11-16 10:29:28 DEBUG Test: 20 - MiPa avant appel DAO
+2017-11-16 10:29:28 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:29:28 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:29:28 DEBUG AccountDao: 107 - 
+2017-11-16 10:29:28 DEBUG AccountDao: 108 - 
+2017-11-16 10:29:28 DEBUG AccountDao: 124 - construction de l'objetAccount [id=1, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=null, deletedAT=null]
+2017-11-16 10:29:28 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:29:28 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:29:28 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:29:28 DEBUG AccountDao: 108 - 
+2017-11-16 10:29:28 DEBUG AccountDao: 124 - construction de l'objetAccount [id=2, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:29:28 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:29:28 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:29:28 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:29:28 DEBUG AccountDao: 108 - 
+2017-11-16 10:29:28 DEBUG AccountDao: 124 - construction de l'objetAccount [id=3, globalID=85, username=pouet, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:29:28 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:29:28 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:29:28 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:29:28 DEBUG AccountDao: 108 - 
+2017-11-16 10:29:28 DEBUG AccountDao: 124 - construction de l'objetAccount [id=4, globalID=85, username=pouloulou, email=ouh@lol.fr, password=michard, id_faction=1, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:29:28 DEBUG Test: 24 - Account [id=1, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=null, deletedAT=null]
+2017-11-16 10:29:28 DEBUG Test: 24 - Account [id=2, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:29:28 DEBUG Test: 24 - Account [id=3, globalID=85, username=pouet, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:29:28 DEBUG Test: 24 - Account [id=4, globalID=85, username=pouloulou, email=ouh@lol.fr, password=michard, id_faction=1, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:29:40 INFO  Test: 16 - Appel TEST_DEVV getUser
+2017-11-16 10:29:40 DEBUG Test: 20 - MiPa avant appel DAO
+2017-11-16 10:29:40 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:29:40 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:29:40 DEBUG AccountDao: 107 - 
+2017-11-16 10:29:40 DEBUG AccountDao: 108 - 
+2017-11-16 10:29:40 DEBUG AccountDao: 124 - construction de l'objetAccount [id=1, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=null, deletedAT=null]
+2017-11-16 10:29:40 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:29:40 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:29:40 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:29:40 DEBUG AccountDao: 108 - 
+2017-11-16 10:29:40 DEBUG AccountDao: 124 - construction de l'objetAccount [id=2, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:29:40 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:29:40 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:29:40 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:29:40 DEBUG AccountDao: 108 - 
+2017-11-16 10:29:40 DEBUG AccountDao: 124 - construction de l'objetAccount [id=3, globalID=85, username=pouet, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:29:40 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:29:40 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:29:40 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:29:40 DEBUG AccountDao: 108 - 
+2017-11-16 10:29:40 DEBUG AccountDao: 124 - construction de l'objetAccount [id=4, globalID=85, username=pouloulou, email=ouh@lol.fr, password=michard, id_faction=1, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:29:40 DEBUG Test: 24 - Account [id=1, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=null, deletedAT=null]
+2017-11-16 10:29:40 DEBUG Test: 24 - Account [id=2, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:29:40 DEBUG Test: 24 - Account [id=3, globalID=85, username=pouet, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:29:40 DEBUG Test: 24 - Account [id=4, globalID=85, username=pouloulou, email=ouh@lol.fr, password=michard, id_faction=1, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:31:27 DEBUG MainFrame: 57 - TEST LOG4J
+2017-11-16 10:32:25 INFO  MainFrame: 61 - Appel TEST_DEVV getUser
+2017-11-16 10:32:25 DEBUG MainFrame: 65 - MiPa avant appel DAO
+2017-11-16 10:32:25 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:32:25 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:32:25 DEBUG AccountDao: 107 - 
+2017-11-16 10:32:25 DEBUG AccountDao: 108 - 
+2017-11-16 10:32:25 DEBUG AccountDao: 124 - construction de l'objetAccount [id=1, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=null, deletedAT=null]
+2017-11-16 10:32:25 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:32:25 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:32:25 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:32:25 DEBUG AccountDao: 108 - 
+2017-11-16 10:32:25 DEBUG AccountDao: 124 - construction de l'objetAccount [id=2, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:32:25 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:32:25 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:32:25 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:32:25 DEBUG AccountDao: 108 - 
+2017-11-16 10:32:25 DEBUG AccountDao: 124 - construction de l'objetAccount [id=3, globalID=85, username=pouet, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:32:25 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:32:25 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:32:25 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:32:25 DEBUG AccountDao: 108 - 
+2017-11-16 10:32:25 DEBUG AccountDao: 124 - construction de l'objetAccount [id=4, globalID=85, username=pouloulou, email=ouh@lol.fr, password=michard, id_faction=1, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:32:25 DEBUG MainFrame: 69 - Account [id=1, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=null, deletedAT=null]
+2017-11-16 10:32:25 DEBUG MainFrame: 69 - Account [id=2, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:32:25 DEBUG MainFrame: 69 - Account [id=3, globalID=85, username=pouet, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:32:25 DEBUG MainFrame: 69 - Account [id=4, globalID=85, username=pouloulou, email=ouh@lol.fr, password=michard, id_faction=1, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:52:29 INFO  MainFrame: 61 - Appel TEST_DEVV getUser
+2017-11-16 10:52:29 DEBUG MainFrame: 65 - MiPa avant appel DAO
+2017-11-16 10:52:30 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:52:30 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:52:30 DEBUG AccountDao: 107 - 
+2017-11-16 10:52:30 DEBUG AccountDao: 108 - 
+2017-11-16 10:52:30 DEBUG AccountDao: 124 - construction de l'objetAccount [id=1, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=null, deletedAT=null]
+2017-11-16 10:52:30 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:52:30 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:52:30 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:52:30 DEBUG AccountDao: 108 - 
+2017-11-16 10:52:30 DEBUG AccountDao: 124 - construction de l'objetAccount [id=2, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:52:30 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:52:30 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:52:30 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:52:30 DEBUG AccountDao: 108 - 
+2017-11-16 10:52:30 DEBUG AccountDao: 124 - construction de l'objetAccount [id=3, globalID=85, username=pouet, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:52:30 INFO  AccountDao: 100 - MIPA AVANT LES DATES
+2017-11-16 10:52:30 DEBUG AccountDao: 106 - 2013-04-05 00:00:00.0
+2017-11-16 10:52:30 DEBUG AccountDao: 107 - 2013-10-20 20:18:01.0
+2017-11-16 10:52:30 DEBUG AccountDao: 108 - 
+2017-11-16 10:52:30 DEBUG AccountDao: 124 - construction de l'objetAccount [id=4, globalID=85, username=pouloulou, email=ouh@lol.fr, password=michard, id_faction=1, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:52:30 DEBUG MainFrame: 69 - Account [id=1, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=null, deletedAT=null]
+2017-11-16 10:52:30 DEBUG MainFrame: 69 - Account [id=2, globalID=85, username=oh, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:52:30 DEBUG MainFrame: 69 - Account [id=3, globalID=85, username=pouet, email=ouh@lol.fr, password=michard, id_faction=2, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:52:30 DEBUG MainFrame: 69 - Account [id=4, globalID=85, username=pouloulou, email=ouh@lol.fr, password=michard, id_faction=1, createdAT=2013-04-05 00:00:00.0, updatedAT=2013-10-20 20:18:01.0, deletedAT=null]
+2017-11-16 10:58:00 INFO  MainFrame: 61 - Appel TEST_DEVV getUser
+2017-11-16 10:58:00 DEBUG MainFrame: 65 - MiPa avant appel DAO
+2017-11-16 10:58:16 INFO  MainFrame: 61 - Appel TEST_DEVV getUser
+2017-11-16 10:58:16 DEBUG MainFrame: 65 - MiPa avant appel DAO
+2017-11-16 11:01:18 INFO  MainFrame: 75 - Appel TEST_DEVV getUser
+2017-11-16 11:01:18 DEBUG MainFrame: 79 - MiPa avant appel DAO
+2017-11-16 11:01:19 DEBUG ObjetDao: 146 - construction de l'objetcom.entitie.Objet@1808e5d2
+2017-11-16 11:01:19 DEBUG ObjetDao: 146 - construction de l'objetcom.entitie.Objet@66f591b5
+2017-11-16 11:01:19 DEBUG MainFrame: 83 - com.entitie.Objet@1808e5d2
+2017-11-16 11:01:19 DEBUG MainFrame: 83 - com.entitie.Objet@66f591b5
+2017-11-16 11:01:56 INFO  MainFrame: 75 - Appel TEST_DEVV getUser
+2017-11-16 11:01:56 DEBUG MainFrame: 79 - MiPa avant appel DAO
+2017-11-16 11:01:56 DEBUG ObjetDao: 146 - construction de l'objetObjet [id_objet=1, nom_objet=Potion de kevin, type_objet=POTION]
+2017-11-16 11:01:56 DEBUG ObjetDao: 146 - construction de l'objetObjet [id_objet=2, nom_objet=Amélioration de castors, type_objet=AMELIORATION]
+2017-11-16 11:01:56 DEBUG MainFrame: 83 - Objet [id_objet=1, nom_objet=Potion de kevin, type_objet=POTION]
+2017-11-16 11:01:56 DEBUG MainFrame: 83 - Objet [id_objet=2, nom_objet=Amélioration de castors, type_objet=AMELIORATION]
