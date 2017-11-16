@@ -32,7 +32,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int nombreCoups=10;
 	private int nombreCoupsBonus=0;
 	private int tempsBonus=0;
-	private int tempsBase=3;
+	private int tempsBase=300;
 	private int tempsTotal=tempsBase+tempsBonus;
 	private int scoreBonus=0;
 	private int herbe1Bonus=0;
@@ -156,7 +156,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 					if(numClic == 0) {
 						for (int row = 0; row < 9; row++) {
 							for (int col = 0; col < 9; col++) {
-								if (b[row][col] == e.getSource() && row!=0 && col!=0) {
+								if (b[row][col] == e.getSource()) { // et pas première case
 									prev = (ImageIcon) b[row][col].getIcon();
 									prevJButton = b[row][col];
 									this.col=col;
@@ -174,11 +174,15 @@ public class PanelJeu extends JPanel implements ActionListener {
 									}
 
 									if(b[row][col] != prevJButton && canSwitch) {
-										System.out.println(b[row][col].getName());
-										System.out.println(prevJButton.getName());
 										next = (ImageIcon) b[row][col].getIcon();
+										String tmp = b[row][col].getName();
+										
 										b[row][col].setIcon(prev);
+										b[row][col].setName(prevJButton.getName());
+										
 										prevJButton.setIcon(next);
+										prevJButton.setName(tmp);
+										
 										nombreCoups--;
 										canSwitch=false;
 									}
@@ -257,6 +261,11 @@ public class PanelJeu extends JPanel implements ActionListener {
 				canvas.add(b[i][j]);
 			}
 		}
+		
+		b[0][0].removeActionListener(this);
+		b[0][8].removeActionListener(this);
+		b[8][0].removeActionListener(this);
+		b[8][8].removeActionListener(this);
 	}
 
 	public void fillCanvasCorners() {
