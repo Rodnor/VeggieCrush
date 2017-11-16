@@ -9,7 +9,9 @@ import javax.swing.JTabbedPane;
 import org.apache.log4j.Logger;
 
 import com.dao.AccountDao;
+import com.dao.ObjetDao;
 import com.entitie.Account;
+import com.entitie.Objet;
 import com.test.Test;
 
 import java.awt.BorderLayout;
@@ -58,6 +60,7 @@ public class MainFrame {
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setSize(900, 750);
 
+	    /**
 		logger.info("Appel TEST_DEVV getUser");
 		AccountDao accountDao = new AccountDao();
 		
@@ -67,8 +70,19 @@ public class MainFrame {
 		
 		for (Account account : accounts) {
 			logger.debug(account.toString());
-		}
+		} **/
 	    
+	    logger.info("Appel TEST_DEVV getUser");
+		ObjetDao objetDao = new ObjetDao();
+		
+		ArrayList<Objet> objets = new ArrayList<Objet>();
+		logger.debug("MiPa avant appel DAO");
+		objets = objetDao.getAllObjets();	
+		
+		for (Objet objet : objets) {
+			logger.debug(objet.toString());
+		}
+		
 	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft(), new PanelDemandes(Color.BLUE)};
 
 	    onglet = new JTabbedPane();

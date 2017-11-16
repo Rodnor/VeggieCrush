@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 public final class Connecteur {
 	
     //private final static String URL = "jdbc:mysql://127.0.0.1:3306/alchimist";
-    private final static String URL = "jdbc:mysql://10.113.51.23:3306/alchimist?zeroDateTimeBehavior=convertToNull";
+    private final static String URL = "jdbc:mysql://veggiecrush.masi-henallux.be:3306/alchimist?zeroDateTimeBehavior=convertToNull";
 
 	private final static String LOGIN = "api";
     private final static String PASSWORD = "api";
