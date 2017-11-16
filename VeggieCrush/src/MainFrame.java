@@ -2,7 +2,16 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+
 import javax.swing.JTabbedPane;
+
+import org.apache.log4j.Logger;
+
+import com.dao.AccountDao;
+import com.entitie.Account;
+import com.test.Test;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -14,6 +23,7 @@ public class MainFrame {
 
 	private JFrame frame;
 	private JTabbedPane onglet;
+	final static Logger logger = Logger.getLogger(MainFrame.class.getName());
 
 	/**
 	 * Launch the application.
@@ -48,6 +58,17 @@ public class MainFrame {
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setSize(900, 750);
 
+		logger.info("Appel TEST_DEVV getUser");
+		AccountDao accountDao = new AccountDao();
+		
+		ArrayList<Account> accounts = new ArrayList<Account>();
+		logger.debug("MiPa avant appel DAO");
+		accounts = accountDao.getAllAccounts();	
+		
+		for (Account account : accounts) {
+			logger.debug(account.toString());
+		}
+	    
 	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft(), new PanelDemandes(Color.BLUE)};
 
 	    onglet = new JTabbedPane();
