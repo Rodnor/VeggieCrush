@@ -42,7 +42,7 @@ public class PanelCraft extends JPanel{
 	    }
 	  
 	public PanelCraft(){
-	  	setLayout(new MigLayout("", "[][grow][]", "[][100px:100px:100px,grow][grow][][120px:120px:120px,grow][80px:80px:80px,grow][][]"));
+	  	setLayout(new MigLayout("", "[][grow][]", "[100px:100px:100px,grow][grow][120px:120px:120px,grow][80px:80px:80px,grow][]"));
 	  	
 	  	BufferedImage iconPlante1=null;
 	  	BufferedImage iconPlante2=null;
@@ -96,7 +96,7 @@ public class PanelCraft extends JPanel{
 	  	}
 	  	
 	  	JPanel panel_1 = new JPanel();
-	  	add(panel_1, "cell 1 1,grow");
+	  	add(panel_1, "cell 1 0,grow");
 	  	
 	  	JTabbedPane tabbedPane = new JTabbedPane();
 	  	
@@ -122,14 +122,14 @@ public class PanelCraft extends JPanel{
 	  	panel_1.add(tabbedPane);
 	  	
 	  	JPanel panel_4 = new JPanel();
-	  	add(panel_4, "cell 1 2,grow");
+	  	add(panel_4, "cell 1 1,grow");
 	  	
 	  	JLabel lblNewLabel = new JLabel("Informations sur recette :");
 	  	panel_4.add(lblNewLabel);
 	  	
 	  	
 	  	JPanel panel_2 = new JPanel();
-	  	add(panel_2, "cell 1 4,grow");
+	  	add(panel_2, "cell 1 2,grow");
 	  	
 	  	JButton btnInventaire= new JButton(new ImageIcon(iconInventaire));
 	  	btnInventaire.setBorderPainted(false);
@@ -138,7 +138,7 @@ public class PanelCraft extends JPanel{
 	  	panel_2.add(btnInventaire);
 	  	
 	  	JPanel panel = new JPanel();
-	  	add(panel, "cell 1 5,grow");
+	  	add(panel, "cell 1 3,grow");
 	  	panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 	  	
@@ -196,7 +196,7 @@ public class PanelCraft extends JPanel{
         panel.add(spinner_3);
         
         JPanel panel_3 = new JPanel();
-        add(panel_3, "cell 1 7,grow");
+        add(panel_3, "cell 1 4,grow");
         
         JButton btnCraft= new JButton(new ImageIcon(iconCraft));
         btnCraft.setBorderPainted(false);
