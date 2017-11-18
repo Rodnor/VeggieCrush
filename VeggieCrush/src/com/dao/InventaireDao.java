@@ -18,7 +18,7 @@ import com.entitie.Inventaire;
 public class InventaireDao {
 	
 	private final static String QUERY_FIND_ALL = "SELECT * FROM INVENTAIRE";
-	private final static String QUERY_FIND_BY_ID = "SELECT * FROM INVENTAIRE WHERE id_account = ?";
+	private final static String QUERY_FIND_BY_ID = "SELECT * FROM INVENTAIRE WHERE id_user = ?";
 
 	final static Logger logger = Logger.getLogger(InventaireDao.class.getName());
 
