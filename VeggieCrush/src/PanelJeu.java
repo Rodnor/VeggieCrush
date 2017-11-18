@@ -366,7 +366,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		canvas.removeAll();
 		revalidate();
 		repaint();
-		
+		// slash slmash
 		lblScore.setText("Score : "+(0+scoreBonus));
 		nbCoupsRestants.setText("Nombre de coups restants : "+String.valueOf(nombreCoups+nombreCoupsBonus));
 		nbHerbe1.setText(String.valueOf(0+herbe1Bonus));
