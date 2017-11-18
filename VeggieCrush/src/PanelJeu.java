@@ -379,7 +379,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		herbe2.clear();
 		herbe3.clear();
 		herbe4.clear();
-		
+		// attente
 		btnJouer.setVisible(true);
 	}
 
