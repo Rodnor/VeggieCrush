@@ -57,20 +57,25 @@ public class InventaireDao {
 		return inventaires;
 	}
 
-	public Inventaire getInventaireById(int id) {
+	public ArrayList<Inventaire> getInventaireById(int id) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 
-		Inventaire inventaire = new Inventaire();
+		ArrayList<Inventaire> inventaires = new ArrayList<Inventaire>();
+
 		try {
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_ID);
 			stmt.setInt(1, id);
 
 			final ResultSet rset = stmt.executeQuery();
+			Inventaire inventaire = new Inventaire();
 			while (rset.next()) {
 				logger.debug("MiPa, une ligne trouvée");
 				inventaire = mappingInventaire(rset);
+				
+				inventaire = mappingInventaire(rset);
+				inventaires.add(inventaire);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -91,7 +96,7 @@ public class InventaireDao {
 				}
 			}
 		}
-		return inventaire;
+		return inventaires;
 	}
 	
 	private Inventaire mappingInventaire(final ResultSet rset) throws SQLException {
