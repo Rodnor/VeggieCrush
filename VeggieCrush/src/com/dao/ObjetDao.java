@@ -18,11 +18,14 @@ import com.entitie.TypeObjet;
 
 public class ObjetDao {
 	private final static String QUERY_FIND_ALL = "SELECT * FROM OBJET";
-	private final static String QUERY_FIND_BY_ID = "SELECT * FROM OBJET WHERE ID = ?";
+	private final static String QUERY_FIND_BY_ID = "SELECT * FROM OBJET WHERE id_objet = ?";
 	private final static String QUERY_FIND_BY_ID_ACCOUNT = 	"SELECT * FROM ACCOUNT " + 
 															"INNER JOIN INVENTAIRE ON ACCOUNT.id = INVENTAIRE.id_user " + 
 															"INNER JOIN OBJET ON INVENTAIRE.id_objet = OBJET.id_objet " + 
 															"WHERE INVENTAIRE.id_user = ?";
+	
+	private final static String QUERY_INSERT = "INSERT INTO OBJET (id_objet, name_objet, type_objet) values (?, ?, ?)";
+
 
 	final static Logger logger = Logger.getLogger(ObjetDao.class.getName());
 
@@ -97,8 +100,8 @@ public class ObjetDao {
 		return objet;
 	}
 	
-	public ArrayList<Objet> getObjetByIdAccount(int id) {
-		logger.debug("MiPa getObjetByIdAccount"+id);
+	public ArrayList<Objet> getObjetByIdAccount(int idAccount) {
+		logger.debug("MiPa getObjetByIdAccount"+idAccount);
 		Connection con = null;
 		PreparedStatement stmt = null;
 
@@ -106,7 +109,7 @@ public class ObjetDao {
 		try {
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_ID_ACCOUNT);
-			stmt.setInt(1, id);
+			stmt.setInt(1, idAccount);
 			logger.error("DEBUG REQ"+stmt.toString());
 
 			Objet objet = new Objet();
@@ -138,50 +141,7 @@ public class ObjetDao {
 		}
 		return objets;
 	}
-	
-	/**public ArrayList<Inventaire> getInventaireByIdAccount(int id) {
-		Connection con = null;
-		PreparedStatement stmt = null;
 
-		ArrayList<Inventaire> inventaires = new ArrayList<Inventaire>();
-
-		try {
-			con = Connecteur.getConnexion();
-			stmt = con.prepareStatement(QUERY_FIND_BY_ID);
-			stmt.setInt(1, id);
-
-			final ResultSet rset = stmt.executeQuery();
-			Inventaire inventaire = new Inventaire();
-			while (rset.next()) {
-				logger.debug("MiPa, une ligne trouvée");
-				inventaire = mappingInventaire(rset);
-				
-				inventaire = mappingInventaire(rset);
-				inventaires.add(inventaire);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return inventaires;
-	}
-	 */
-	
 	  private Objet mappingObjet (final ResultSet rset) throws SQLException {
 	        final int id_objet = rset.getInt("id_objet");
 	        final String nom_objet = rset.getString("name_objet");
@@ -199,32 +159,14 @@ public class ObjetDao {
 			PreparedStatement stmt = null;
 			Boolean errorInsert = false;
 			
-			logger.info("MiPA insertNewAccount");
-
 			try {
 				con = Connecteur.getConnexion();
-				Calendar calendar = Calendar.getInstance();
-				java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
-				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-
-				// the mysql insert statement
-				String query = "INSERT INTO ACCOUNT (id_global, id_faction, username, password, email, created_at, updated_at, deleted_at)"
-						+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
 				
-				//VALUES ('0', '85', '1', 'pouloulou', 'michard', 'ouh@lol.fr', '20130405', '2013-10-20 20:18:01', '');
+				stmt = con.prepareStatement(QUERY_INSERT);
+				stmt.setInt(1, objet.getId_objet());
+				stmt.setString(2, objet.getNom_objet());
+				stmt.setString(3, objet.getType_objet().getNom());
 
-				// create the mysql insert preparedstatement
-				/*stmt = con.prepareStatement(query);
-				stmt.setString(1, account.getGlobalID());
-				stmt.setInt(2, account.getId_faction());
-				stmt.setString(3, account.getUsername());
-				stmt.setString(4, account.getPassword()); // TODO
-				stmt.setString(5, account.getEmail());
-				stmt.setDate(6, startDate);
-				stmt.setDate(7, null);//df.format(account.getCreatedAT()));
-				stmt.setDate(8, null);//null); */
-
-				// execute the preparedstatement
 				stmt.execute();
 			} catch (SQLException e) {
 				e.printStackTrace();

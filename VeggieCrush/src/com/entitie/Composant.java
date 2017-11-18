@@ -1,12 +1,12 @@
 package com.entitie;
 
-public enum TypeObjet {
+public enum Composant { // TODO
 	
-	AMELIORATION("AMELIORATION"), POTION("POTION"), COMPOSANT("COMPOSANT") ;  
+	PLANTE_1("PLANTE_1"), PLANTE_2("PLANTE_2"), PLANTE_3("PLANTE_3"), PLANTE_4("PLANTE_4");
     
     private String nom ;  
      
-    private TypeObjet(String nom) {  
+    private Composant(String nom) {  
         this.nom = nom ;  
    }  
      
