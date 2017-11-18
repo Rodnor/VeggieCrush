@@ -22,11 +22,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
-// MIPA COMMENTAIRE
-// MIPA 2
-//keket87
-// TLS 
-// bonne brnache ?
+
 public class MainFrame {
 
 	private JFrame frame;
