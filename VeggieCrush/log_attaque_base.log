@@ -119,3 +119,21 @@
 2017-11-16 11:01:56 DEBUG ObjetDao: 146 - construction de l'objetObjet [id_objet=2, nom_objet=Amélioration de castors, type_objet=AMELIORATION]
 2017-11-16 11:01:56 DEBUG MainFrame: 83 - Objet [id_objet=1, nom_objet=Potion de kevin, type_objet=POTION]
 2017-11-16 11:01:56 DEBUG MainFrame: 83 - Objet [id_objet=2, nom_objet=Amélioration de castors, type_objet=AMELIORATION]
+2017-11-16 11:03:17 INFO  MainFrame: 75 - Appel TEST_DEVV getUser
+2017-11-16 11:03:17 DEBUG MainFrame: 79 - MiPa avant appel DAO
+2017-11-16 11:03:18 DEBUG ObjetDao: 146 - construction de l'objetObjet [id_objet=1, nom_objet=Potion de kevin, type_objet=POTION]
+2017-11-16 11:03:18 DEBUG ObjetDao: 146 - construction de l'objetObjet [id_objet=2, nom_objet=Amélioration de castors, type_objet=AMELIORATION]
+2017-11-16 11:03:18 DEBUG MainFrame: 83 - Objet [id_objet=1, nom_objet=Potion de kevin, type_objet=POTION]
+2017-11-16 11:03:18 DEBUG MainFrame: 83 - Objet [id_objet=2, nom_objet=Amélioration de castors, type_objet=AMELIORATION]
+2017-11-16 22:27:35 INFO  MainFrame: 75 - Appel TEST_DEVV getUser
+2017-11-16 22:27:35 DEBUG MainFrame: 79 - MiPa avant appel DAO
+2017-11-16 22:27:35 DEBUG ObjetDao: 146 - construction de l'objetObjet [id_objet=1, nom_objet=Potion de kevin, type_objet=POTION]
+2017-11-16 22:27:35 DEBUG ObjetDao: 146 - construction de l'objetObjet [id_objet=2, nom_objet=Amélioration de castors, type_objet=AMELIORATION]
+2017-11-16 22:27:35 DEBUG MainFrame: 83 - Objet [id_objet=1, nom_objet=Potion de kevin, type_objet=POTION]
+2017-11-16 22:27:35 DEBUG MainFrame: 83 - Objet [id_objet=2, nom_objet=Amélioration de castors, type_objet=AMELIORATION]
+2017-11-18 11:55:01 INFO  MainFrame: 88 - Appel TEST_DEVV getUser
+2017-11-18 11:55:01 DEBUG MainFrame: 92 - MiPa avant appel DAO
+2017-11-18 11:55:02 DEBUG InventaireDao: 99 - construction de l'objetcom.entitie.Inventaire@3c91dbb3
+2017-11-18 11:55:02 DEBUG InventaireDao: 99 - construction de l'objetcom.entitie.Inventaire@52d4fd6
+2017-11-18 11:55:02 DEBUG MainFrame: 96 - com.entitie.Inventaire@3c91dbb3
+2017-11-18 11:55:02 DEBUG MainFrame: 96 - com.entitie.Inventaire@52d4fd6

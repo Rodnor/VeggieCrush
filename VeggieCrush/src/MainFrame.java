@@ -9,8 +9,10 @@ import javax.swing.JTabbedPane;
 import org.apache.log4j.Logger;
 
 import com.dao.AccountDao;
+import com.dao.InventaireDao;
 import com.dao.ObjetDao;
 import com.entitie.Account;
+import com.entitie.Inventaire;
 import com.entitie.Objet;
 import com.test.Test;
 
@@ -70,7 +72,7 @@ public class MainFrame {
 		
 		for (Account account : accounts) {
 			logger.debug(account.toString());
-		} **/
+		} 
 	    
 	    logger.info("Appel TEST_DEVV getUser");
 		ObjetDao objetDao = new ObjetDao();
@@ -81,6 +83,20 @@ public class MainFrame {
 		
 		for (Objet objet : objets) {
 			logger.debug(objet.toString());
+		}**/
+	    
+	    logger.info("Appel TEST_DEVV getUser");
+		InventaireDao inventaireDao = new InventaireDao();
+		
+		ArrayList<Inventaire> inventaires = new ArrayList<Inventaire>();
+		logger.debug("MiPa avant appel DAO");
+		inventaires = inventaireDao.getAllInventaires();	
+		
+		for (Inventaire inventaire : inventaires) {
+			
+			if (inventaire.getId_objet() == 1) {
+				logger.debug("C'est une plante !");
+			}
 		}
 		
 	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft(), new PanelDemandes(Color.BLUE)};

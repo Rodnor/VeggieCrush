@@ -10,6 +10,10 @@ import javax.swing.JButton;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
 import javax.swing.JTable;
+
+import com.dao.InventaireDao;
+import com.entitie.Inventaire;
+
 import java.awt.GridLayout;
 import java.awt.Robot;
 import java.awt.Dimension;
@@ -20,6 +24,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.FlowLayout;
@@ -152,16 +157,30 @@ public class PanelCraft extends JPanel{
 	  	inv_plante2.setName("2");
 	  	inv_plante3.setName("3");
 	  	inv_plante4.setName("4");
-	  	inv_plante1.setText("1 Dispo");
+	  	
+	  	
+	  	InventaireDao inventairedao = new InventaireDao();
+	  	ArrayList<Inventaire> invs = new ArrayList<Inventaire>();
+	  	
+	  	invs = inventairedao.getInventaireByIdAccount(1);
+	  	int qte=0;
+	  	
+	  	for (Inventaire inv : invs) {
+	  		qte=inv.getQuantite();
+	  		System.out.println(inv);
+	  	}
+	  	
+	  	
+	  	inv_plante1.setText(qte+" Dispo");
 	  	inv_plante1.setVerticalTextPosition(JLabel.BOTTOM);
 	  	inv_plante1.setHorizontalTextPosition(JLabel.CENTER);
-	  	inv_plante2.setText("11 Dispo");
+	  	inv_plante2.setText(qte+" Dispo");
 	  	inv_plante2.setVerticalTextPosition(JLabel.BOTTOM);
 	  	inv_plante2.setHorizontalTextPosition(JLabel.CENTER);
-	  	inv_plante3.setText("18 Dispo");
+	  	inv_plante3.setText(qte+" Dispo");
 	  	inv_plante3.setVerticalTextPosition(JLabel.BOTTOM);
 	  	inv_plante3.setHorizontalTextPosition(JLabel.CENTER);
-	  	inv_plante4.setText("9 Dispo");
+	  	inv_plante4.setText(qte+" Dispo");
 	  	inv_plante4.setVerticalTextPosition(JLabel.BOTTOM);
 	  	inv_plante4.setHorizontalTextPosition(JLabel.CENTER);
 	  	inv_plante1.setIcon(new ImageIcon(iconPlante1));
