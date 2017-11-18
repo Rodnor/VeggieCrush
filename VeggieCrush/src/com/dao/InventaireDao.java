@@ -14,11 +14,15 @@ import org.apache.log4j.Logger;
 import com.bd.Connecteur;
 import com.entitie.Account;
 import com.entitie.Inventaire;
+import com.entitie.Objet;
 
 public class InventaireDao {
 	
 	private final static String QUERY_FIND_ALL = "SELECT * FROM INVENTAIRE";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM INVENTAIRE WHERE id_user = ?";
+	private final static String QUERY_FIND_BY_ID_ACCOUNT_AND_BY_ID_OBJET = 	"SELECT * FROM INVENTAIRE WHERE id_user = ? AND id_objet = ?";
+	
+	private final static String QUERY_INSERT = "INSERT INTO INVENTAIRE (id_objet, id_user, qte) values (?, ?, ?)";
 
 	final static Logger logger = Logger.getLogger(InventaireDao.class.getName());
 
@@ -115,28 +119,12 @@ public class InventaireDao {
 
 		try {
 			con = Connecteur.getConnexion();
-			Calendar calendar = Calendar.getInstance();
-			java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
-			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
-			// the mysql insert statement
-			String query = "INSERT INTO ACCOUNT (id_global, id_faction, username, password, email, created_at, updated_at, deleted_at)"
-					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
+			stmt = con.prepareStatement(QUERY_INSERT);
+			stmt.setInt(1, inventaire.getId_objet());
+			stmt.setInt(2, inventaire.getId_objet());
+			stmt.setInt(3, inventaire.getId_objet());
 			
-			//VALUES ('0', '85', '1', 'pouloulou', 'michard', 'ouh@lol.fr', '20130405', '2013-10-20 20:18:01', '');
-
-			// create the mysql insert preparedstatement
-			/*stmt = con.prepareStatement(query);
-			stmt.setString(1, account.getGlobalID());
-			stmt.setInt(2, account.getId_faction());
-			stmt.setString(3, account.getUsername());
-			stmt.setString(4, account.getPassword()); // TODO
-			stmt.setString(5, account.getEmail());
-			stmt.setDate(6, startDate);
-			stmt.setDate(7, null);//df.format(account.getCreatedAT()));
-			stmt.setDate(8, null);//null); */
-
-			// execute the preparedstatement
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -161,4 +149,48 @@ public class InventaireDao {
 		}
 		return errorInsert;
 	}
+	
+	public ArrayList<Inventaire> getInventaireByIdAccountAndByIdObjet(int idAccount, int idObjet) {
+		logger.debug("MiPa getObjetByIdAccount"+idAccount);
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		ArrayList<Inventaire> inventaires = new ArrayList<Inventaire>();
+		try {
+			con = Connecteur.getConnexion();
+			stmt = con.prepareStatement(QUERY_FIND_BY_ID_ACCOUNT_AND_BY_ID_OBJET);
+			stmt.setInt(1, idAccount);
+			stmt.setInt(2, idObjet);
+			logger.error("DEBUG REQ"+stmt.toString());
+
+			Inventaire inventaire = new Inventaire();
+
+			final ResultSet rset = stmt.executeQuery();
+			while (rset.next()) {
+				logger.debug("MiPa, une ligne trouvée");
+				inventaire = mappingInventaire(rset);
+				inventaires.add(inventaire);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return inventaires;
+	}
+	
 }

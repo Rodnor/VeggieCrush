@@ -22,6 +22,8 @@ public class AccountDao {
 
 	private final static String QUERY_FIND_ALL = "SELECT * FROM ACCOUNT";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM ACCOUNT WHERE ID = ?";
+	private final static String QUERY_INSERT = "INSERT INTO ACCOUNT (id_global, id_faction, username, password, email, created_at, updated_at, deleted_at) values (?, ?, ?, ?, ?, ?, ?, ?)";
+	
 
 	public ArrayList<Account> getAllAccounts() {
 		Connection connexion = null;
@@ -142,15 +144,11 @@ public class AccountDao {
 			Calendar calendar = Calendar.getInstance();
 			java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
 			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-
-			// the mysql insert statement
-			String query = "INSERT INTO ACCOUNT (id_global, id_faction, username, password, email, created_at, updated_at, deleted_at)"
-					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
 			
 			//VALUES ('0', '85', '1', 'pouloulou', 'michard', 'ouh@lol.fr', '20130405', '2013-10-20 20:18:01', '');
 
 			// create the mysql insert preparedstatement
-			stmt = con.prepareStatement(query);
+			stmt = con.prepareStatement(QUERY_INSERT);
 			stmt.setString(1, account.getGlobalID());
 			stmt.setInt(2, account.getId_faction());
 			stmt.setString(3, account.getUsername());
@@ -160,7 +158,6 @@ public class AccountDao {
 			stmt.setDate(7, null);//df.format(account.getCreatedAT()));
 			stmt.setDate(8, null);//null);
 
-			// execute the preparedstatement
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

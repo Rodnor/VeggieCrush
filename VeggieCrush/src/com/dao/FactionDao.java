@@ -102,7 +102,7 @@ public class FactionDao {
 		return faction;
 	}
 	
-	public Boolean insertNewFaction(Faction account) {
+	/*public Boolean insertNewFaction(Faction account) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		Boolean errorInsert = false;
@@ -132,7 +132,7 @@ public class FactionDao {
 			stmt.setDate(6, startDate);
 			stmt.setDate(7, null);//df.format(account.getCreatedAT()));
 			stmt.setDate(8, null);//null); */
-
+	/*
 			// execute the preparedstatement
 			stmt.execute();
 		} catch (SQLException e) {
@@ -157,6 +157,6 @@ public class FactionDao {
 			}
 		}
 		return errorInsert;
-	}
+	} */
 
 }
