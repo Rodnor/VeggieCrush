@@ -237,3 +237,4 @@ public class PanelCraft extends JPanel{
 	    g.drawString(this.message, 10, 20);
 	  }
 }
+// MIPA BAS
