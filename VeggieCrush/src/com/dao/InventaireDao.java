@@ -60,9 +60,7 @@ public class InventaireDao {
 	public ArrayList<Inventaire> getInventaireByIdAccount(int id) {
 		Connection con = null;
 		PreparedStatement stmt = null;
-
 		ArrayList<Inventaire> inventaires = new ArrayList<Inventaire>();
-
 		try {
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_ID);
