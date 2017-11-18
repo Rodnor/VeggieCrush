@@ -34,7 +34,7 @@ public class PanelCraft extends JPanel{
 	  private String message = "";
 	   
 	  /**
-	 * 
+	 *  Modification à la ligne 37
 	 */
 	  
 	  protected JComponent makeTextPanel(String text) {
