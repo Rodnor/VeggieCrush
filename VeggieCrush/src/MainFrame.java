@@ -93,7 +93,10 @@ public class MainFrame {
 		inventaires = inventaireDao.getAllInventaires();	
 		
 		for (Inventaire inventaire : inventaires) {
-			logger.debug(inventaire.toString());
+			
+			if (inventaire.getId_objet() == 1) {
+				logger.debug("C'est une plante !");
+			}
 		}
 		
 	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft(), new PanelDemandes(Color.BLUE)};

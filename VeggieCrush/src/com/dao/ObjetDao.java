@@ -139,6 +139,49 @@ public class ObjetDao {
 		return objets;
 	}
 	
+	/**public ArrayList<Inventaire> getInventaireByIdAccount(int id) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		ArrayList<Inventaire> inventaires = new ArrayList<Inventaire>();
+
+		try {
+			con = Connecteur.getConnexion();
+			stmt = con.prepareStatement(QUERY_FIND_BY_ID);
+			stmt.setInt(1, id);
+
+			final ResultSet rset = stmt.executeQuery();
+			Inventaire inventaire = new Inventaire();
+			while (rset.next()) {
+				logger.debug("MiPa, une ligne trouvée");
+				inventaire = mappingInventaire(rset);
+				
+				inventaire = mappingInventaire(rset);
+				inventaires.add(inventaire);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return inventaires;
+	}
+	 */
+	
 	  private Objet mappingObjet (final ResultSet rset) throws SQLException {
 	        final int id_objet = rset.getInt("id_objet");
 	        final String nom_objet = rset.getString("name_objet");
