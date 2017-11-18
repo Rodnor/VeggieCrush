@@ -190,26 +190,26 @@ public class PanelCraft extends JPanel{
         
         panel.add(inv_plante1);
         
-        JSpinner spinner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 999.0,
+        JSpinner spinner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qte,
                 1));
         
         int w = spinner.getWidth();   int h = spinner.getHeight();
         panel.add(spinner);
         panel.add(inv_plante2);
         
-        JSpinner spinner_1 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 999.0,
+        JSpinner spinner_1 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qte,
                 1));
         spinner_1.setMinimumSize(new Dimension(w*2,h));
         panel.add(spinner_1);
         panel.add(inv_plante3);
         
-        JSpinner spinner_2 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 999.0,
+        JSpinner spinner_2 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qte,
                 1));
         spinner_2.setMinimumSize(new Dimension(w*2,h));
         panel.add(spinner_2);
         panel.add(inv_plante4);
         
-        JSpinner spinner_3 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 999.0,
+        JSpinner spinner_3 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qte,
                 1));
         spinner_3.setMinimumSize(new Dimension(w*2,h));
         panel.add(spinner_3);
