@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class PanelJeu extends JPanel implements ActionListener {
@@ -29,10 +30,10 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private ImageIcon next;
 	private JButton prevJButton;
 	private BufferedImage iconPlante=null;
-	private int nombreCoups=10;
+	private int nombreCoups=25;
 	private int nombreCoupsBonus=0;
 	private int tempsBonus=0;
-	private int tempsBase=300;
+	private int tempsBase=3;
 	private int tempsTotal=tempsBase+tempsBonus;
 	private int scoreBonus=0;
 	private int herbe1Bonus=0;
@@ -49,6 +50,13 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private ArrayList<JButton> herbe2 = new ArrayList<JButton>();
 	private ArrayList<JButton> herbe3 = new ArrayList<JButton>();
 	private ArrayList<JButton> herbe4 = new ArrayList<JButton>();
+	private JLabel lblScore;
+	private int pointDeBase=20;
+	private JButton btnJouer;
+	private int multiplicateurBonus1=1;
+	private int multiplicateurBonus2=1;
+	private int multiplicateurBonus3=1;
+	private int multiplicateurBonus4=1;
 
 	public PanelJeu(){
 
@@ -57,10 +65,10 @@ public class PanelJeu extends JPanel implements ActionListener {
 		lblTimer = new JLabel("Temps restant : "+String.valueOf(tempsTotal));
 		add(lblTimer, "cell 0 0");
 
-		JLabel lblScore = new JLabel(String.valueOf("Score : "+(0+scoreBonus)));
+		lblScore = new JLabel("Score : "+String.valueOf(0+scoreBonus));
 		add(lblScore, "cell 6 0");
 
-		nbCoupsRestants = new JLabel(String.valueOf("Nombre de coups restants : "+(nombreCoups+nombreCoupsBonus)));
+		nbCoupsRestants = new JLabel("Nombre de coups restants : "+String.valueOf(nombreCoups+nombreCoupsBonus));
 		add(nbCoupsRestants, "cell 0 1");
 
 		canvas = new JPanel();
@@ -128,20 +136,10 @@ public class PanelJeu extends JPanel implements ActionListener {
 		nbHerbe4 = new JLabel(String.valueOf(0+herbe4Bonus));
 		add(nbHerbe4, "cell 5 6");
 
-		JButton btnJouer = new JButton("Jouer !");
+		btnJouer = new JButton("Jouer !");
 		btnJouer.addActionListener(this);
 		btnJouer.setActionCommand("jouer");
 		add(btnJouer, "cell 1 7");
-
-		// On remplis le canevas
-		fillCanvas();
-
-		// On met une herbe par coin
-		fillCanvasCorners();
-	}
-
-	public void paintComponent(Graphics g){
-
 	}
 
 	@Override
@@ -150,7 +148,15 @@ public class PanelJeu extends JPanel implements ActionListener {
 			JButton btn = (JButton) e.getSource();
 
 			if(btn.getActionCommand().equals("jouer")) {
+				// On remplis le canevas
+				fillCanvas();
+
+				// On met une herbe par coin
+				fillCanvasCorners();
+
 				startThreads();
+
+				btnJouer.setVisible(false);
 			} else {
 				if(nombreCoups>0 && gameRunning) {
 					if(numClic == 0) {
@@ -176,13 +182,13 @@ public class PanelJeu extends JPanel implements ActionListener {
 									if(b[row][col] != prevJButton && canSwitch) {
 										next = (ImageIcon) b[row][col].getIcon();
 										String tmp = b[row][col].getName();
-										
+
 										b[row][col].setIcon(prev);
 										b[row][col].setName(prevJButton.getName());
-										
+
 										prevJButton.setIcon(next);
 										prevJButton.setName(tmp);
-										
+
 										nombreCoups--;
 										canSwitch=false;
 									}
@@ -198,6 +204,13 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void startThreads() {
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		gameRunning = true;
 
 		Thread t = new Thread() {
@@ -261,7 +274,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 				canvas.add(b[i][j]);
 			}
 		}
-		
+
 		b[0][0].removeActionListener(this);
 		b[0][8].removeActionListener(this);
 		b[8][0].removeActionListener(this);
@@ -298,62 +311,76 @@ public class PanelJeu extends JPanel implements ActionListener {
 	public void finDePartie() {
 		System.out.println("Fin du game !");
 
-		explorer(b, b[0][0], 0, 0);
-
-		/*for (int row = 0; row < 9; row++) {
-			for (int col = 0; col < 9; col++) {
-				calculCasesAdjacente(b, b.length, row, col, "1");
-			}
-		}*/
-
-		for (int row = 0; row < 9; row++) {
-			for (int col = 0; col < 9; col++) {
-				if(herbe1.contains(b[row][col])) {
-					System.out.println("("+row+") ("+col+")");
-				}
-			}
-		}
+		explorer(b, b[0][0], 0, 0, herbe1);
+		explorer(b, b[0][8], 0, 8, herbe2);
+		explorer(b, b[8][0], 8, 0, herbe3);
+		explorer(b, b[8][8], 8, 8, herbe4);
 
 		nbHerbe1.setText(String.valueOf(herbe1.size()));
+		nbHerbe2.setText(String.valueOf(herbe2.size()));
+		nbHerbe3.setText(String.valueOf(herbe3.size()));
+		nbHerbe4.setText(String.valueOf(herbe4.size()));
+
+		if(herbe1.size()>=10) {
+			multiplicateurBonus1=2;
+		}
+
+		if(herbe2.size()>=10) {
+			multiplicateurBonus2=2;
+		}
+
+		if(herbe3.size()>=10) {
+			multiplicateurBonus3=2;
+		}
+
+		if(herbe4.size()>=10) {
+			multiplicateurBonus4=2;
+		}
+
+		lblScore.setText("Score : "+(herbe1.size()*pointDeBase*multiplicateurBonus1+herbe2.size()*pointDeBase*multiplicateurBonus2+herbe3.size()*pointDeBase*multiplicateurBonus3+herbe4.size()*pointDeBase*multiplicateurBonus4));
+		
+		// on reset les éléments du jeu
+		resetElements();
 	}
 
-	public void calculCasesAdjacente(JButton b[][], int size, int row, int col, String name) {
-		// Si l'élément est déjà marqué
-		if (herbe1.contains(b[row][col])) {
-			return;
-		}
-
-		// Si l'élément ne doit pas figurer dans la liste
-		if(!b[row][col].getName().equals(name)) {   
-			return; 
-		}
-
-		herbe1.add(b[row][col]);
-
-		// Contrôle des limites
-		if(row+1<size && col+1<size && row>0 && col>0) {
-			calculCasesAdjacente(b, size, row+1, col, name);
-			calculCasesAdjacente(b, size, row-1, col, name);
-			calculCasesAdjacente(b, size, row, col+1, name);
-			calculCasesAdjacente(b, size, row, col-1, name);
-		}
-
-	}
-
-	public void explorer(JButton graphe[][], JButton bouton, int rowCurrentButton, int colCurrentButton) {
-		herbe1.add(bouton);
+	public void explorer(JButton graphe[][], JButton bouton, int rowCurrentButton, int colCurrentButton, ArrayList<JButton> liste) {
+		liste.add(bouton);
 
 		for (int row = 0; row < 9; row++) {
 			for (int col = 0; col < 9; col++) {
 				if(row<9 && row>=0 && col>=0 && col<9) {
 					if(row+1 == rowCurrentButton && col == colCurrentButton || row-1 == rowCurrentButton && col == colCurrentButton || row == rowCurrentButton && col+1 == colCurrentButton || row == rowCurrentButton && col-1 == colCurrentButton) {
-						if(!herbe1.contains(graphe[row][col]) && graphe[row][col].getName().equals(bouton.getName())) {
-							explorer(graphe, graphe[row][col], row, col);
+						if(!liste.contains(graphe[row][col]) && graphe[row][col].getName().equals(bouton.getName())) {
+							explorer(graphe, graphe[row][col], row, col, liste);
 						}
 					}
 				}
 			}
-		}       
+		}
+	}
+	
+	public void resetElements() {
+		tempsTotal = 3;
+		nombreCoups = 25;
+				
+		canvas.removeAll();
+		revalidate();
+		repaint();
+		
+		lblScore.setText("Score : "+(0+scoreBonus));
+		nbCoupsRestants.setText("Nombre de coups restants : "+String.valueOf(nombreCoups+nombreCoupsBonus));
+		nbHerbe1.setText(String.valueOf(0+herbe1Bonus));
+		nbHerbe2.setText(String.valueOf(0+herbe2Bonus));
+		nbHerbe3.setText(String.valueOf(0+herbe3Bonus));
+		nbHerbe4.setText(String.valueOf(0+herbe4Bonus));
+		lblTimer.setText("Temps restant : "+String.valueOf(tempsTotal));
+		
+		herbe1.clear();
+		herbe2.clear();
+		herbe3.clear();
+		herbe4.clear();
+		
+		btnJouer.setVisible(true);
 	}
 
 	public void sendDatasToDatabase() {
