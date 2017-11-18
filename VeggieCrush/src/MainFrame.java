@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 // MIPA COMMENTAIRE
+// MIPA 2
 public class MainFrame {
 
 	private JFrame frame;
