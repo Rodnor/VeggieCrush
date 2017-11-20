@@ -1,6 +1,11 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
+
+import com.dao.InventaireDao;
+import com.dao.ObjetDao;
+import com.entitie.Inventaire;
+
 import net.miginfocom.swing.MigLayout;
 
 import javax.imageio.ImageIO;
@@ -420,6 +425,46 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void sendDatasToDatabase() {
-		System.out.println("Datas sent to database");
+		InventaireDao inventaireDao = new InventaireDao();
+		
+		Inventaire inventaireAInserer = new Inventaire(1, 1, herbe1.size());
+		inventaireDao.insertNewInventaire(inventaireAInserer);
+		
+		ArrayList<Inventaire> inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 1);
+		
+		for (Inventaire inventaire : inventaires) {
+			System.out.println("user 1, objet 1 : "+inventaire.toString());
+		}
+		
+		inventaireAInserer = new Inventaire(1, 2, herbe2.size());
+		inventaireDao.insertNewInventaire(inventaireAInserer);
+
+		
+		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 2);
+		
+		for (Inventaire inventaire : inventaires) {
+			System.out.println("user 1, objet 2 : "+inventaire.toString());
+		}
+		
+		inventaireAInserer = new Inventaire(1, 3, herbe3.size());
+		inventaireDao.insertNewInventaire(inventaireAInserer);
+		
+		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 3);
+		
+		for (Inventaire inventaire : inventaires) {
+			System.out.println("user 1, objet 3 : "+inventaire.toString());
+		}
+		
+		
+		inventaireAInserer = new Inventaire(1, 4, herbe4.size());
+		inventaireDao.insertNewInventaire(inventaireAInserer);
+		
+		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 4);
+		
+		for (Inventaire inventaire : inventaires) {
+			System.out.println("user 1, objet 4 : "+inventaire.toString());
+		}
+		
+		
 	}
 }
