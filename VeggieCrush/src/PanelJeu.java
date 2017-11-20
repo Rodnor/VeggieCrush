@@ -1,15 +1,11 @@
-import java.awt.Color;
-import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import com.dao.InventaireDao;
-import com.dao.ObjetDao;
 import com.entitie.Inventaire;
 
 import net.miginfocom.swing.MigLayout;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -21,7 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 
 public class PanelJeu extends JPanel implements ActionListener {
