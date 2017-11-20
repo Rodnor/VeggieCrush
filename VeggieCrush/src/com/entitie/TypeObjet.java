@@ -2,7 +2,7 @@ package com.entitie;
 
 public enum TypeObjet {
 	
-	AMELIORATION("AMELIORATION"), POTION("POTION"), COMPOSANT("COMPOSANT") ;  
+	amelioration("AMELIORATION"), potion("POTION"), composant("COMPOSANT") ;  
     
     private String nom ;  
      
