@@ -6,6 +6,10 @@ import com.entitie.Inventaire;
 import net.miginfocom.swing.MigLayout;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,10 +18,17 @@ import javax.swing.JOptionPane;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import sun.audio.*;
+import javax.swing.JToggleButton;
 
 public class PanelJeu extends JPanel implements ActionListener {
 
@@ -35,7 +46,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int nombreCoups=25;
 	private int nombreCoupsBonus=0;
 	private int tempsBonus=0;
-	private int tempsBase=3;
+	private int tempsBase=30;
 	private int tempsTotal=tempsBase+tempsBonus;
 	private int scoreBonus=0;
 	private int herbe1Bonus=0;
@@ -60,6 +71,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int multiplicateurBonus2=1;
 	private int multiplicateurBonus3=1;
 	private int multiplicateurBonus4=1;
+	private Clip clip = null;
+	private JToggleButton tglbtnMuteSound;
 
 	public PanelJeu(){
 
@@ -142,13 +155,26 @@ public class PanelJeu extends JPanel implements ActionListener {
 		add(nbHerbe4, "cell 5 6");
 
 		btnJouer = new JButton("Jouer !");
-		btnJouer.addActionListener(this);
+		btnJouer.addActionListener(this);	
 		btnJouer.setActionCommand("jouer");
 		add(btnJouer, "cell 1 7");
+
+		tglbtnMuteSound = new JToggleButton("Mute Sound");
+		tglbtnMuteSound.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent ev) {
+				if(ev.getStateChange()==ItemEvent.SELECTED){
+					clip.stop();
+				} else if(ev.getStateChange()==ItemEvent.DESELECTED){
+					clip.start();
+				}
+			}
+		});
+		add(tglbtnMuteSound, "cell 0 7");
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {	
 		if(e.getSource() instanceof JButton) {
 			JButton btn = (JButton) e.getSource();
 
@@ -160,6 +186,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 				fillCanvasCorners();
 
 				startThreads();
+
+				playMusic();
 
 				btnJouer.setVisible(false);
 			} else {
@@ -333,7 +361,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void finDePartie() {
-		System.out.println("Fin du game !");
+		clip.stop();
 
 		explorer(b, b[0][0], 0, 0, herbe1);
 		explorer(b, b[0][8], 0, 8, herbe2);
@@ -487,5 +515,43 @@ public class PanelJeu extends JPanel implements ActionListener {
 		for (Inventaire inventaire : inventaires) {
 			System.out.println("user 1, objet 4 : "+inventaire.toString());
 		}
+	}
+
+	public void playMusic() {
+		/*AudioPlayer ap = AudioPlayer.player;
+		AudioStream as;
+		AudioData ad;
+		ContinuousAudioDataStream loop = null;*/
+
+		try {
+			File file = new File("sounds/music.wav"); 
+			clip = null;
+			try {
+				clip = AudioSystem.getClip();
+			} catch (LineUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			try {
+				clip.open(AudioSystem.getAudioInputStream(file));
+			} catch (LineUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			clip.start();
+			/*as = new AudioStream(new FileInputStream("sounds/music.ogg"));
+			ad = as.getData();
+			loop = new ContinuousAudioDataStream(ad);*/
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//ap.start(loop);
 	}
 }
