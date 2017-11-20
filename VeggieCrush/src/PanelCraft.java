@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.FlowLayout;
 
@@ -160,43 +161,23 @@ public class PanelCraft extends JPanel{
 	  	
 	  	JPanel panel_5 = new JPanel();
 	  	add(panel_5, "cell 1 2,grow");
-	  	panel_5.setLayout(new BorderLayout());
 	  	
-	  	JPanel btnPnl1 = new JPanel();
-	  	btnPnl1.setLayout(new GridBagLayout());
-	  	GridBagConstraints c = new GridBagConstraints();
-	  	c.fill = GridBagConstraints.BOTH;
-	    c.weightx = 1.0;
+	  	JButton btnInventaire= new JButton(new ImageIcon(iconInventaire));
+	  	btnInventaire.setBorderPainted(false);
+	  	btnInventaire.setFocusPainted(false);
+	  	btnInventaire.setContentAreaFilled(false);
 	  	
-	  	ArrayList<String> projectNameList = new ArrayList<String>();
-	    for (int index = 0; index < 50; index++) {
-	        projectNameList.add("Qte : " + index);
-	    }
-	    String[] projectNames = projectNameList.toArray(new String[0]);
-
-	    // Adding buttons to the project
-	    //JButton[] buttons = new JButton[projectNameList.size()];
-	    JLabel[] buttons = new JLabel[projectNameList.size()];
-	    try {
-	        for (int i = 0; i < projectNames.length; i++) {
-	        	if(i%10==0) {
-	        		c.gridwidth = GridBagConstraints.REMAINDER; //end ro
-	        	    c.weightx = 0.0;            
-	        	}
-	            buttons[i] = new JLabel(projectNames[i]);
-	            buttons[i].setIcon(new ImageIcon(iconVide));
-	            buttons[i].setVerticalTextPosition(JLabel.BOTTOM);
-	            buttons[i].setHorizontalTextPosition(JLabel.CENTER);
-	            btnPnl1.add(buttons[i]);
-
-	        }
-	    } catch (Exception e2) {
-	        JOptionPane.showMessageDialog(null, e2);
-	    }
-	    JScrollPane scrollPane = new JScrollPane(btnPnl1);
-	    
-	    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-	    panel_5.add(scrollPane,BorderLayout.CENTER);
+	  	btnInventaire.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PopupInventaire inventaire = new PopupInventaire();
+				inventaire.setVisible(true);
+			}
+		});
+	  	
+	  	
+	    panel_5.add(btnInventaire);
 	    
 	  	
 	  	
