@@ -22,7 +22,9 @@ public class ObjetDao {
 	private final static String QUERY_FIND_BY_ID_ACCOUNT = "SELECT * FROM ACCOUNT "
 															+ "INNER JOIN INVENTAIRE ON ACCOUNT.id = INVENTAIRE.id_user "
 															+ "INNER JOIN OBJET ON INVENTAIRE.id_objet = OBJET.id_objet " + "WHERE INVENTAIRE.id_user = ?";
-	private final static String QUERY_COUNT_BY_ID_ACCOUNT_AND_BY_ID_OBJET = 	"SELECT qte FROM INVENTAIRE WHERE id_user = ? AND id_objet = ?";
+	private final static String QUERY_COUNT_BY_ID_ACCOUNT_AND_BY_ID_OBJET = "SELECT qte FROM INVENTAIRE WHERE id_user = ? AND id_objet = ?";
+	private final static String QUERY_PRESENT_BY_ID_ACCOUNT_AND_BY_ID_OBJET = "SELECT count(*) as nb FROM INVENTAIRE WHERE id_user = ? AND id_objet = ?";
+
 	private final static String QUERY_INSERT = "INSERT INTO OBJET (id_objet, name_objet, type_objet) values (?, ?, ?)";
 	private final static String QUERY_DELETE_BY_ID = "DELETE FROM OBJET WHERE id_objet = ?";
 
@@ -199,6 +201,44 @@ public class ObjetDao {
 			final ResultSet rset = stmt.executeQuery();
 			while (rset.next()) {
 				nombre = rset.getInt("qte");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return nombre;
+	}
+	
+	public int testPresentInInventaireByAccounByObjet(int idAccount, int idObjet) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		int nombre = 0; 
+
+		try {
+			con = Connecteur.getConnexion();
+			stmt = con.prepareStatement(QUERY_PRESENT_BY_ID_ACCOUNT_AND_BY_ID_OBJET);
+			stmt.setInt(1, idAccount);
+			stmt.setInt(2, idObjet);
+
+			final ResultSet rset = stmt.executeQuery();
+			while (rset.next()) {
+				nombre = rset.getInt("nb");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
