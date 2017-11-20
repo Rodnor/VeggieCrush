@@ -122,8 +122,8 @@ public class InventaireDao {
 
 			stmt = con.prepareStatement(QUERY_INSERT);
 			stmt.setInt(1, inventaire.getId_objet());
-			stmt.setInt(2, inventaire.getId_objet());
-			stmt.setInt(3, inventaire.getId_objet());
+			stmt.setInt(2, inventaire.getId_user());
+			stmt.setInt(3, inventaire.getQuantite());
 			
 			stmt.execute();
 		} catch (SQLException e) {
