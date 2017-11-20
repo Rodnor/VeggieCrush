@@ -428,6 +428,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 		InventaireDao inventaireDao = new InventaireDao();
 		
 		Inventaire inventaireAInserer = new Inventaire(1, 1, herbe1.size());
+		
+		System.out.println("TLS -----------------------"+herbe1.size());
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 		
 		ArrayList<Inventaire> inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 1);
@@ -464,7 +466,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 		for (Inventaire inventaire : inventaires) {
 			System.out.println("user 1, objet 4 : "+inventaire.toString());
 		}
-		
 		
 	}
 }
