@@ -237,7 +237,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 						lblTimer.setText("Temps restant : 0");
 						gameRunning = false;
 						finDePartie();
-						sendDatasToDatabase();
 					}
 				}
 			}
@@ -250,7 +249,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 					if(nombreCoups==0){
 						gameRunning = false;
 						finDePartie();
-						sendDatasToDatabase();
 					}
 					try {
 						Thread.sleep(1000);
@@ -369,6 +367,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		lblScore.setText("Score : "+(herbe1.size()*pointDeBase*multiplicateurBonus1+herbe2.size()*pointDeBase*multiplicateurBonus2+herbe3.size()*pointDeBase*multiplicateurBonus3+herbe4.size()*pointDeBase*multiplicateurBonus4));
 
+		sendDatasToDatabase();
+		
 		// on reset les éléments du jeu
 		int option = JOptionPane.showConfirmDialog(null, "Voulez-vous rejouer ?", "Fin de partie !", JOptionPane.YES_NO_OPTION);
 
