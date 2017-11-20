@@ -74,10 +74,7 @@ public class InventaireDao {
 
 			final ResultSet rset = stmt.executeQuery();
 			Inventaire inventaire = new Inventaire();
-			while (rset.next()) {
-				logger.debug("MiPa, une ligne trouvée");
-				inventaire = mappingInventaire(rset);
-				
+			while (rset.next()) {				
 				inventaire = mappingInventaire(rset);
 				inventaires.add(inventaire);
 			}
@@ -108,7 +105,6 @@ public class InventaireDao {
 		final int id_user = rset.getInt("id_user");
 		final int qte = rset.getInt("qte");
 		final Inventaire inventaire = new Inventaire(id_user, id_objet, qte);
-		logger.debug("construction de l'objet" + inventaire.toString());
 		return inventaire;
 	}
 
@@ -116,17 +112,12 @@ public class InventaireDao {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		Boolean errorInsert = false;
-		
-		logger.info("MiPA insertNewAccount");
-
 		try {
 			con = Connecteur.getConnexion();
 
 			ObjetDao objetDao = new ObjetDao();
 			int nbObjetDejaPresent = objetDao.getNbObjetByIdAccountAndByIdObjet(inventaire.getId_user(), inventaire.getId_objet());
-			
-			logger.debug("nbObjet"+nbObjetDejaPresent);
-			if (nbObjetDejaPresent == 0 ) {
+			if (nbObjetDejaPresent == 0) {
 				stmt = con.prepareStatement(QUERY_INSERT);
 				stmt.setInt(1, inventaire.getId_objet());
 				stmt.setInt(2, inventaire.getId_user());
@@ -136,19 +127,18 @@ public class InventaireDao {
 				stmt = con.prepareStatement(QUERY_UPDATE);
 				stmt.setInt(1, nbObjetDejaPresent+inventaire.getQuantite());
 				stmt.setInt(2, inventaire.getId_user());
-				stmt.setInt(3, inventaire.getId_objet());
-				
+				stmt.setInt(3, inventaire.getId_objet());	
 			}
 			
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			errorInsert = true;
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					errorInsert = true;
 					e.printStackTrace();
 				}
 			}
@@ -157,7 +147,6 @@ public class InventaireDao {
 				try {
 					con.close();
 				} catch (SQLException e) {
-					errorInsert = false;
 					e.printStackTrace();
 				}
 			}
@@ -166,7 +155,6 @@ public class InventaireDao {
 	}
 	
 	public ArrayList<Inventaire> getInventaireByIdAccountAndByIdObjet(int idAccount, int idObjet) {
-		logger.debug("MiPa getObjetByIdAccount"+idAccount);
 		Connection con = null;
 		PreparedStatement stmt = null;
 
@@ -176,13 +164,11 @@ public class InventaireDao {
 			stmt = con.prepareStatement(QUERY_FIND_BY_ID_ACCOUNT_AND_BY_ID_OBJET);
 			stmt.setInt(1, idAccount);
 			stmt.setInt(2, idObjet);
-			logger.error("DEBUG REQ"+stmt.toString());
 
 			Inventaire inventaire = new Inventaire();
 
 			final ResultSet rset = stmt.executeQuery();
 			while (rset.next()) {
-				logger.debug("MiPa, une ligne trouvée");
 				inventaire = mappingInventaire(rset);
 				inventaires.add(inventaire);
 			}

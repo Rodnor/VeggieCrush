@@ -17,7 +17,6 @@ public final class Connecteur {
 	final static Logger logger = Logger.getLogger(Connecteur.class.getName());
 
     public static Connection getConnexion() throws SQLException {
-    	//logger.debug("MIPA getConnexion sur "+ URL);
     		try {
 				Class.forName("com.mysql.jdbc.Driver");
 			} catch (ClassNotFoundException e) {

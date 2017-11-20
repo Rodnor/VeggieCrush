@@ -72,7 +72,6 @@ public class AccountDao {
 
 			final ResultSet rset = stmt.executeQuery();
 			while (rset.next()) {
-				logger.debug("MiPa, une ligne trouvée");
 				account = mappingAccount(rset);
 			}
 		} catch (SQLException e) {
@@ -104,16 +103,11 @@ public class AccountDao {
 		final String email = rset.getString("email");
 		final String password = rset.getString("password");
 		final int id_faction = rset.getInt("id_faction");
-		logger.info("MIPA AVANT LES DATES");
 		
 		Timestamp createdAT = rset.getTimestamp("created_at");
 		Timestamp updatedAT = rset.getTimestamp("updated_at");
 		Timestamp deletedAT = rset.getTimestamp("deleted_at");
-		
-		logger.debug(rset.getTimestamp("created_at"));
-		logger.debug(rset.getTimestamp("updated_at"));
-		logger.debug(rset.getTimestamp("deleted_at"));
-		
+
 		/**if (Utils.testDateNulleForTimstamp(createdAT)) {
 			createdAT = null;
 		}
@@ -127,8 +121,6 @@ public class AccountDao {
 		} **/
 		
 		final Account account = new Account(id, id_global, username, email, password, id_faction, createdAT, updatedAT, deletedAT);
-		
-		logger.debug("construction de l'objet" + account.toString());
 		return account;
 	}
 	
@@ -137,7 +129,6 @@ public class AccountDao {
 		PreparedStatement stmt = null;
 		Boolean errorInsert = false;
 		
-		logger.info("MiPA insertNewAccount");
 
 		try {
 			con = Connecteur.getConnexion();
@@ -161,12 +152,12 @@ public class AccountDao {
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			errorInsert = true;
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					errorInsert = true;
 					e.printStackTrace();
 				}
 			}
@@ -175,7 +166,6 @@ public class AccountDao {
 				try {
 					con.close();
 				} catch (SQLException e) {
-					errorInsert = false;
 					e.printStackTrace();
 				}
 			}
