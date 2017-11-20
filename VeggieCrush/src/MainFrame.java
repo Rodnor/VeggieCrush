@@ -57,11 +57,8 @@ public class MainFrame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setLocationRelativeTo(null);
-	    frame.setTitle("Jeu de merde");
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setSize(900, 750);
-		
+	    frame.setTitle("Jeu");
+	    
 	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft(), new PanelDemandes(Color.BLUE)};
 
 	    onglet = new JTabbedPane();
@@ -76,6 +73,7 @@ public class MainFrame {
 	    frame.setResizable(false);
 		frame.setBounds(100, 100, 900, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setLocationRelativeTo(null);
 	}
 
 }
