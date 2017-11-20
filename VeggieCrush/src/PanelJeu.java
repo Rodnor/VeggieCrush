@@ -541,10 +541,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			clip.start();
-			/*as = new AudioStream(new FileInputStream("sounds/music.ogg"));
-			ad = as.getData();
-			loop = new ContinuousAudioDataStream(ad);*/
+			clip.loop(clip.LOOP_CONTINUOUSLY);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -552,6 +549,5 @@ public class PanelJeu extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//ap.start(loop);
 	}
 }
