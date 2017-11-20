@@ -89,7 +89,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		canvas = new JPanel();
 		add(canvas, "cell 0 2 3 5,alignx center,aligny center");
-		canvas.setLayout(new GridLayout(9, 9, -14, -10));
+		canvas.setLayout(new GridLayout(9, 9, -25, -10));
 
 		fillEmptyCanvas();
 
