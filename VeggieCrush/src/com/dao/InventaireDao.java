@@ -192,5 +192,4 @@ public class InventaireDao {
 		}
 		return inventaires;
 	}
-	
 }

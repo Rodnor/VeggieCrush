@@ -5,24 +5,52 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import com.dao.AccountDao;
-import com.entitie.Account;
+import com.dao.ObjetDao;
+import com.entitie.Objet;
+import com.entitie.TypeObjet;
 
 public class Test {
 	final static Logger logger = Logger.getLogger(Test.class.getName());
 
 
 	public static void main(String[] args) {
-		
-		logger.info("Appel TEST_DEVV getUser");
-		AccountDao accountDao = new AccountDao();
-		
-		ArrayList<Account> accounts = new ArrayList<Account>();
+		ObjetDao objetDao = new ObjetDao();
+		ArrayList<Objet> objets = new ArrayList<Objet>();
 		logger.debug("MiPa avant appel DAO");
-		accounts = accountDao.getAllAccounts();	
-		
-		for (Account account : accounts) {
-			logger.debug(account.toString());
+		objets = objetDao.getAllObjets();	
+
+		for (Objet objet : objets) {
+			logger.debug(objet.toString());
 		}
+		
+		Objet objetAinserer = new Objet(0, "Nouvel Objet de Java", TypeObjet.amelioration);
+		//objetDao.insertNewObjet(objetAinserer);
+		
+		System.out.println("plante1 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 1));
+		System.out.println("plante2 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 2));
+		System.out.println("plante3 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 3));
+		System.out.println("plante4 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 4));
+
+		
+	/**	int nb = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 1); //idAccount, idObjet
+		String nom = objetDao.getObjetById(1).getNom_objet();
+		logger.debug("MiPa:  il y a "+nb+" fois l'objet "+nom); 
+		
+		logger.debug("MiPa avant appel DAO");
+		objets = objetDao.getAllObjets();	
+
+		for (Objet objet : objets) {
+			logger.debug(objet.toString());
+		}
+		
+		logger.debug(objetDao.deleteObjetByIdObjet(10));
+		
+		logger.debug("MiPa avant appel DAO");
+		objets = objetDao.getAllObjets();	
+
+		for (Objet objet : objets) {
+			logger.debug(objet.toString());
+		} **/
 
 	}
 
