@@ -28,15 +28,16 @@ public class Test {
 		//Objet objetAinserer = new Objet(0, "Nouvel Objet de Java", TypeObjet.amelioration);
 		//objetDao.insertNewObjet(objetAinserer);
 		
-		System.out.println("plante1 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 1));
-		System.out.println("plante2 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 2));
-		System.out.println("plante3 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 3));
-		System.out.println("plante4 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 4));
+		//System.out.println("plante1 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 1));
+		//System.out.println("plante2 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 2));
+		//System.out.println("plante3 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 3));
+		System.out.println("plante4 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 90));
 		
+		/**
 		InventaireDao inventaireDao = new InventaireDao(); // je crée un inventaireDao pour acceder à la table 
 
 		Inventaire inventaireAInserer = new Inventaire(1, 1, 4);
-		inventaireDao.insertNewInventaire(inventaireAInserer);
+		//inventaireDao.insertNewInventaire(inventaireAInserer);
 		
 		
 
@@ -48,7 +49,7 @@ public class Test {
 		}
 
 		
-	/**	int nb = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 1); //idAccount, idObjet
+		int nb = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 1); //idAccount, idObjet
 		String nom = objetDao.getObjetById(1).getNom_objet();
 		logger.debug("MiPa:  il y a "+nb+" fois l'objet "+nom); 
 		

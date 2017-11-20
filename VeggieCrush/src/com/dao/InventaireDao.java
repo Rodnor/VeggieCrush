@@ -21,7 +21,6 @@ public class InventaireDao {
 	private final static String QUERY_FIND_ALL = "SELECT * FROM INVENTAIRE";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM INVENTAIRE WHERE id_user = ?";
 	private final static String QUERY_FIND_BY_ID_ACCOUNT_AND_BY_ID_OBJET = 	"SELECT * FROM INVENTAIRE WHERE id_user = ? AND id_objet = ?";
-	
 	private final static String QUERY_INSERT = "INSERT INTO INVENTAIRE (id_objet, id_user, qte) values (?, ?, ?)";
 	private final static String QUERY_UPDATE = "UPDATE INVENTAIRE SET qte = ? WHERE id_user = ? AND id_objet = ?";
 
@@ -116,18 +115,23 @@ public class InventaireDao {
 			con = Connecteur.getConnexion();
 
 			ObjetDao objetDao = new ObjetDao();
-			int nbObjetDejaPresent = objetDao.getNbObjetByIdAccountAndByIdObjet(inventaire.getId_user(), inventaire.getId_objet());
-			if (nbObjetDejaPresent == 0) {
+			
+			int dejaPresentEnbase = objetDao.testPresentInInventaireByAccounByObjet(inventaire.getId_user(), inventaire.getId_objet());
+			logger.info("deja"+dejaPresentEnbase);
+
+			if (dejaPresentEnbase == 1){
+					stmt = con.prepareStatement(QUERY_UPDATE);
+					int nbObjetDejaPresent = objetDao.getNbObjetByIdAccountAndByIdObjet(inventaire.getId_user(), inventaire.getId_objet());
+					logger.info("nb"+nbObjetDejaPresent);
+
+					stmt.setInt(1, nbObjetDejaPresent+inventaire.getQuantite());
+					stmt.setInt(2, inventaire.getId_user());
+					stmt.setInt(3, inventaire.getId_objet());	
+			} else {
 				stmt = con.prepareStatement(QUERY_INSERT);
 				stmt.setInt(1, inventaire.getId_objet());
 				stmt.setInt(2, inventaire.getId_user());
 				stmt.setInt(3, inventaire.getQuantite());
-				
-			} else {
-				stmt = con.prepareStatement(QUERY_UPDATE);
-				stmt.setInt(1, nbObjetDejaPresent+inventaire.getQuantite());
-				stmt.setInt(2, inventaire.getId_user());
-				stmt.setInt(3, inventaire.getId_objet());	
 			}
 			
 			stmt.execute();
