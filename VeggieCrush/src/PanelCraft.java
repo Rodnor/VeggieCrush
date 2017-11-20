@@ -1,6 +1,10 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
@@ -10,9 +14,12 @@ import javax.swing.JButton;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import com.dao.InventaireDao;
+import com.dao.ObjetDao;
 import com.entitie.Inventaire;
+import com.sun.xml.bind.v2.schemagen.xmlschema.List;
 
 import java.awt.GridLayout;
 import java.awt.Robot;
@@ -32,7 +39,11 @@ import java.awt.FlowLayout;
 public class PanelCraft extends JPanel{
 	  private Color color = Color.white;
 	  private String message = "";
-	   
+	  private JTable table;
+	  InventaireDao inventairedao = new InventaireDao();
+	  ObjetDao objetDao = new ObjetDao();
+	  ArrayList<Inventaire> invs = new ArrayList<Inventaire>();
+	  	
 	  /**
 	 *  Modification à la ligne 37
 	 */
@@ -45,9 +56,11 @@ public class PanelCraft extends JPanel{
 	        panel.add(filler);
 	        return panel;
 	    }
+
+	  
 	  
 	public PanelCraft(){
-	  	setLayout(new MigLayout("", "[][grow][]", "[][100px:100px:100px,grow][grow][][120px:120px:120px,grow][80px:80px:80px,grow][][]"));
+	  	setLayout(new MigLayout("", "[][grow][]", "[100px:100px:100px,grow][200px:200px:200px,grow][150px:150px:150px,grow][80px:80px:80px,grow][]"));
 	  	
 	  	BufferedImage iconPlante1=null;
 	  	BufferedImage iconPlante2=null;
@@ -55,6 +68,7 @@ public class PanelCraft extends JPanel{
 	  	BufferedImage iconPlante4=null;
 	  	BufferedImage iconInventaire=null;
 	  	BufferedImage iconCraft=null;
+	  	BufferedImage iconVide=null;
 	  	
 		try {
 			iconPlante1 = ImageIO.read(new File("images/herbe1.jpg"));
@@ -99,9 +113,16 @@ public class PanelCraft extends JPanel{
 	  		// TODO Auto-generated catch block
 	  		e.printStackTrace();
 	  	}
+	  	try {
+	  		iconVide = ImageIO.read(new File("images/vide.png"));
+	  		
+	  	} catch (IOException e) {
+	  		// TODO Auto-generated catch block
+	  		e.printStackTrace();
+	  	}
 	  	
 	  	JPanel panel_1 = new JPanel();
-	  	add(panel_1, "cell 1 1,grow");
+	  	add(panel_1, "cell 1 0,grow");
 	  	
 	  	JTabbedPane tabbedPane = new JTabbedPane();
 	  	
@@ -127,23 +148,65 @@ public class PanelCraft extends JPanel{
 	  	panel_1.add(tabbedPane);
 	  	
 	  	JPanel panel_4 = new JPanel();
-	  	add(panel_4, "cell 1 2,grow");
+	  	add(panel_4, "cell 1 1,grow");
 	  	
 	  	JLabel lblNewLabel = new JLabel("Informations sur recette :");
 	  	panel_4.add(lblNewLabel);
 	  	
+	  	invs = inventairedao.getInventaireByIdAccount(1);
+	  	int nbRow = invs.size()%5;
+	  
+	  
 	  	
-	  	JPanel panel_2 = new JPanel();
-	  	add(panel_2, "cell 1 4,grow");
+	  	JPanel panel_5 = new JPanel();
+	  	add(panel_5, "cell 1 2,grow");
+	  	panel_5.setLayout(new BorderLayout());
 	  	
-	  	JButton btnInventaire= new JButton(new ImageIcon(iconInventaire));
-	  	btnInventaire.setBorderPainted(false);
-	  	btnInventaire.setFocusPainted(false);
-	  	btnInventaire.setContentAreaFilled(false);
-	  	panel_2.add(btnInventaire);
+	  	JPanel btnPnl1 = new JPanel();
+	  	btnPnl1.setLayout(new GridBagLayout());
+	  	GridBagConstraints c = new GridBagConstraints();
+	  	c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 1.0;
+	  	
+	  	ArrayList<String> projectNameList = new ArrayList<String>();
+	    for (int index = 0; index < 50; index++) {
+	        projectNameList.add("Qte : " + index);
+	    }
+	    String[] projectNames = projectNameList.toArray(new String[0]);
+
+	    // Adding buttons to the project
+	    //JButton[] buttons = new JButton[projectNameList.size()];
+	    JLabel[] buttons = new JLabel[projectNameList.size()];
+	    try {
+	        for (int i = 0; i < projectNames.length; i++) {
+	        	if(i%10==0) {
+	        		c.gridwidth = GridBagConstraints.REMAINDER; //end ro
+	        	    c.weightx = 0.0;            
+	        	}
+	            buttons[i] = new JLabel(projectNames[i]);
+	            buttons[i].setIcon(new ImageIcon(iconVide));
+	            buttons[i].setVerticalTextPosition(JLabel.BOTTOM);
+	            buttons[i].setHorizontalTextPosition(JLabel.CENTER);
+	            btnPnl1.add(buttons[i]);
+
+	        }
+	    } catch (Exception e2) {
+	        JOptionPane.showMessageDialog(null, e2);
+	    }
+	    JScrollPane scrollPane = new JScrollPane(btnPnl1);
+	    
+	    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+	    panel_5.add(scrollPane,BorderLayout.CENTER);
+	    
+	  	
+	  	
+	 
+	  	
+	  	
+	  	
 	  	
 	  	JPanel panel = new JPanel();
-	  	add(panel, "cell 1 5,grow");
+	  	add(panel, "cell 1 3,grow");
 	  	panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 	  	
@@ -158,29 +221,24 @@ public class PanelCraft extends JPanel{
 	  	inv_plante3.setName("3");
 	  	inv_plante4.setName("4");
 	  	
-	  	
-	  	InventaireDao inventairedao = new InventaireDao();
-	  	ArrayList<Inventaire> invs = new ArrayList<Inventaire>();
-	  	
-	  	invs = inventairedao.getInventaireByIdAccount(1);
-	  	int qte=0;
-	  	
-	  	for (Inventaire inv : invs) {
-	  		qte=inv.getQuantite();
-	  		System.out.println(inv);
-	  	}
+	  	int qteplante1 = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 1);
+	  	int qteplante2 = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 2);
+	  	int qteplante3 = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 3);
+	  	int qteplante4 = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 4);
 	  	
 	  	
-	  	inv_plante1.setText(qte+" Dispo");
+	  	
+	  	
+	  	inv_plante1.setText(qteplante1+" Dispo");
 	  	inv_plante1.setVerticalTextPosition(JLabel.BOTTOM);
 	  	inv_plante1.setHorizontalTextPosition(JLabel.CENTER);
-	  	inv_plante2.setText(qte+" Dispo");
+	  	inv_plante2.setText(qteplante2+" Dispo");
 	  	inv_plante2.setVerticalTextPosition(JLabel.BOTTOM);
 	  	inv_plante2.setHorizontalTextPosition(JLabel.CENTER);
-	  	inv_plante3.setText(qte+" Dispo");
+	  	inv_plante3.setText(qteplante3+" Dispo");
 	  	inv_plante3.setVerticalTextPosition(JLabel.BOTTOM);
 	  	inv_plante3.setHorizontalTextPosition(JLabel.CENTER);
-	  	inv_plante4.setText(qte+" Dispo");
+	  	inv_plante4.setText(qteplante4+" Dispo");
 	  	inv_plante4.setVerticalTextPosition(JLabel.BOTTOM);
 	  	inv_plante4.setHorizontalTextPosition(JLabel.CENTER);
 	  	inv_plante1.setIcon(new ImageIcon(iconPlante1));
@@ -190,32 +248,32 @@ public class PanelCraft extends JPanel{
         
         panel.add(inv_plante1);
         
-        JSpinner spinner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qte,
+        JSpinner spinner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante1,
                 1));
         
         int w = spinner.getWidth();   int h = spinner.getHeight();
         panel.add(spinner);
         panel.add(inv_plante2);
         
-        JSpinner spinner_1 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qte,
+        JSpinner spinner_1 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante2,
                 1));
         spinner_1.setMinimumSize(new Dimension(w*2,h));
         panel.add(spinner_1);
         panel.add(inv_plante3);
         
-        JSpinner spinner_2 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qte,
+        JSpinner spinner_2 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante3,
                 1));
         spinner_2.setMinimumSize(new Dimension(w*2,h));
         panel.add(spinner_2);
         panel.add(inv_plante4);
         
-        JSpinner spinner_3 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qte,
+        JSpinner spinner_3 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante4,
                 1));
         spinner_3.setMinimumSize(new Dimension(w*2,h));
         panel.add(spinner_3);
         
         JPanel panel_3 = new JPanel();
-        add(panel_3, "cell 1 7,grow");
+        add(panel_3, "cell 1 4,grow");
         
         JButton btnCraft= new JButton(new ImageIcon(iconCraft));
         btnCraft.setBorderPainted(false);
