@@ -121,7 +121,7 @@ public class MainFrame {
 				null);
 		
 		AccountDao accountDao = new AccountDao();
-		System.out.println(accountDao.insertNewAccount(accountInsert)); // insertion retourne TRUE si OK ou false si KO 
+		//System.out.println(accountDao.insertNewAccount(accountInsert)); // insertion retourne TRUE si OK ou false si KO 
 		
 		// meme principe que plus haut, je liste tous les account de la table pour verifier mon insetion. 
 		// Je peux aussi verfier avec l'API (http://veggiecrush.masi-henallux.be:8080/rest_server/api/account/getAllAccounts)
@@ -138,7 +138,7 @@ public class MainFrame {
 		for (Account account : accounts) {
 			logger.debug(account.toString());
 		}
-		
+		/*
 		
 	   JPanel[] tPan = {   new PanelJeu(), new PanelCraft(), new PanelDemandes(Color.BLUE)};
 
@@ -153,7 +153,7 @@ public class MainFrame {
 	    frame.setVisible(true);
 	    frame.setResizable(false);
 		frame.setBounds(100, 100, 900, 750);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); */
 	}
 
 }
