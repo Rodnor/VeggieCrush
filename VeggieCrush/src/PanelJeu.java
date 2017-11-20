@@ -8,6 +8,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -74,6 +76,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 		canvas = new JPanel();
 		add(canvas, "cell 0 2 3 5,alignx center,aligny center");
 		canvas.setLayout(new GridLayout(9, 9, -14, -10));
+		
+		fillEmptyCanvas();
 
 		ImageIcon icon=null;
 		try {
@@ -255,6 +259,9 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void fillCanvas() {
+
+		canvas.removeAll();
+
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++)
 			{
@@ -308,6 +315,24 @@ public class PanelJeu extends JPanel implements ActionListener {
 		}
 	}
 
+	public void fillEmptyCanvas() {
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++)
+			{
+				try {
+					b[i][j] = new JButton(new ImageIcon(ImageIO.read(new File("images/vide.png"))));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				b[i][j].setBorderPainted(false);
+				b[i][j].setFocusPainted(false);
+				b[i][j].setContentAreaFilled(false);
+				canvas.add(b[i][j]);
+			}
+		}
+	}
+
 	public void finDePartie() {
 		System.out.println("Fin du game !");
 
@@ -338,9 +363,17 @@ public class PanelJeu extends JPanel implements ActionListener {
 		}
 
 		lblScore.setText("Score : "+(herbe1.size()*pointDeBase*multiplicateurBonus1+herbe2.size()*pointDeBase*multiplicateurBonus2+herbe3.size()*pointDeBase*multiplicateurBonus3+herbe4.size()*pointDeBase*multiplicateurBonus4));
-		
+
 		// on reset les éléments du jeu
-		resetElements();
+		int option = JOptionPane.showConfirmDialog(null, "Voulez-vous rejouer ?", "Fin de partie !", JOptionPane.YES_NO_OPTION);
+
+		if(option == JOptionPane.YES_OPTION){
+			resetElements();
+		}
+
+		if(option == JOptionPane.NO_OPTION){
+			System.exit(0);
+		}
 	}
 
 	public void explorer(JButton graphe[][], JButton bouton, int rowCurrentButton, int colCurrentButton, ArrayList<JButton> liste) {
@@ -358,11 +391,11 @@ public class PanelJeu extends JPanel implements ActionListener {
 			}
 		}
 	}
-	
+
 	public void resetElements() {
 		tempsTotal = 3;
 		nombreCoups = 25;
-				
+
 		canvas.removeAll();
 		revalidate();
 		repaint();
@@ -374,13 +407,16 @@ public class PanelJeu extends JPanel implements ActionListener {
 		nbHerbe3.setText(String.valueOf(0+herbe3Bonus));
 		nbHerbe4.setText(String.valueOf(0+herbe4Bonus));
 		lblTimer.setText("Temps restant : "+String.valueOf(tempsTotal));
-		
+
 		herbe1.clear();
 		herbe2.clear();
 		herbe3.clear();
 		herbe4.clear();
-		// attente
+		
+		fillEmptyCanvas();
+
 		btnJouer.setVisible(true);
+		//btnJouer.doClick();
 	}
 
 	public void sendDatasToDatabase() {
