@@ -69,7 +69,6 @@ public class FactionDao {
 
 			final ResultSet rset = stmt.executeQuery();
 			while (rset.next()) {
-				logger.debug("MiPa, une ligne trouvée");
 				faction = mappingFaction(rset);
 			}
 		} catch (SQLException e) {
@@ -98,7 +97,6 @@ public class FactionDao {
 		final int id = rset.getInt("id");
 		final String name = rset.getString("name");
 		final Faction faction = new Faction(id, name);
-		logger.debug("construction de l'objet" + faction.toString());
 		return faction;
 	}
 	
