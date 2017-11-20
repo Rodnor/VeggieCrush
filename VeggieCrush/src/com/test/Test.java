@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import com.dao.AccountDao;
+import com.dao.InventaireDao;
 import com.dao.ObjetDao;
+import com.entitie.Inventaire;
 import com.entitie.Objet;
 import com.entitie.TypeObjet;
 
@@ -23,13 +25,27 @@ public class Test {
 			logger.debug(objet.toString());
 		}
 		
-		Objet objetAinserer = new Objet(0, "Nouvel Objet de Java", TypeObjet.amelioration);
+		//Objet objetAinserer = new Objet(0, "Nouvel Objet de Java", TypeObjet.amelioration);
 		//objetDao.insertNewObjet(objetAinserer);
 		
 		System.out.println("plante1 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 1));
 		System.out.println("plante2 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 2));
 		System.out.println("plante3 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 3));
 		System.out.println("plante4 : "+objetDao.getNbObjetByIdAccountAndByIdObjet(1, 4));
+		
+		InventaireDao inventaireDao = new InventaireDao(); // je crée un inventaireDao pour acceder à la table 
+
+		Inventaire inventaireAInserer = new Inventaire(1, 1, 4);
+		inventaireDao.insertNewInventaire(inventaireAInserer);
+		
+		
+
+		ArrayList<Inventaire> inventaires = new ArrayList<Inventaire>(); // je prépare ma liste de retour
+		inventaires = inventaireDao.getInventaireByIdAccount(1); // je recupere tous les objets de la table inventaire avec un id_accoun =1
+
+		for (Inventaire inventaire : inventaires) { // J'affiche les objets trouvés
+				logger.debug("inv : "+inventaire.toString());
+		}
 
 		
 	/**	int nb = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 1); //idAccount, idObjet

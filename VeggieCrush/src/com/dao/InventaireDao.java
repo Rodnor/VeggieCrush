@@ -23,7 +23,9 @@ public class InventaireDao {
 	private final static String QUERY_FIND_BY_ID_ACCOUNT_AND_BY_ID_OBJET = 	"SELECT * FROM INVENTAIRE WHERE id_user = ? AND id_objet = ?";
 	
 	private final static String QUERY_INSERT = "INSERT INTO INVENTAIRE (id_objet, id_user, qte) values (?, ?, ?)";
+	private final static String QUERY_UPDATE = "UPDATE INVENTAIRE SET qte = ? WHERE id_user = ? AND id_objet = ?";
 
+	
 	final static Logger logger = Logger.getLogger(InventaireDao.class.getName());
 
 	public ArrayList<Inventaire> getAllInventaires() {
@@ -120,10 +122,23 @@ public class InventaireDao {
 		try {
 			con = Connecteur.getConnexion();
 
-			stmt = con.prepareStatement(QUERY_INSERT);
-			stmt.setInt(1, inventaire.getId_objet());
-			stmt.setInt(2, inventaire.getId_user());
-			stmt.setInt(3, inventaire.getQuantite());
+			ObjetDao objetDao = new ObjetDao();
+			int nbObjetDejaPresent = objetDao.getNbObjetByIdAccountAndByIdObjet(inventaire.getId_user(), inventaire.getId_objet());
+			
+			logger.debug("nbObjet"+nbObjetDejaPresent);
+			if (nbObjetDejaPresent == 0 ) {
+				stmt = con.prepareStatement(QUERY_INSERT);
+				stmt.setInt(1, inventaire.getId_objet());
+				stmt.setInt(2, inventaire.getId_user());
+				stmt.setInt(3, inventaire.getQuantite());
+				
+			} else {
+				stmt = con.prepareStatement(QUERY_UPDATE);
+				stmt.setInt(1, inventaire.getQuantite());
+				stmt.setInt(2, inventaire.getId_user());
+				stmt.setInt(3, inventaire.getId_objet());
+				
+			}
 			
 			stmt.execute();
 		} catch (SQLException e) {
