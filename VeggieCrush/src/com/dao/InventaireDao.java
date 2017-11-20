@@ -134,7 +134,7 @@ public class InventaireDao {
 				
 			} else {
 				stmt = con.prepareStatement(QUERY_UPDATE);
-				stmt.setInt(1, inventaire.getQuantite());
+				stmt.setInt(1, nbObjetDejaPresent+inventaire.getQuantite());
 				stmt.setInt(2, inventaire.getId_user());
 				stmt.setInt(3, inventaire.getId_objet());
 				
