@@ -53,6 +53,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private ArrayList<JButton> herbe3 = new ArrayList<JButton>();
 	private ArrayList<JButton> herbe4 = new ArrayList<JButton>();
 	private JLabel lblScore;
+	private int scoreTotal;
 	private int pointDeBase=20;
 	private JButton btnJouer;
 	private int multiplicateurBonus1=1;
@@ -76,7 +77,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		canvas = new JPanel();
 		add(canvas, "cell 0 2 3 5,alignx center,aligny center");
 		canvas.setLayout(new GridLayout(9, 9, -14, -10));
-		
+
 		fillEmptyCanvas();
 
 		ImageIcon icon=null;
@@ -360,10 +361,12 @@ public class PanelJeu extends JPanel implements ActionListener {
 			multiplicateurBonus4=2;
 		}
 
-		lblScore.setText("Score : "+(herbe1.size()*pointDeBase*multiplicateurBonus1+herbe2.size()*pointDeBase*multiplicateurBonus2+herbe3.size()*pointDeBase*multiplicateurBonus3+herbe4.size()*pointDeBase*multiplicateurBonus4));
+		scoreTotal = herbe1.size()*pointDeBase*multiplicateurBonus1+herbe2.size()*pointDeBase*multiplicateurBonus2+herbe3.size()*pointDeBase*multiplicateurBonus3+herbe4.size()*pointDeBase*multiplicateurBonus4;
+
+		lblScore.setText("Score : "+scoreTotal);
 
 		sendDatasToDatabase();
-		
+
 		// on reset les éléments du jeu
 		int option = JOptionPane.showConfirmDialog(null, "Voulez-vous rejouer ?", "Fin de partie !", JOptionPane.YES_NO_OPTION);
 
@@ -412,7 +415,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		herbe2.clear();
 		herbe3.clear();
 		herbe4.clear();
-		
+
 		fillEmptyCanvas();
 
 		btnJouer.setVisible(true);
@@ -420,45 +423,69 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void sendDatasToDatabase() {
+		int nb1;
+		int nb2;
+		int nb3;
+		int nb4;
+
+		if(scoreTotal < 500) {
+			nb1 = 0;
+			nb2 = 0;
+			nb3 = 0;
+			nb4 = 0;
+		} else if (scoreTotal < 1000) {
+			nb1 = herbe1.size()/2;
+			nb2 = herbe2.size()/2;
+			nb3 = herbe3.size()/2;
+			nb4 = herbe4.size()/2;
+		} else if (scoreTotal < 2000) {
+			nb1 = herbe1.size();
+			nb2 = herbe2.size();
+			nb3 = herbe3.size();
+			nb4 = herbe4.size();
+		} else {
+			nb1 = herbe1.size()*2;
+			nb2 = herbe2.size()*2;
+			nb3 = herbe3.size()*2;
+			nb4 = herbe4.size()*2;
+		}
+
 		InventaireDao inventaireDao = new InventaireDao();
-		
-		Inventaire inventaireAInserer = new Inventaire(1, 1, herbe1.size());
+
+		Inventaire inventaireAInserer = new Inventaire(1, 1, nb1);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
-		
+
 		ArrayList<Inventaire> inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 1);
-		
+
 		for (Inventaire inventaire : inventaires) {
 			System.out.println("user 1, objet 1 : "+inventaire.toString());
 		}
-		
-		inventaireAInserer = new Inventaire(1, 2, herbe2.size());
+
+		inventaireAInserer = new Inventaire(1, 2, nb2);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
-		
 		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 2);
-		
+
 		for (Inventaire inventaire : inventaires) {
 			System.out.println("user 1, objet 2 : "+inventaire.toString());
 		}
-		
-		inventaireAInserer = new Inventaire(1, 3, herbe3.size());
+
+		inventaireAInserer = new Inventaire(1, 3, nb3);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
-		
+
 		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 3);
-		
+
 		for (Inventaire inventaire : inventaires) {
 			System.out.println("user 1, objet 3 : "+inventaire.toString());
 		}
-		
-		
-		inventaireAInserer = new Inventaire(1, 4, herbe4.size());
+
+		inventaireAInserer = new Inventaire(1, 4, nb4);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
-		
+
 		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 4);
-		
+
 		for (Inventaire inventaire : inventaires) {
 			System.out.println("user 1, objet 4 : "+inventaire.toString());
 		}
-		
 	}
 }
