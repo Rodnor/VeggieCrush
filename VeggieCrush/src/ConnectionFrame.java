@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.dao.AccountDao;
+import com.entitie.Account;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -113,7 +117,11 @@ public class ConnectionFrame extends JFrame implements ActionListener {
 			JButton btn = (JButton) e.getSource();
 
 			if(btn.getActionCommand().equals("connexion")) {
-				if(tf_pseudo.getText().equals("chaton") && String.valueOf(passwordField.getPassword()).equals("biche")) {
+				AccountDao adao = new AccountDao();
+				
+				Account account = adao.getAccountById(1);
+				
+				if(tf_pseudo.getText().equals(account.getUsername()) && String.valueOf(passwordField.getPassword()).equals(account.getPassword())) {
 					MainFrame frame = new MainFrame();
 					this.dispose();
 				}
