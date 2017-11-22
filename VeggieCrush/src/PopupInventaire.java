@@ -33,7 +33,7 @@ public class PopupInventaire extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public PopupInventaire() {
-		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 500);
 		setTitle("Inventaire");
 		contentPane = new JPanel();
@@ -62,7 +62,6 @@ public class PopupInventaire extends JFrame implements ActionListener{
 			}
 		}
 		
-		System.out.println("cpt : "+cpt);
 		btnPnl1.setLayout(new GridLayout(cpt,10, 25, 25));
 		btnPnl1.setSize(new Dimension(500,500));
 	  	
