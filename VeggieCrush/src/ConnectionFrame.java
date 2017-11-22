@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.dao.AccountDao;
 import com.entitie.Account;
+import com.utils.Utils;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -136,16 +137,20 @@ public class ConnectionFrame implements ActionListener {
 			if(btn.getActionCommand().equals("connexion")) {
 				AccountDao adao = new AccountDao();
 				
-				Account account = adao.getAccountById(1);
-				
+				String securePass = Utils.get_SHA_512_SecurePassword(passwordField.getPassword().toString());
+				//Account account = adao.getAccountById(1);
+				Account account = adao.getAccountByUsername(tf_pseudo.getText());
 				// test champs vides
 				// test utilisateur présent dans la BD ou celle des autres
 				// test correspondance username + MDP
-				if(tf_pseudo.getText().equals(account.getUsername()) && String.valueOf(passwordField.getPassword()).equals(account.getPassword())) {
+				// TODO verfifier mot de passe dans une autre API
+				if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && String.valueOf(securePass).equals(account.getPassword())) {
 					MainFrame frame = new MainFrame();
 					this.frame.dispose();
 				} else {
 					// popup échec connexion
+					
+					System.out.println("MiPa");
 				}
 			} else if (btn.getActionCommand().equals("creer")) {
 				CreationCompteFrame creationCompteFrame = new CreationCompteFrame();

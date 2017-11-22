@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.dao.AccountDao;
 import com.entitie.Account;
+import com.utils.Utils;
 
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
@@ -104,10 +105,31 @@ public class CreationCompteFrame implements ActionListener {
 					// test regexp sur adresse mail + test sur pseudo
 					// test si personne existe dans la BD et dans celle des autres. Si non, on insère. Si oui, message comme quoi personne existe déjà
 					// test sur les mdp s'ils sont identiques
-					
-					//Account account = new Account(id, id_global, username, email, password, id_faction, created_at, updated_at, deleted_at);
 					Account account = new Account();
-					adao.insertNewAccount(account);
+					
+
+					String securePass = Utils.get_SHA_512_SecurePassword(mdp.getPassword().toString());
+
+					account = adao.getAccountByUsername(pseudo.getText());
+					if (account == null){ 
+						if(Utils.usernameExistDansUneAutreAppli(pseudo.getText(), securePass) == null) {// ()
+							//rajouter le test sur les autre appli Utils.usernameExistDansUneAutreAppli(pseudo.getText());
+							// creer un compte
+							System.out.println("On peut créer");
+						} else { 
+							System.out.println("On ne peut pas créer, existe deja chez les autres ");
+							// erreur, existe chez les autres + retourne le nom de l'Appli
+						}
+						
+						// créer 
+					} else {
+						System.out.println("On ne peut pas créer, existe déjà");
+
+						// erreur , deja existant chez nous
+						
+					}
+					//Account account = new Account(id, id_global, username, email, password, id_faction, created_at, updated_at, deleted_at);
+//					adao.insertNewAccount(account);
 					
 					// message compte créé
 					
