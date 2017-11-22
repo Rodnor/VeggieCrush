@@ -6,6 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.dao.AccountDao;
+import com.entitie.Account;
+
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -20,6 +24,7 @@ public class CreationCompteFrame implements ActionListener {
 	private JTextField mail;
 	private JPasswordField mdp;
 	private JPasswordField mdp_confirm;
+	private AccountDao adao = new AccountDao();
 
 	/**
 	 * Launch the application.
@@ -96,7 +101,15 @@ public class CreationCompteFrame implements ActionListener {
 
 			if(btn.getActionCommand().equals("creer")) {
 				if(!pseudo.getText().equals("") && !mail.getText().equals("") && !String.valueOf(mdp.getPassword()).equals("") && !String.valueOf(mdp_confirm.getPassword()).equals("")) {
+					// test regexp sur adresse mail + test sur pseudo
 					// test si personne existe dans la BD et dans celle des autres. Si non, on insère. Si oui, message comme quoi personne existe déjà
+					// test sur les mdp s'ils sont identiques
+					
+					//Account account = new Account(id, id_global, username, email, password, id_faction, created_at, updated_at, deleted_at);
+					Account account = new Account();
+					adao.insertNewAccount(account);
+					
+					// message compte créé
 					
 					this.frame.dispose();
 				} else {
