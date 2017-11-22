@@ -138,6 +138,9 @@ public class ConnectionFrame implements ActionListener {
 				
 				Account account = adao.getAccountById(1);
 				
+				// test champs vides
+				// test utilisateur présent dans la BD ou celle des autres
+				// test correspondance username + MDP
 				if(tf_pseudo.getText().equals(account.getUsername()) && String.valueOf(passwordField.getPassword()).equals(account.getPassword())) {
 					MainFrame frame = new MainFrame();
 					this.frame.dispose();
