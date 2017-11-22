@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 public final class Utils {
 	
@@ -29,6 +30,10 @@ public final class Utils {
 		
 	}
 
+	
+	public static UUID generateUuid (){
+		 return UUID.randomUUID();
+	}
 
 	public static String get_SHA_512_SecurePassword(String passwordToHash){
 	String generatedPassword = null;
