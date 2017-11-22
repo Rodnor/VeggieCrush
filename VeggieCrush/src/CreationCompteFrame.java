@@ -115,7 +115,9 @@ public class CreationCompteFrame implements ActionListener {
 						if(Utils.usernameExistDansUneAutreAppli(pseudo.getText(), securePass) == null) {// ()
 							//rajouter le test sur les autre appli Utils.usernameExistDansUneAutreAppli(pseudo.getText());
 							// creer un compte
-							System.out.println("On peut créer");
+							
+							String uuidString = Utils.generateUuid().toString();
+							System.out.println("On peut créer avec uuid "+uuidString);
 						} else { 
 							System.out.println("On ne peut pas créer, existe deja chez les autres ");
 							// erreur, existe chez les autres + retourne le nom de l'Appli
