@@ -1,10 +1,14 @@
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.Logger;
 
@@ -56,6 +60,24 @@ public class MainFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (UnsupportedLookAndFeelException e) {
+		    // handle exception
+		} catch (ClassNotFoundException e) {
+		    // handle exception
+		} catch (InstantiationException e) {
+		    // handle exception
+		} catch (IllegalAccessException e) {
+		    // handle exception
+		}
+
+
 		frame = new JFrame();
 	    frame.setTitle("Jeu");
 	    
@@ -66,7 +88,6 @@ public class MainFrame {
 	    onglet.add("Craft", tPan[1]);
 	    onglet.add("Demandes", tPan[2]);
 
-
 	    frame.getContentPane().add(onglet);
 
 	    frame.setVisible(true);
@@ -74,6 +95,8 @@ public class MainFrame {
 		frame.setBounds(100, 100, 900, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setLocationRelativeTo(null);
+	    
+	    frame.getContentPane().setForeground(Color.RED);
 	}
 
 }

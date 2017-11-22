@@ -89,7 +89,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		canvas = new JPanel();
 		add(canvas, "cell 0 2 3 5,alignx center,aligny center");
-		canvas.setLayout(new GridLayout(9, 9, -14, -10));
+		canvas.setLayout(new GridLayout(9, 9, -25, -10));
 
 		fillEmptyCanvas();
 
@@ -518,10 +518,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void playMusic() {
-		/*AudioPlayer ap = AudioPlayer.player;
-		AudioStream as;
-		AudioData ad;
-		ContinuousAudioDataStream loop = null;*/
 
 		try {
 			File file = new File("sounds/music.wav"); 
@@ -529,24 +525,19 @@ public class PanelJeu extends JPanel implements ActionListener {
 			try {
 				clip = AudioSystem.getClip();
 			} catch (LineUnavailableException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
 			try {
 				clip.open(AudioSystem.getAudioInputStream(file));
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
 			} catch (LineUnavailableException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (UnsupportedAudioFileException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			clip.loop(clip.LOOP_CONTINUOUSLY);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
