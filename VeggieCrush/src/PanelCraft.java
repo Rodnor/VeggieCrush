@@ -49,12 +49,12 @@ public class PanelCraft extends JPanel{
 	 *  Modification à la ligne 37
 	 */
 	  
-	  protected JComponent makeTextPanel(String text) {
+	  protected JComponent makeTextPanel(/*String text*/ int size) {
 	        JPanel panel = new JPanel(false);
-	        JLabel filler = new JLabel(text);
-	        filler.setHorizontalAlignment(JLabel.CENTER);
-	        panel.setLayout(new GridLayout(1, 1));
-	        panel.add(filler);
+	        /*JLabel filler = new JLabel(text);
+	        filler.setHorizontalAlignment(JLabel.CENTER);*/
+	        panel.setLayout(new GridLayout(1, size));
+	        //panel.add(filler);
 	        return panel;
 	    }
 
@@ -127,23 +127,116 @@ public class PanelCraft extends JPanel{
 	  	
 	  	JTabbedPane tabbedPane = new JTabbedPane();
 	  	
-	  	JComponent panel1 = makeTextPanel("Panel #1");
+	  	JComponent panel1 = makeTextPanel(10);
+	  	
+	  	
+	  	JPanel btnPnl1 = new JPanel();
+
+	    ArrayList<String> projectNameList1 = new ArrayList<String>();
+	    for (int index = 0; index < 10; index++) {
+	        projectNameList1.add("Project " + index);
+	    }
+	    String[] projectNames1 = projectNameList1.toArray(new String[0]);
+
+	    // Adding buttons to the project
+	    JLabel[] buttons1 = new JLabel[projectNameList1.size()];
+	    try {
+	        for (int i = 0; i < projectNames1.length; i++) {
+	            buttons1[i] = new JLabel();
+	            buttons1[i].setIcon(new ImageIcon(iconVide));
+	            btnPnl1.add(buttons1[i]);
+
+	        }
+	    } catch (Exception e2) {
+	        JOptionPane.showMessageDialog(null, e2);
+	    }
+
+	    panel1.add(new JScrollPane(btnPnl1), BorderLayout.CENTER);
 
 	  	tabbedPane.addTab("Tab 1", panel1);
 
-	  	JComponent panel2 = makeTextPanel("Panel #2");
+	  	JComponent panel2 = makeTextPanel(3);
+	  	
+	  	JPanel btnPnl2 = new JPanel();
+
+	    ArrayList<String> projectNameList2 = new ArrayList<String>();
+	    for (int inde2 = 0; inde2 < 3; inde2++) {
+	        projectNameList2.add("Project " + inde2);
+	    }
+	    String[] projectNames2 = projectNameList2.toArray(new String[0]);
+
+	    // Adding buttons to the project
+	    JLabel[] buttons2 = new JLabel[projectNameList2.size()];
+	    try {
+	        for (int i = 0; i < projectNames2.length; i++) {
+	            buttons2[i] = new JLabel();
+	            buttons2[i].setIcon(new ImageIcon(iconVide));
+	            btnPnl2.add(buttons2[i]);
+
+	        }
+	    } catch (Exception e2) {
+	        JOptionPane.showMessageDialog(null, e2);
+	    }
+	  	
+	    panel2.add(new JScrollPane(btnPnl2), BorderLayout.CENTER);
 	  	tabbedPane.addTab("Tab 2", panel2);
 
-	  	JComponent panel3 = makeTextPanel("Panel #3");
+	  	JComponent panel3 = makeTextPanel(5);
+	  	
+	  	JPanel btnPnl3 = new JPanel();
+
+	    ArrayList<String> projectNameList3 = new ArrayList<String>();
+	    for (int inde3 = 0; inde3 < 5; inde3++) {
+	        projectNameList3.add("Project " + inde3);
+	    }
+	    String[] projectNames3 = projectNameList3.toArray(new String[0]);
+
+	    // Adding buttons to the project
+	    JLabel[] buttons3 = new JLabel[projectNameList3.size()];
+	    try {
+	        for (int i = 0; i < projectNames3.length; i++) {
+	            buttons3[i] = new JLabel();
+	            buttons3[i].setIcon(new ImageIcon(iconVide));
+	            btnPnl3.add(buttons3[i]);
+
+	        }
+	    } catch (Exception e2) {
+	        JOptionPane.showMessageDialog(null, e2);
+	    }
+	  	
+	    panel3.add(new JScrollPane(btnPnl3), BorderLayout.CENTER);
 	  	tabbedPane.addTab("Tab 3", panel3);
 
-	  	JComponent panel4 = makeTextPanel(
-	  	        "Panel #4");
+	  	JComponent panel4 = makeTextPanel(2);
 	  	
-	  	panel1.setPreferredSize(new Dimension(500, 60));
-	  	panel2.setPreferredSize(new Dimension(500, 60));
-	  	panel3.setPreferredSize(new Dimension(500, 60));
-	  	panel4.setPreferredSize(new Dimension(500, 60));
+	  	JPanel btnPnl4 = new JPanel();
+
+	    ArrayList<String> projectNameList4 = new ArrayList<String>();
+	    for (int inde4 = 0; inde4 < 2; inde4++) {
+	        projectNameList4.add("Project " + inde4);
+	    }
+	    String[] projectNames4 = projectNameList4.toArray(new String[0]);
+
+	    // Adding buttons to the project
+	    JLabel[] buttons4 = new JLabel[projectNameList4.size()];
+	    try {
+	        for (int i = 0; i < projectNames4.length; i++) {
+	            buttons4[i] = new JLabel();
+	            buttons4[i].setIcon(new ImageIcon(iconVide));
+	            btnPnl4.add(buttons4[i]);
+
+	        }
+	    } catch (Exception e2) {
+	        JOptionPane.showMessageDialog(null, e2);
+	    }
+	  	
+	  	
+	  	panel1.setPreferredSize(new Dimension(500, 80));
+	  	panel2.setPreferredSize(new Dimension(500, 80));
+	  	panel3.setPreferredSize(new Dimension(500, 80));
+	  	panel4.setPreferredSize(new Dimension(500, 80));
+	  	
+	  	panel4.add(new JScrollPane(btnPnl4), BorderLayout.CENTER);
 	  	tabbedPane.addTab("Tab 4", panel4);
 	  	
 	  	panel_1.add(tabbedPane);
