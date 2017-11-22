@@ -164,9 +164,14 @@ public class PanelJeu extends JPanel implements ActionListener {
 			@Override
 			public void itemStateChanged(ItemEvent ev) {
 				if(ev.getStateChange()==ItemEvent.SELECTED){
-					clip.stop();
+					if(clip != null) {
+						clip.stop();
+					}					
 				} else if(ev.getStateChange()==ItemEvent.DESELECTED){
-					clip.start();
+					if(clip != null) {
+						clip.start();
+						clip.loop(Clip.LOOP_CONTINUOUSLY);
+					}
 				}
 			}
 		});
