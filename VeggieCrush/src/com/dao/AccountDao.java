@@ -23,7 +23,8 @@ public class AccountDao {
 	private final static String QUERY_FIND_ALL = "SELECT * FROM ACCOUNT";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM ACCOUNT WHERE ID = ?";
 	private final static String QUERY_INSERT = "INSERT INTO ACCOUNT (id_global, id_faction, username, password, email, created_at, updated_at, deleted_at) values (?, ?, ?, ?, ?, ?, ?, ?)";
-	
+	private final static String QUERY_FIND_BY_USERNAME = "SELECT * FROM ACCOUNT WHERE USERNAME = ?";
+	private final static String QUERY_FIND_BY_UID = "SELECT * FROM ACCOUNT WHERE id_global = ?";
 
 	public ArrayList<Account> getAllAccounts() {
 		Connection connexion = null;
@@ -93,6 +94,10 @@ public class AccountDao {
 				}
 			}
 		}
+		
+		if (account.getId() == 0){
+			return null;
+		}
 		return account;
 	}
 
@@ -128,26 +133,22 @@ public class AccountDao {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		Boolean errorInsert = false;
-		
 
 		try {
 			con = Connecteur.getConnexion();
 			Calendar calendar = Calendar.getInstance();
-			java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
-			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-			
-			//VALUES ('0', '85', '1', 'pouloulou', 'michard', 'ouh@lol.fr', '20130405', '2013-10-20 20:18:01', '');
+			Date startDate = new java.sql.Date(calendar.getTime().getTime());
 
 			// create the mysql insert preparedstatement
 			stmt = con.prepareStatement(QUERY_INSERT);
 			stmt.setString(1, account.getGlobalID());
 			stmt.setInt(2, account.getId_faction());
 			stmt.setString(3, account.getUsername());
-			stmt.setString(4, account.getPassword()); // TODO
+			stmt.setString(4, account.getPassword());
 			stmt.setString(5, account.getEmail());
 			stmt.setDate(6, startDate);
-			stmt.setDate(7, null);//df.format(account.getCreatedAT()));
-			stmt.setDate(8, null);//null);
+			stmt.setDate(7, null);
+			stmt.setDate(8, null);
 
 			stmt.execute();
 		} catch (SQLException e) {
@@ -171,6 +172,89 @@ public class AccountDao {
 			}
 		}
 		return errorInsert;
+	}
+	
+	
+	public Account getAccounByUid(String uid) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		Account account = new Account();
+		try {
+			con = Connecteur.getConnexion();
+			stmt = con.prepareStatement(QUERY_FIND_BY_UID);
+			stmt.setString(1, uid);
+
+			final ResultSet rset = stmt.executeQuery();
+			while (rset.next()) {
+				logger.debug("MiPa, une ligne trouvée");
+				account = mappingAccount(rset);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		if (account.getId() == 0){
+			return null;
+		}
+		return account;
+	}
+	
+	
+	public Account getAccountByUsername(String username) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		Account account = new Account();
+		try {
+			con = Connecteur.getConnexion();
+			stmt = con.prepareStatement(QUERY_FIND_BY_USERNAME);
+			stmt.setString(1, username.toLowerCase());
+
+			final ResultSet rset = stmt.executeQuery();
+			while (rset.next()) {
+				logger.debug("MiPa, une ligne trouvée");
+				account = mappingAccount(rset);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		if (account.getId() == 0){
+			return null;
+		}
+		return account;
 	}
 
 }
