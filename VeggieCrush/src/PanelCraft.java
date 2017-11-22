@@ -61,7 +61,7 @@ public class PanelCraft extends JPanel{
 	  
 	  
 	public PanelCraft(){
-	  	setLayout(new MigLayout("", "[][grow][]", "[100px:100px:100px,grow][200px:200px:200px,grow][150px:150px:150px,grow][80px:80px:80px,grow][]"));
+	  	setLayout(new MigLayout("", "[][grow][]", "[150px:150px:150px][grow][80px:80px:80px,grow][]"));
 	  	
 	  	BufferedImage iconPlante1=null;
 	  	BufferedImage iconPlante2=null;
@@ -122,8 +122,8 @@ public class PanelCraft extends JPanel{
 	  		e.printStackTrace();
 	  	}
 	  	
-	  	JPanel panel_1 = new JPanel();
-	  	add(panel_1, "cell 1 0,grow");
+	  	JPanel panel_listeRecette = new JPanel();
+	  	add(panel_listeRecette, "cell 1 0,grow");
 	  	
 	  	JTabbedPane tabbedPane = new JTabbedPane();
 	  	
@@ -231,46 +231,26 @@ public class PanelCraft extends JPanel{
 	    }
 	  	
 	  	
-	  	panel1.setPreferredSize(new Dimension(500, 80));
-	  	panel2.setPreferredSize(new Dimension(500, 80));
-	  	panel3.setPreferredSize(new Dimension(500, 80));
-	  	panel4.setPreferredSize(new Dimension(500, 80));
+	  	panel1.setPreferredSize(new Dimension(500, 90));
+	  	panel2.setPreferredSize(new Dimension(500, 90));
+	  	panel3.setPreferredSize(new Dimension(500, 90));
+	  	panel4.setPreferredSize(new Dimension(500, 90));
 	  	
 	  	panel4.add(new JScrollPane(btnPnl4), BorderLayout.CENTER);
 	  	tabbedPane.addTab("Tab 4", panel4);
 	  	
-	  	panel_1.add(tabbedPane);
-	  	
-	  	JPanel panel_4 = new JPanel();
-	  	add(panel_4, "cell 1 1,grow");
-	  	
-	  	JLabel lblNewLabel = new JLabel("Informations sur recette :");
-	  	panel_4.add(lblNewLabel);
+	  	panel_listeRecette.add(tabbedPane);
 	  	
 	  	invs = inventairedao.getInventaireByIdAccount(1);
 	  	int nbRow = invs.size()%5;
-	  
-	  
 	  	
-	  	JPanel panel_5 = new JPanel();
-	  	add(panel_5, "cell 1 2,grow");
+	  	JPanel panel_infoRecette = new JPanel();
+	  	add(panel_infoRecette, "cell 1 1,grow");
+	  	panel_infoRecette.setLayout(new BorderLayout(0, 0));
 	  	
-	  	JButton btnInventaire= new JButton(new ImageIcon(iconInventaire));
-	  	btnInventaire.setBorderPainted(false);
-	  	btnInventaire.setFocusPainted(false);
-	  	btnInventaire.setContentAreaFilled(false);
-	  	
-	  	btnInventaire.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				PopupInventaire inventaire = new PopupInventaire();
-				inventaire.setVisible(true);
-			}
-		});
-	  	
-	  	
-	    panel_5.add(btnInventaire);
+	  	JLabel lblNewLabel = new JLabel("Information sur la recette");
+	  	lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
+	  	panel_infoRecette.add(lblNewLabel, BorderLayout.NORTH);
 	    
 	  	
 	  	
@@ -279,9 +259,9 @@ public class PanelCraft extends JPanel{
 	  	
 	  	
 	  	
-	  	JPanel panel = new JPanel();
-	  	add(panel, "cell 1 3,grow");
-	  	panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+	  	JPanel panel_listeRessources = new JPanel();
+	  	add(panel_listeRessources, "cell 1 2,grow");
+	  	panel_listeRessources.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 	  	
 	  	
@@ -320,40 +300,55 @@ public class PanelCraft extends JPanel{
 	  	inv_plante3.setIcon(new ImageIcon(iconPlante3));
 	  	inv_plante4.setIcon(new ImageIcon(iconPlante4));
         
-        panel.add(inv_plante1);
+        panel_listeRessources.add(inv_plante1);
         
         JSpinner spinner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante1,
                 1));
         
         int w = spinner.getWidth();   int h = spinner.getHeight();
-        panel.add(spinner);
-        panel.add(inv_plante2);
+        panel_listeRessources.add(spinner);
+        panel_listeRessources.add(inv_plante2);
         
         JSpinner spinner_1 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante2,
                 1));
         spinner_1.setMinimumSize(new Dimension(w*2,h));
-        panel.add(spinner_1);
-        panel.add(inv_plante3);
+        panel_listeRessources.add(spinner_1);
+        panel_listeRessources.add(inv_plante3);
         
         JSpinner spinner_2 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante3,
                 1));
         spinner_2.setMinimumSize(new Dimension(w*2,h));
-        panel.add(spinner_2);
-        panel.add(inv_plante4);
+        panel_listeRessources.add(spinner_2);
+        panel_listeRessources.add(inv_plante4);
         
         JSpinner spinner_3 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante4,
                 1));
         spinner_3.setMinimumSize(new Dimension(w*2,h));
-        panel.add(spinner_3);
+        panel_listeRessources.add(spinner_3);
         
-        JPanel panel_3 = new JPanel();
-        add(panel_3, "cell 1 4,grow");
+        JPanel panel_btCraft = new JPanel();
+        add(panel_btCraft, "cell 1 3,grow");
+        
+        JButton btnInventaire= new JButton(new ImageIcon(iconInventaire));
+        panel_btCraft.add(btnInventaire);
+        btnInventaire.setBorderPainted(false);
+        btnInventaire.setFocusPainted(false);
+        btnInventaire.setContentAreaFilled(false);
+        
+        btnInventaire.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PopupInventaire inventaire = new PopupInventaire();
+				inventaire.setVisible(true);
+			}
+		});
         
         JButton btnCraft= new JButton(new ImageIcon(iconCraft));
         btnCraft.setBorderPainted(false);
         btnCraft.setFocusPainted(false);
         btnCraft.setContentAreaFilled(false);
-	  	panel_3.add(btnCraft);
+	  	panel_btCraft.add(btnCraft);
 	  	
 	  	
 	  		  	
