@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -23,11 +24,13 @@ import java.awt.Font;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JPasswordField;
 
-public class ConnectionFrame extends JFrame implements ActionListener {
-
+public class ConnectionFrame implements ActionListener {
+	
+	private JFrame frame;
 	private JPanel contentPane;
 	private JTextField tf_pseudo;
 	private JPasswordField passwordField;
+	private JButton btnCrerMonCompte;
 
 	/**
 	 * Launch the application.
@@ -36,8 +39,8 @@ public class ConnectionFrame extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ConnectionFrame frame = new ConnectionFrame();
-					frame.setVisible(true);
+					ConnectionFrame window = new ConnectionFrame();
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -45,44 +48,52 @@ public class ConnectionFrame extends JFrame implements ActionListener {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public ConnectionFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		initialize();
+	}
+	
+	private void initialize() {
+		frame = new JFrame();
+		frame.setTitle("Connexion");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		setTitle("Connexion");
+		frame.setContentPane(contentPane);
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    setLocationRelativeTo(null);
-		contentPane.setLayout(new MigLayout("", "[grow][200px,grow][grow]", "[30px][30px][30px][30px][30px][grow]"));
+	    contentPane.setLayout(new MigLayout("", "[grow,center][grow,center]", "[30px][30px][30px][30px][30px][grow]"));
+	    
+	    frame.setVisible(true);
+	    frame.setResizable(false);
+	    frame.setBounds(100, 100, 450, 300);		
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setLocationRelativeTo(null);
 		
 		JLabel lblPseudo = new JLabel("Pseudo :");
 		lblPseudo.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblPseudo, "cell 1 0,grow");
+		contentPane.add(lblPseudo, "cell 0 0 2 1,alignx center,growy");
 		
 		tf_pseudo = new JTextField();
-		contentPane.add(tf_pseudo, "cell 1 1,grow");
+		contentPane.add(tf_pseudo, "cell 0 1 2 1,alignx center");
 		tf_pseudo.setColumns(10);
 		
 		JLabel lblMotDePasse = new JLabel("Mot de passe :");
 		lblMotDePasse.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblMotDePasse, "cell 1 2,grow");
+		contentPane.add(lblMotDePasse, "cell 0 2 2 1");
 		
 		passwordField = new JPasswordField();
-		contentPane.add(passwordField, "cell 1 3,growx");
+		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
+		Dimension dim = passwordField.getSize();
+		dim.setSize(130, 0);
+		passwordField.setPreferredSize(dim);
+		contentPane.add(passwordField, "cell 0 3 2 1,alignx center,aligny center");
 		
 		JButton btnConnexion = new JButton("Connexion");
 		btnConnexion.addActionListener(this);
 		btnConnexion.setActionCommand("connexion");
-		contentPane.add(btnConnexion, "cell 1 4,grow");
+		contentPane.add(btnConnexion, "cell 0 4 2 1,alignx center,growy");
 		
 		JLabel lblMDPOublie = new JLabel("Mot de passe oublié ?");
 		lblMDPOublie.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		lblMDPOublie.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblMDPOublie.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMDPOublie.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -105,10 +116,16 @@ public class ConnectionFrame extends JFrame implements ActionListener {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// déclenchement de la procédure MDP oublié
 				System.out.println("Coucou");
 			}
 		});
 		contentPane.add(lblMDPOublie, "cell 1 5,grow");
+		
+		btnCrerMonCompte = new JButton("Créer mon compte");
+		btnCrerMonCompte.addActionListener(this);
+		btnCrerMonCompte.setActionCommand("creer");
+		contentPane.add(btnCrerMonCompte, "cell 0 5");
 	}
 
 	@Override
@@ -123,8 +140,12 @@ public class ConnectionFrame extends JFrame implements ActionListener {
 				
 				if(tf_pseudo.getText().equals(account.getUsername()) && String.valueOf(passwordField.getPassword()).equals(account.getPassword())) {
 					MainFrame frame = new MainFrame();
-					this.dispose();
+					this.frame.dispose();
+				} else {
+					// popup échec connexion
 				}
+			} else if (btn.getActionCommand().equals("creer")) {
+				CreationCompteFrame creationCompteFrame = new CreationCompteFrame();
 			}
 		}
 	}
