@@ -10,9 +10,11 @@ import org.codehaus.jettison.json.JSONObject;
 import com.dao.AccountDao;
 import com.dao.InventaireDao;
 import com.dao.ObjetDao;
+import com.dao.RecetteDao;
 import com.entitie.Account;
 import com.entitie.Inventaire;
 import com.entitie.Objet;
+import com.entitie.Recette;
 import com.entitie.TypeObjet;
 
 public class Test {
@@ -20,7 +22,7 @@ public class Test {
 
 
 	public static void main(String[] args) {
-		
+	/*	
 		Account test1 = new Account(1, // je mets un id = 0 car il est auto-incrémenté
 				"id_globaaal1", // id_global avec le protocole de BEN
 				"user1", //string
@@ -46,7 +48,7 @@ public class Test {
 				"user3", //string
 				"mail3", // String
 				"pass3", // mot de pass TODO voir pour le cryptage
-				3,  // id_faction 1 ou 2
+				2,  // id_faction 1 ou 2
 				null, // la date de création est gérée par le DAO (date du jour)
 				null,
 				null);
@@ -66,7 +68,32 @@ public class Test {
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-		}			
+		}	*/
+		
+		RecetteDao recetteDao = new RecetteDao();
+
+		ArrayList<Recette> recettes = recetteDao.getRecettes();
+		
+		for (Recette rec : recettes) {
+			System.out.println(rec.toString());
+		}
+		
+		Recette recette = new Recette(1,1,1,"Nom de la recette JAVA","W","Une recette pour la fête (JAVA)",1,0,2,0);
+		
+		
+		System.out.println("APRES INSERTION");
+		recetteDao.insertNewrecette(recette);
+
+		
+		recettes = recetteDao.getRecettes();
+
+		for (Recette rec : recettes) {
+			System.out.println(rec.toString());
+		}
+		
+		
+		
+		
 	}
 
 }

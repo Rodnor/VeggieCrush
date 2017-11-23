@@ -4,10 +4,9 @@ public class Recette {
 	private int idRecette;
 	private int idObjet;
 	private int idFaction;
-	private Objet compo1;
-	private Objet compo2;
-	private Objet compo3;
-	private Objet compo4;
+	private String nomRecette;
+	private String type;
+	private String description;
 	private int qte1;
 	private int qte2;
 	private int qte3;
@@ -31,30 +30,7 @@ public class Recette {
 	public void setIdFaction(int idFaction) {
 		this.idFaction = idFaction;
 	}
-	public Objet getCompo1() {
-		return compo1;
-	}
-	public void setCompo1(Objet compo1) {
-		this.compo1 = compo1;
-	}
-	public Objet getCompo2() {
-		return compo2;
-	}
-	public void setCompo2(Objet compo2) {
-		this.compo2 = compo2;
-	}
-	public Objet getCompo3() {
-		return compo3;
-	}
-	public void setCompo3(Objet compo3) {
-		this.compo3 = compo3;
-	}
-	public Objet getCompo4() {
-		return compo4;
-	}
-	public void setCompo4(Objet compo4) {
-		this.compo4 = compo4;
-	}
+	
 	public int getQte1() {
 		return qte1;
 	}
@@ -79,28 +55,48 @@ public class Recette {
 	public void setQte4(int qte4) {
 		this.qte4 = qte4;
 	}
-	public Recette(int idRecette, int idObjet, int idFaction, Objet compo1, Objet compo2, Objet compo3, Objet compo4,
+	
+	
+	public String getNomRecette() {
+		return nomRecette;
+	}
+	public void setNomRecette(String nomRecette) {
+		this.nomRecette = nomRecette;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
+	public Recette(int idRecette, int idObjet, int idFaction, String nomRecette, String type, String description,
 			int qte1, int qte2, int qte3, int qte4) {
 		this.idRecette = idRecette;
 		this.idObjet = idObjet;
 		this.idFaction = idFaction;
-		this.compo1 = compo1;
-		this.compo2 = compo2;
-		this.compo3 = compo3;
-		this.compo4 = compo4;
+		this.nomRecette = nomRecette;
+		this.type = type;
+		this.description = description;
 		this.qte1 = qte1;
 		this.qte2 = qte2;
 		this.qte3 = qte3;
 		this.qte4 = qte4;
 	}
-	
-	public Recette (){
-		
-	}
 	@Override
 	public String toString() {
-		return "Recette [idRecette=" + idRecette + ", idObjet=" + idObjet + ", idFaction=" + idFaction + ", compo1="
-				+ compo1 + ", compo2=" + compo2 + ", compo3=" + compo3 + ", compo4=" + compo4 + ", qte1=" + qte1
-				+ ", qte2=" + qte2 + ", qte3=" + qte3 + ", qte4=" + qte4 + "]";
+		return "Recette [idRecette=" + idRecette + ", idObjet=" + idObjet + ", idFaction=" + idFaction + ", nomRecette="
+				+ nomRecette + ", type=" + type + ", description=" + description + ", qte1=" + qte1 + ", qte2=" + qte2
+				+ ", qte3=" + qte3 + ", qte4=" + qte4 + "]";
+	}
+	public Recette (){
+		
 	}
 }
