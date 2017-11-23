@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import sun.audio.*;
 import javax.swing.JToggleButton;
@@ -73,9 +74,14 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int multiplicateurBonus4=1;
 	private Clip clip = null;
 	private JToggleButton tglbtnMuteSound;
+	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("jeu");
+
 
 	public PanelJeu(){
 
+		System.out.println("TEST POUR TLS : "+applicationProperties.getString("test.pour.montrer.a.tristan"));
+		
+		
 		setLayout(new MigLayout("", "[][][grow][][][][grow]", "[][][grow][grow][grow][grow][grow][]"));
 
 		lblTimer = new JLabel("Temps restant : "+String.valueOf(tempsTotal));

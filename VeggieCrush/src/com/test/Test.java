@@ -96,12 +96,12 @@ public class Test {
 		}
 		
 		
-		try {
+	/*	try {
 			SendMail.sendEmailSSL("parism@3il.fr", "Voici mon sujet", "Ceci est mail envoyé automatiquement par l'application Veggie Crush. Merci de ne pas y répondre !");
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} */
 		
 		
 		
