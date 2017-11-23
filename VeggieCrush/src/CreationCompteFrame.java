@@ -108,7 +108,7 @@ public class CreationCompteFrame implements ActionListener {
 					Account account = new Account();
 					
 
-					String securePass = Utils.get_SHA_512_SecurePassword(mdp.getPassword().toString());
+					String securePass = Utils.get_SHA_512_SecurePassword(mdp.getText());
 
 					account = adao.getAccountByUsername(pseudo.getText());
 					if (account == null){ 
