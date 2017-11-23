@@ -145,7 +145,7 @@ public class ConnectionFrame implements ActionListener {
 				// test utilisateur présent dans la BD ou celle des autres
 				// test correspondance username + MDP
 				// TODO verfifier mot de passe dans une autre API
-				if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && String.valueOf(securePass).equals(account.getPassword())) {
+				if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
 					MainFrame frame = new MainFrame();
 					this.frame.dispose();
 				} else {
