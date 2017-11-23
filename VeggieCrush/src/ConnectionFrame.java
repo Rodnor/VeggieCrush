@@ -137,7 +137,7 @@ public class ConnectionFrame implements ActionListener {
 			if(btn.getActionCommand().equals("connexion")) {
 				AccountDao adao = new AccountDao();
 				
-				String securePass = Utils.get_SHA_512_SecurePassword(passwordField.getText());
+				String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
 				//Account account = adao.getAccountById(1);
 				Account account = adao.getAccountByUsername(tf_pseudo.getText());
 				
