@@ -2,6 +2,8 @@ package com.test;
 
 import java.util.ArrayList;
 
+import javax.mail.MessagingException;
+
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -16,6 +18,8 @@ import com.entitie.Inventaire;
 import com.entitie.Objet;
 import com.entitie.Recette;
 import com.entitie.TypeObjet;
+import com.utils.SendMail;
+import com.utils.Utils;
 
 public class Test {
 	final static Logger logger = Logger.getLogger(Test.class.getName());
@@ -69,7 +73,7 @@ public class Test {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}	*/
-		
+	
 		RecetteDao recetteDao = new RecetteDao();
 
 		ArrayList<Recette> recettes = recetteDao.getRecettes();
@@ -78,7 +82,7 @@ public class Test {
 			System.out.println(rec.toString());
 		}
 		
-		Recette recette = new Recette(1,1,1,"Nom de la recette JAVA","W","Une recette pour la fête (JAVA)",1,0,2,0);
+		Recette recette = new Recette(1,1,1,"Nom de la recette JAVA du soir","W","Une recette pour la fête (JAVA)",1,0,2,0);
 		
 		
 		System.out.println("APRES INSERTION");
@@ -91,6 +95,13 @@ public class Test {
 			System.out.println(rec.toString());
 		}
 		
+		
+		try {
+			SendMail.sendEmailSSL("parism@3il.fr", "Voici mon sujet", "Ceci est mail envoyé automatiquement par l'application Veggie Crush. Merci de ne pas y répondre !");
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		
