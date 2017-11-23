@@ -4,11 +4,14 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 public final class Utils {
 	
-	public static String salt = "3iLh3nalluX";
+	//public static String salt = "3iLh3nalluX";
+	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("application");
+	private static String salt = applicationProperties.getString("bd.pass.salt");
 	
 	public static Boolean testStringForJson (String string) {
 		return (string!= null && !string.equals(""));
