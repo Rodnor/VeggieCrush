@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.mail.MessagingException;
 
@@ -17,8 +19,12 @@ public final class Utils {
 	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("application");
 	private static String salt = applicationProperties.getString("bd.pass.salt");
 
-	public static Boolean testStringForJson(String string) {
-		return (string != null && !string.equals(""));
+		
+	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
+		    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+	
+	public static Boolean testStringForJson (String string) {
+		return (string!= null && !string.equals(""));
 	}
 
 	public static Boolean testDateNulleForTimstamp(Timestamp timestamp) {
@@ -59,6 +65,11 @@ public final class Utils {
 		}
 		return generatedPassword;
 	}
+	
+	public static boolean validate(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+        return matcher.find();
+	}
 
 	public static String generateNewPassword(int size) {
 		
@@ -93,3 +104,4 @@ public final class Utils {
 		}
 	}
 }
+
