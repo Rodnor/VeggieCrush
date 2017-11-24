@@ -73,7 +73,7 @@ public class Test {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}	*/
-	
+	 /*
 		RecetteDao recetteDao = new RecetteDao();
 
 		ArrayList<Recette> recettes = recetteDao.getRecettes();
@@ -86,7 +86,7 @@ public class Test {
 		
 		
 		System.out.println("APRES INSERTION");
-		recetteDao.insertNewrecette(recette);
+		//recetteDao.insertNewrecette(recette);
 
 		
 		recettes = recetteDao.getRecettes();
@@ -94,17 +94,15 @@ public class Test {
 		for (Recette rec : recettes) {
 			System.out.println(rec.toString());
 		}
-		
-		
-	/*	try {
-			SendMail.sendEmailSSL("parism@3il.fr", "Voici mon sujet", "Ceci est mail envoyé automatiquement par l'application Veggie Crush. Merci de ne pas y répondre !");
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} */
+		*/
 		
 		
 		
+		
+		//System.out.println(Utils.generateNewPassword(13));
+		
+		//Utils.modfierMotDePasse()
+
 	}
 
 }
