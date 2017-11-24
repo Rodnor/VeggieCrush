@@ -49,7 +49,7 @@ public class MotDePassePerduFrame implements ActionListener {
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[grow][grow][grow]", "[center][center][grow,bottom]"));
 		
-		frame.setTitle("Réinitialiser le mot de passe");
+		frame.setTitle("Récupérer mot de passe");
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
@@ -59,8 +59,7 @@ public class MotDePassePerduFrame implements ActionListener {
 		contentPane.add(lblAdresseMail, "cell 1 0,alignx center");
 		
 		mail = new JTextField();
-		mail.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(mail, "cell 1 1,alignx center");
+		contentPane.add(mail, "cell 1 1,growx");
 		mail.setColumns(10);
 		
 		JButton btnEnvoyer = new JButton("Envoyer");
