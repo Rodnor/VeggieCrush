@@ -13,6 +13,9 @@ import java.util.regex.Pattern;
 
 import javax.mail.MessagingException;
 
+import com.dao.AccountDao;
+import com.entitie.Account;
+
 public final class Utils {
 
 	// public static String salt = "3iLh3nalluX";
@@ -83,24 +86,39 @@ public final class Utils {
 	    return pass;
 	}
 	
-	public static void sendMail(String username){
+	public static Boolean modfierMotDePasse(String adresseMail){
+		
+		String pass = Utils.generateNewPassword(13);
+		String securePass = get_SHA_512_SecurePassword(pass);
+		
+		AccountDao accountDao = new AccountDao();
+		Account account = accountDao.getAccountByMail(adresseMail);
+		
+		if (account == null){
+			return false;
+		}
+		
+		accountDao.updatePasswordById(account.getId(), securePass);
+		
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Bonjour ");
-		stringBuilder.append(username);
+		stringBuilder.append(account.getUsername());
 		stringBuilder.append(", </br></br>");
 		stringBuilder.append("Une demande de génération de nouveau mot de passe vient d'être faite sur le jeu VeggieCrush. Vous le trouverez ci après : </br> </br>");
-		stringBuilder.append(Utils.generateNewPassword(13));
+		stringBuilder.append(pass);
 		stringBuilder.append("</br></br>Copiez-coller ce nouveau mot de passe lors de votre prochaine connexion.");
 		stringBuilder.append("</br></br>Ceci est mail généré automatiquement par l'application VeggieCrush. Merci de ne pas y répondre !");
 		
 		System.out.println(stringBuilder.toString());
 		
 		try {
-			SendMail.sendEmailSSL("traineak@3il.fr", "Nouveau mot de passe sur VeggieCrush",stringBuilder.toString());
+			SendMail.sendEmailSSL(adresseMail, "Nouveau mot de passe sur VeggieCrush",stringBuilder.toString());
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return true;
 	}
 }
 
