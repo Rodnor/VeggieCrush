@@ -77,8 +77,7 @@ public class MotDePassePerduFrame implements ActionListener {
 			if(btn.getActionCommand().equals("envoyer")) {
 				if(!mail.getText().equals("")){
 					if(Utils.validate(mail.getText())) {
-						// TODO Méthode envoi mail Michel
-						
+						Utils.modfierMotDePasse(mail.getText());						
 						this.frame.dispose();
 					}
 				}

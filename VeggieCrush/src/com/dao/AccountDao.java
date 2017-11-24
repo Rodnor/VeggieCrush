@@ -21,8 +21,13 @@ public class AccountDao {
 	final static Logger logger = Logger.getLogger(AccountDao.class.getName()); //UNIXTIME(colonne_timestamp) as valeur_datetime
 
 	private final static String QUERY_FIND_ALL = "SELECT * FROM ACCOUNT";
+	private final static String QUERY_FIND_BY_MAIL = "SELECT * FROM ACCOUNT WHERE email = ?";
+
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM ACCOUNT WHERE ID = ?";
 	private final static String QUERY_INSERT = "INSERT INTO ACCOUNT (id_global, id_faction, username, password, email, created_at, updated_at, deleted_at) values (?, ?, ?, ?, ?, ?, ?, ?)";
+	private final static String QUERY_UPDATE_BY_ID = "UPDATE ACCOUNT SET password = ? WHERE id = ?";
+
+	
 	private final static String QUERY_FIND_BY_USERNAME = "SELECT * FROM ACCOUNT WHERE USERNAME = ?";
 	private final static String QUERY_FIND_BY_UID = "SELECT * FROM ACCOUNT WHERE id_global = ?";
 
@@ -99,6 +104,84 @@ public class AccountDao {
 			return null;
 		}
 		return account;
+	}
+	
+	public Account getAccountByMail(String mail) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		Account account = new Account();
+		try {
+			con = Connecteur.getConnexion();
+			stmt = con.prepareStatement(QUERY_FIND_BY_MAIL);
+			stmt.setString(1, mail);
+
+			final ResultSet rset = stmt.executeQuery();
+			while (rset.next()) {
+				account = mappingAccount(rset);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		if (account.getId() == 0){
+			return null;
+		}
+		return account;
+	}
+	
+	
+	
+	public Boolean updatePasswordById(int id, String password) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		Boolean errorUpdate = false;
+		try {
+			con = Connecteur.getConnexion();
+			stmt = con.prepareStatement(QUERY_UPDATE_BY_ID);
+			stmt.setString(2, password);
+			stmt.setInt(1, id);
+
+			stmt.executeQuery();
+		} catch (SQLException e) {
+			errorUpdate = true;
+			e.printStackTrace();
+			
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return errorUpdate;
 	}
 
 	private Account mappingAccount(final ResultSet rset) throws SQLException {
