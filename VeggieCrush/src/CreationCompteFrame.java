@@ -61,7 +61,7 @@ public class CreationCompteFrame implements ActionListener {
 		frame.setLocationRelativeTo(null);
 		
 		
-		contentPane.setLayout(new MigLayout("", "[grow][200px,center][grow]", "[][][][][][][][][grow,bottom]"));
+		contentPane.setLayout(new MigLayout("", "[grow][grow,center][grow]", "[][][][][][][][][grow,bottom]"));
 		
 		JLabel lblPseudo = new JLabel("Pseudo :");
 		contentPane.add(lblPseudo, "cell 1 0");
