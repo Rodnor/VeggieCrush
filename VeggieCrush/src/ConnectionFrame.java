@@ -81,7 +81,6 @@ public class ConnectionFrame implements ActionListener {
 		contentPane.add(lblMotDePasse, "cell 0 2 2 1");
 		
 		passwordField = new JPasswordField();
-		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
 		Dimension dim = passwordField.getSize();
 		dim.setSize(130, 0);
 		passwordField.setPreferredSize(dim);
@@ -134,6 +133,10 @@ public class ConnectionFrame implements ActionListener {
 			JButton btn = (JButton) e.getSource();
 
 			if(btn.getActionCommand().equals("connexion")) {
+				
+				// TODO tester si le flag mdpPerdu est à true ou false
+				
+				// if false
 				AccountDao adao = new AccountDao();
 				
 				String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
@@ -152,6 +155,11 @@ public class ConnectionFrame implements ActionListener {
 					
 					System.out.println("MiPa");
 				}
+				
+				// if true
+				// Récupérer en base l'adresse mail du gars en fonction de son pseudo
+				// Si on a trouvé quelque chose on ouvre la fenêtre pour modifier le mdpv 
+				//NouveauMotDePasseFrame frame = new NouveauMotDePasseFrame(adresseMail);
 			} else if (btn.getActionCommand().equals("creer")) {
 				CreationCompteFrame creationCompteFrame = new CreationCompteFrame();
 			}
