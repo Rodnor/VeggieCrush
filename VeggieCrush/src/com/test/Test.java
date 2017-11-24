@@ -73,7 +73,7 @@ public class Test {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}	*/
-	
+	 /*
 		RecetteDao recetteDao = new RecetteDao();
 
 		ArrayList<Recette> recettes = recetteDao.getRecettes();
@@ -86,7 +86,7 @@ public class Test {
 		
 		
 		System.out.println("APRES INSERTION");
-		recetteDao.insertNewrecette(recette);
+		//recetteDao.insertNewrecette(recette);
 
 		
 		recettes = recetteDao.getRecettes();
@@ -94,17 +94,30 @@ public class Test {
 		for (Recette rec : recettes) {
 			System.out.println(rec.toString());
 		}
+		*/
 		
+		StringBuilder stringBuilder = new StringBuilder();
+		String user = "USERNAME";
+		stringBuilder.append("Bonjour ");
+		stringBuilder.append(user);
+		stringBuilder.append(", </br></br>");
+		stringBuilder.append("Une demande de génération de nouveau mot de passe vient d'être faite sur le jeu VeggieCrush. Vous le trouverez ci après : </br> </br>");
+		stringBuilder.append(Utils.generateNewPassword(13));
+		stringBuilder.append("</br></br>Copiez-coller ce nouveau mot de passe lors de votre prochaine connexion.");
+		stringBuilder.append("</br></br>Ceci est mail généré automatiquement par l'application VeggieCrush. Merci de ne pas y répondre !");
 		
-	/*	try {
-			SendMail.sendEmailSSL("parism@3il.fr", "Voici mon sujet", "Ceci est mail envoyé automatiquement par l'application Veggie Crush. Merci de ne pas y répondre !");
+		System.out.println(stringBuilder.toString());
+		
+		try {
+			SendMail.sendEmailSSL("traineak@3il.fr", "Nouveau mot de passe sur VeggieCrush",stringBuilder.toString());
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} */
+		}
 		
 		
-		
+		//System.out.println(Utils.generateNewPassword(13));
+
 	}
 
 }
