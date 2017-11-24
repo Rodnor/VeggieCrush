@@ -83,11 +83,10 @@ public final class Utils {
 	    return pass;
 	}
 	
-	public static void sendMail(){
+	public static void sendMail(String username){
 		StringBuilder stringBuilder = new StringBuilder();
-		String user = "USERNAME";
 		stringBuilder.append("Bonjour ");
-		stringBuilder.append(user);
+		stringBuilder.append(username);
 		stringBuilder.append(", </br></br>");
 		stringBuilder.append("Une demande de génération de nouveau mot de passe vient d'être faite sur le jeu VeggieCrush. Vous le trouverez ci après : </br> </br>");
 		stringBuilder.append(Utils.generateNewPassword(13));
