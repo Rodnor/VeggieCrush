@@ -117,8 +117,7 @@ public class ConnectionFrame implements ActionListener {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// déclenchement de la procédure MDP oublié
-				System.out.println("Coucou");
+				MotDePassePerduFrame frame = new MotDePassePerduFrame();
 			}
 		});
 		contentPane.add(lblMDPOublie, "cell 1 5,grow");
