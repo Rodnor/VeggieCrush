@@ -18,7 +18,9 @@ import javax.swing.table.DefaultTableModel;
 
 import com.dao.InventaireDao;
 import com.dao.ObjetDao;
+import com.dao.RecetteDao;
 import com.entitie.Inventaire;
+import com.entitie.Recette;
 import com.sun.xml.bind.v2.schemagen.xmlschema.List;
 
 import java.awt.GridLayout;
@@ -36,15 +38,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
 
-public class PanelCraft extends JPanel{
+public class PanelCraft extends JPanel implements ActionListener{
 	  private Color color = Color.white;
 	  private String message = "";
 	  private JTable table;
-	  InventaireDao inventairedao = new InventaireDao();
-	  ObjetDao objetDao = new ObjetDao();
-	  ArrayList<Inventaire> invs = new ArrayList<Inventaire>();
+	  private InventaireDao inventairedao = new InventaireDao();
+	  private ObjetDao objetDao = new ObjetDao();
+	  private ArrayList<Inventaire> invs = new ArrayList<Inventaire>();
+	  private JLabel description_recette;	 
+	  private RecetteDao recettedao = new RecetteDao();
 	  	
+	  private ArrayList<Recette> listeAllRecette = new ArrayList<Recette>();
+	  private ArrayList<Recette> listeRecetteHOWOB = new ArrayList<Recette>();
+	  private ArrayList<Recette> listeRecetteFARMVILLAGE = new ArrayList<Recette>();
+	  private ArrayList<Recette> listeRecetteBOOMCRAFT = new ArrayList<Recette>();
 	  /**
 	 *  Modification à la ligne 37
 	 */
@@ -122,6 +131,27 @@ public class PanelCraft extends JPanel{
 	  		e.printStackTrace();
 	  	}
 	  	
+
+	  	listeAllRecette=recettedao.getRecettes();
+	  	
+	  	for (Recette recette : listeAllRecette) {
+	  		if(recette.getType().equals("H")) {
+	  			listeRecetteHOWOB.add(recette);
+	  			
+	  		} else {
+	  			if(recette.getType().equals("F")) {
+	  				listeRecetteFARMVILLAGE.add(recette);
+	  			} else {
+	  				listeRecetteBOOMCRAFT.add(recette);
+	  			}
+	  		}
+		}
+	  	System.out.println(listeAllRecette);
+	  	System.out.println(listeRecetteHOWOB);
+	  	System.out.println(listeRecetteFARMVILLAGE);
+	  	System.out.println(listeRecetteBOOMCRAFT);
+	  	
+	  	
 	  	JPanel panel_listeRecette = new JPanel();
 	  	add(panel_listeRecette, "cell 1 0,grow");
 	  	
@@ -132,18 +162,24 @@ public class PanelCraft extends JPanel{
 	  	
 	  	JPanel btnPnl1 = new JPanel();
 
-	    ArrayList<String> projectNameList1 = new ArrayList<String>();
-	    for (int index = 0; index < 10; index++) {
+	    //ArrayList<String> projectNameList1 = new ArrayList<String>();
+	    /*for (int index = 0; index < 10; index++) {
+	        projectNameList1.add("Project " + index);
 	        projectNameList1.add("Project " + index);
 	    }
-	    String[] projectNames1 = projectNameList1.toArray(new String[0]);
+	    String[] projectNames1 = projectNameList1.toArray(new String[0]);*/
 
 	    // Adding buttons to the project
-	    JLabel[] buttons1 = new JLabel[projectNameList1.size()];
+	  	JButton[] buttons1 = new JButton[listeRecetteBOOMCRAFT.size()];
 	    try {
-	        for (int i = 0; i < projectNames1.length; i++) {
-	            buttons1[i] = new JLabel();
+	        for (int i = 0; i < listeRecetteBOOMCRAFT.size(); i++) {
+	            buttons1[i] = new JButton();
 	            buttons1[i].setIcon(new ImageIcon(iconVide));
+	            buttons1[i].setName("BOOMCRAFT-"+i);
+	            buttons1[i].setBorderPainted(false);
+	            buttons1[i].setFocusPainted(false);
+	            buttons1[i].setContentAreaFilled(false);
+	            buttons1[i].addActionListener(this);
 	            btnPnl1.add(buttons1[i]);
 
 	        }
@@ -153,24 +189,29 @@ public class PanelCraft extends JPanel{
 
 	    panel1.add(new JScrollPane(btnPnl1), BorderLayout.CENTER);
 
-	  	tabbedPane.addTab("Tab 1", panel1);
+	  	tabbedPane.addTab("Recettes BoomCraft", panel1);
 
 	  	JComponent panel2 = makeTextPanel(3);
 	  	
 	  	JPanel btnPnl2 = new JPanel();
 
-	    ArrayList<String> projectNameList2 = new ArrayList<String>();
+	    /*ArrayList<String> projectNameList2 = new ArrayList<String>();
 	    for (int inde2 = 0; inde2 < 3; inde2++) {
 	        projectNameList2.add("Project " + inde2);
 	    }
-	    String[] projectNames2 = projectNameList2.toArray(new String[0]);
+	    String[] projectNames2 = projectNameList2.toArray(new String[0]);*/
 
 	    // Adding buttons to the project
-	    JLabel[] buttons2 = new JLabel[projectNameList2.size()];
+	  	JButton[] buttons2 = new JButton[listeRecetteFARMVILLAGE.size()];
 	    try {
-	        for (int i = 0; i < projectNames2.length; i++) {
-	            buttons2[i] = new JLabel();
+	        for (int i = 0; i < listeRecetteFARMVILLAGE.size(); i++) {
+	            buttons2[i] = new JButton();
 	            buttons2[i].setIcon(new ImageIcon(iconVide));
+	            buttons2[i].setName("FARMVILLAGE-"+i);
+	            buttons2[i].setBorderPainted(false);
+	            buttons2[i].setFocusPainted(false);
+	            buttons2[i].setContentAreaFilled(false);
+	            buttons2[i].addActionListener(this);
 	            btnPnl2.add(buttons2[i]);
 
 	        }
@@ -179,24 +220,30 @@ public class PanelCraft extends JPanel{
 	    }
 	  	
 	    panel2.add(new JScrollPane(btnPnl2), BorderLayout.CENTER);
-	  	tabbedPane.addTab("Tab 2", panel2);
+	  	tabbedPane.addTab("Recettes FarmVillage", panel2);
 
 	  	JComponent panel3 = makeTextPanel(5);
 	  	
 	  	JPanel btnPnl3 = new JPanel();
 
-	    ArrayList<String> projectNameList3 = new ArrayList<String>();
+	    /*ArrayList<String> projectNameList3 = new ArrayList<String>();
 	    for (int inde3 = 0; inde3 < 5; inde3++) {
 	        projectNameList3.add("Project " + inde3);
 	    }
-	    String[] projectNames3 = projectNameList3.toArray(new String[0]);
+	    String[] projectNames3 = projectNameList3.toArray(new String[0]);*/
 
 	    // Adding buttons to the project
-	    JLabel[] buttons3 = new JLabel[projectNameList3.size()];
+	    JButton[] buttons3 = new JButton[listeRecetteHOWOB.size()];
 	    try {
-	        for (int i = 0; i < projectNames3.length; i++) {
-	            buttons3[i] = new JLabel();
+	        for (int i = 0; i < listeRecetteHOWOB.size(); i++) {
+	            buttons3[i] = new JButton();
 	            buttons3[i].setIcon(new ImageIcon(iconVide));
+	            buttons3[i].setName("HOWOB-"+i);
+	            buttons3[i].setBorderPainted(false);
+	            buttons3[i].setFocusPainted(false);
+	            buttons3[i].setContentAreaFilled(false);
+	            buttons3[i].addActionListener(this);
+	            
 	            btnPnl3.add(buttons3[i]);
 
 	        }
@@ -205,40 +252,13 @@ public class PanelCraft extends JPanel{
 	    }
 	  	
 	    panel3.add(new JScrollPane(btnPnl3), BorderLayout.CENTER);
-	  	tabbedPane.addTab("Tab 3", panel3);
+	  	tabbedPane.addTab("Recettes HoWoB", panel3);
 
-	  	JComponent panel4 = makeTextPanel(2);
-	  	
-	  	JPanel btnPnl4 = new JPanel();
-
-	    ArrayList<String> projectNameList4 = new ArrayList<String>();
-	    for (int inde4 = 0; inde4 < 2; inde4++) {
-	        projectNameList4.add("Project " + inde4);
-	    }
-	    String[] projectNames4 = projectNameList4.toArray(new String[0]);
-
-	    // Adding buttons to the project
-	    JLabel[] buttons4 = new JLabel[projectNameList4.size()];
-	    try {
-	        for (int i = 0; i < projectNames4.length; i++) {
-	            buttons4[i] = new JLabel();
-	            buttons4[i].setIcon(new ImageIcon(iconVide));
-	            btnPnl4.add(buttons4[i]);
-
-	        }
-	    } catch (Exception e2) {
-	        JOptionPane.showMessageDialog(null, e2);
-	    }
 	  	
 	  	
 	  	panel1.setPreferredSize(new Dimension(500, 90));
 	  	panel2.setPreferredSize(new Dimension(500, 90));
 	  	panel3.setPreferredSize(new Dimension(500, 90));
-	  	panel4.setPreferredSize(new Dimension(500, 90));
-	  	
-	  	panel4.add(new JScrollPane(btnPnl4), BorderLayout.CENTER);
-	  	tabbedPane.addTab("Tab 4", panel4);
-	  	
 	  	panel_listeRecette.add(tabbedPane);
 	  	
 	  	invs = inventairedao.getInventaireByIdAccount(1);
@@ -251,6 +271,9 @@ public class PanelCraft extends JPanel{
 	  	JLabel lblNewLabel = new JLabel("Information sur la recette");
 	  	lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
 	  	panel_infoRecette.add(lblNewLabel, BorderLayout.NORTH);
+	  	
+	  	description_recette = new JLabel("");
+	  	panel_infoRecette.add(description_recette, BorderLayout.CENTER);
 	    
 	  	
 	  	
@@ -353,6 +376,8 @@ public class PanelCraft extends JPanel{
 	  	
 	  		  	
 	  }
+	
+	
 	  
 	  
 	  
@@ -363,5 +388,29 @@ public class PanelCraft extends JPanel{
 	    g.setFont(new Font("Arial", Font.BOLD, 15));
 	    g.drawString(this.message, 10, 20);
 	  }
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		if(e.getSource() instanceof JButton) {
+			JButton btn = (JButton) e.getSource();
+			String nombtn=btn.getName();
+			String[] str = nombtn.split("-");
+			if(str[0].equals("HOWOB")) {
+				description_recette.setText("HOWOB Description pour recette id : "+listeRecetteHOWOB.get(Integer.valueOf(str[1])).getIdRecette());
+			} else {
+				if (str[0].equals("FARMVILLAGE")) {
+					description_recette.setText("FARMVILLAGE Description pour recette id : "+listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getIdRecette());
+				} else {
+					//str[0]=="BOOMCRAFT"
+					description_recette.setText("BOOMCRAFT Description pour recette id : "+listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getIdRecette());
+				}
+			}
+			
+		}
+		
+	}
 }
 // MIPA BAS
