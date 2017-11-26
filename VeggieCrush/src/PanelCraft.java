@@ -151,7 +151,6 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	System.out.println(listeRecetteFARMVILLAGE);
 	  	System.out.println(listeRecetteBOOMCRAFT);
 	  	
-	  	
 	  	JPanel panel_listeRecette = new JPanel();
 	  	add(panel_listeRecette, "cell 1 0,grow");
 	  	
@@ -159,15 +158,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	
 	  	JComponent panel1 = makeTextPanel(10);
 	  	
-	  	
 	  	JPanel btnPnl1 = new JPanel();
-
-	    //ArrayList<String> projectNameList1 = new ArrayList<String>();
-	    /*for (int index = 0; index < 10; index++) {
-	        projectNameList1.add("Project " + index);
-	        projectNameList1.add("Project " + index);
-	    }
-	    String[] projectNames1 = projectNameList1.toArray(new String[0]);*/
 
 	    // Adding buttons to the project
 	  	JButton[] buttons1 = new JButton[listeRecetteBOOMCRAFT.size()];
@@ -195,12 +186,6 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	
 	  	JPanel btnPnl2 = new JPanel();
 
-	    /*ArrayList<String> projectNameList2 = new ArrayList<String>();
-	    for (int inde2 = 0; inde2 < 3; inde2++) {
-	        projectNameList2.add("Project " + inde2);
-	    }
-	    String[] projectNames2 = projectNameList2.toArray(new String[0]);*/
-
 	    // Adding buttons to the project
 	  	JButton[] buttons2 = new JButton[listeRecetteFARMVILLAGE.size()];
 	    try {
@@ -226,12 +211,6 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	
 	  	JPanel btnPnl3 = new JPanel();
 
-	    /*ArrayList<String> projectNameList3 = new ArrayList<String>();
-	    for (int inde3 = 0; inde3 < 5; inde3++) {
-	        projectNameList3.add("Project " + inde3);
-	    }
-	    String[] projectNames3 = projectNameList3.toArray(new String[0]);*/
-
 	    // Adding buttons to the project
 	    JButton[] buttons3 = new JButton[listeRecetteHOWOB.size()];
 	    try {
@@ -253,8 +232,6 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	
 	    panel3.add(new JScrollPane(btnPnl3), BorderLayout.CENTER);
 	  	tabbedPane.addTab("Recettes HoWoB", panel3);
-
-	  	
 	  	
 	  	panel1.setPreferredSize(new Dimension(500, 90));
 	  	panel2.setPreferredSize(new Dimension(500, 90));
@@ -274,20 +251,12 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	
 	  	description_recette = new JLabel("");
 	  	panel_infoRecette.add(description_recette, BorderLayout.CENTER);
-	    
-	  	
-	  	
-	 
-	  	
-	  	
-	  	
+
 	  	
 	  	JPanel panel_listeRessources = new JPanel();
 	  	add(panel_listeRessources, "cell 1 2,grow");
 	  	panel_listeRessources.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-	  	
-	  	
 	  	JLabel inv_plante1,inv_plante2,inv_plante3, inv_plante4;
 	  	inv_plante1 = new JLabel();
 	  	inv_plante2 = new JLabel();
@@ -377,10 +346,6 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  		  	
 	  }
 	
-	
-	  
-	  
-	  
 	  public void paintComponent(Graphics g){
 	    g.setColor(this.color);
 	    g.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -399,13 +364,13 @@ public class PanelCraft extends JPanel implements ActionListener{
 			String nombtn=btn.getName();
 			String[] str = nombtn.split("-");
 			if(str[0].equals("HOWOB")) {
-				description_recette.setText("HOWOB Description pour recette id : "+listeRecetteHOWOB.get(Integer.valueOf(str[1])).getIdRecette());
+				description_recette.setText("HOWOB Description pour recette id : "+listeRecetteHOWOB.get(Integer.valueOf(str[1])).getDescription());
 			} else {
 				if (str[0].equals("FARMVILLAGE")) {
-					description_recette.setText("FARMVILLAGE Description pour recette id : "+listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getIdRecette());
+					description_recette.setText("FARMVILLAGE Description pour recette id : "+listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getDescription());
 				} else {
 					//str[0]=="BOOMCRAFT"
-					description_recette.setText("BOOMCRAFT Description pour recette id : "+listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getIdRecette());
+					description_recette.setText("BOOMCRAFT Description pour recette id : "+listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getDescription());
 				}
 			}
 			
