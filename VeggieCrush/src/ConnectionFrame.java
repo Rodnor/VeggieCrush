@@ -137,43 +137,26 @@ public class ConnectionFrame implements ActionListener {
 
 			if(btn.getActionCommand().equals("connexion")) {
 
-				// TODO tester si le flag mdpPerdu est à true ou false
-				//flag = superrequetedemichel();
-				flag = true;
-				
-				if(!flag) {		
-					if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
-						AccountDao adao = new AccountDao();
+				if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
+					AccountDao adao = new AccountDao();
 
-						String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
-						Account account = adao.getAccountByUsername(tf_pseudo.getText());
+					String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
+					Account account = adao.getAccountByUsername(tf_pseudo.getText());
 
-						// test utilisateur présent dans la BD ou celle des autres
-						// TODO verfifier mot de passe dans une autre API
-						if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
+					// test utilisateur présent dans la BD ou celle des autres
+					// TODO verfifier mot de passe dans une autre API
+					if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
+						if(!flag) {		
 							MainFrame frame = new MainFrame();
 							this.frame.dispose();
 						} else {
-							JOptionPane.showMessageDialog(null, "Votre nom d'utilisateur et/ou votre mot de passe sont invalides", "Identifiants invalides", JOptionPane.ERROR_MESSAGE, null);							
+							NouveauMotDePasseFrame frame = new NouveauMotDePasseFrame(tf_pseudo.getText());
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, "Les champs doivent être remplis", "Champs manquants", JOptionPane.WARNING_MESSAGE, null);
+						JOptionPane.showMessageDialog(null, "Votre nom d'utilisateur et/ou votre mot de passe sont invalides", "Identifiants invalides", JOptionPane.ERROR_MESSAGE, null);							
 					}
 				} else {
-					if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
-						AccountDao adao = new AccountDao();
-
-						String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
-						Account account = adao.getAccountByUsername(tf_pseudo.getText());
-
-						if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
-							NouveauMotDePasseFrame frame = new NouveauMotDePasseFrame(tf_pseudo.getText());
-						} else {
-							JOptionPane.showMessageDialog(null, "Votre nom d'utilisateur et/ou votre mot de passe sont invalides", "Identifiants invalides", JOptionPane.ERROR_MESSAGE, null);
-						}
-					} else {
-						JOptionPane.showMessageDialog(null, "Les champs doivent être remplis", "Champs manquants", JOptionPane.WARNING_MESSAGE, null);
-					}
+					JOptionPane.showMessageDialog(null, "Les champs doivent être remplis", "Champs manquants", JOptionPane.WARNING_MESSAGE, null);
 				}
 			} else if (btn.getActionCommand().equals("creer")) {
 				CreationCompteFrame creationCompteFrame = new CreationCompteFrame();

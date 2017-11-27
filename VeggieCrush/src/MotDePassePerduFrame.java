@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.dao.AccountDao;
+import com.entitie.Account;
 import com.utils.Utils;
 
 import java.awt.event.ActionEvent;
@@ -87,10 +89,17 @@ public class MotDePassePerduFrame implements ActionListener {
 			if(btn.getActionCommand().equals("envoyer")) {
 				if(!mail.getText().equals("")){
 					if(Utils.validate(mail.getText())) {
-						Utils.modfierMotDePasse(mail.getText());
-						lblUnMailVous.setVisible(true);
+						AccountDao accountDao = new AccountDao();
+						Account account = accountDao.getAccountByMail(mail.getText());
+						
+						if(account != null) {
+							Utils.modfierMotDePasse(mail.getText());
+							lblUnMailVous.setVisible(true);
+						} else {
+							JOptionPane.showMessageDialog(null, "Cette adresse mail n'est liée à aucun compte", "Mail invalide", JOptionPane.ERROR_MESSAGE, null);
+						}
 					} else {
-						JOptionPane.showMessageDialog(null, "Cette adresse mail n'est liée à aucun compte", "Mail invalide", JOptionPane.ERROR_MESSAGE, null);
+						JOptionPane.showMessageDialog(null, "Cette adresse mail n'a pas un format valide", "Format mail invalide", JOptionPane.ERROR_MESSAGE, null);
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Vous devez spécifier votre adresse mail", "Champs manquant", JOptionPane.WARNING_MESSAGE, null);
