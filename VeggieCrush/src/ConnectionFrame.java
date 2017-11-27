@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.xml.bind.annotation.XmlElement.DEFAULT;
 
 import com.dao.AccountDao;
 import com.entitie.Account;
@@ -18,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -32,6 +34,7 @@ public class ConnectionFrame implements ActionListener {
 	private JTextField tf_pseudo;
 	private JPasswordField passwordField;
 	private JButton btnCrerMonCompte;
+	private boolean flag=false;
 
 	/**
 	 * Launch the application.
@@ -135,31 +138,30 @@ public class ConnectionFrame implements ActionListener {
 			if(btn.getActionCommand().equals("connexion")) {
 				
 				// TODO tester si le flag mdpPerdu est à true ou false
-				
-				// if false
-				AccountDao adao = new AccountDao();
-				
-				String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
-				//Account account = adao.getAccountById(1);
-				Account account = adao.getAccountByUsername(tf_pseudo.getText());
-				
-				// test champs vides
-				// test utilisateur présent dans la BD ou celle des autres
-				// test correspondance username + MDP
-				// TODO verfifier mot de passe dans une autre API
-				if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
-					MainFrame frame = new MainFrame();
-					this.frame.dispose();
-				} else {
-					// popup échec connexion
+				if(!flag) {
+					AccountDao adao = new AccountDao();
 					
-					System.out.println("MiPa");
+					String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
+					Account account = adao.getAccountByUsername(tf_pseudo.getText());
+					
+					if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
+						// test utilisateur présent dans la BD ou celle des autres
+						// TODO verfifier mot de passe dans une autre API
+						if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
+							MainFrame frame = new MainFrame();
+							this.frame.dispose();
+						} else {
+							JOptionPane.showMessageDialog(null, "Votre nom d'utilisateur et/ou votre mot de passe sont invalides", "Identifiants invalides", JOptionPane.ERROR_MESSAGE, null);							
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Les champs doivent être remplis", "Champs manquants", JOptionPane.WARNING_MESSAGE, null);
+					}
+				} else {
+					String pseudo = tf_pseudo.getText();
+					
+					// Si on a trouvé quelque chose on ouvre la fenêtre pour modifier le mdpv 
+					NouveauMotDePasseFrame frame = new NouveauMotDePasseFrame(pseudo);
 				}
-				
-				// if true
-				// Récupérer en base l'adresse mail du gars en fonction de son pseudo
-				// Si on a trouvé quelque chose on ouvre la fenêtre pour modifier le mdpv 
-				//NouveauMotDePasseFrame frame = new NouveauMotDePasseFrame(adresseMail);
 			} else if (btn.getActionCommand().equals("creer")) {
 				CreationCompteFrame creationCompteFrame = new CreationCompteFrame();
 			}

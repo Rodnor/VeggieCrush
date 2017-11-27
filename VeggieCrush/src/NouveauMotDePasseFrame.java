@@ -18,7 +18,7 @@ public class NouveauMotDePasseFrame implements ActionListener {
 	private JFrame frame;
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
-	private String adresseMail;
+	private String utilisateur;
 
 	/**
 	 * Launch the application.
@@ -36,8 +36,8 @@ public class NouveauMotDePasseFrame implements ActionListener {
 		});
 	}
 
-	public NouveauMotDePasseFrame(String adresseMail) {
-		this.adresseMail = adresseMail;
+	public NouveauMotDePasseFrame(String utilisateur) {
+		this.utilisateur = utilisateur;
 		initialize();
 	}
 	
@@ -81,7 +81,7 @@ public class NouveauMotDePasseFrame implements ActionListener {
 			if(btn.getActionCommand().equals("valider")) {
 				if(!String.valueOf(passwordField.getPassword()).equals("") && String.valueOf(passwordField_1.getPassword()).equals("")) {
 					if(String.valueOf(passwordField.getPassword()).equals(String.valueOf(passwordField_1.getPassword()))) {
-						// TODO Modification en base
+						// TODO Modification en base MPA
 						
 						MainFrame frame = new MainFrame();
 						this.frame.dispose();

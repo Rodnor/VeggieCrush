@@ -14,12 +14,14 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class MotDePassePerduFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField mail;
 	private JFrame frame;
+	private JLabel lblUnMailVous;
 
 	/**
 	 * Launch the application.
@@ -43,11 +45,11 @@ public class MotDePassePerduFrame implements ActionListener {
 
 	public void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 300, 150);
+		frame.setBounds(100, 100, 300, 200);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[grow][grow][grow]", "[center][center][grow,bottom]"));
+		contentPane.setLayout(new MigLayout("", "[grow][grow][grow]", "[center][center][][grow,bottom]"));
 		
 		frame.setTitle("Récupérer mot de passe");
 		
@@ -64,8 +66,16 @@ public class MotDePassePerduFrame implements ActionListener {
 		
 		JButton btnEnvoyer = new JButton("Envoyer");
 		btnEnvoyer.addActionListener(this);
+		
+		lblUnMailVous = new JLabel("Un mail vous a été envoyé");
+		lblUnMailVous.setForeground(Color.BLUE);
+		lblUnMailVous.setVisible(false);
+		contentPane.add(lblUnMailVous, "cell 1 2,alignx center");
+		
+		
+		
 		btnEnvoyer.setActionCommand("envoyer");
-		contentPane.add(btnEnvoyer, "cell 1 2,alignx center");
+		contentPane.add(btnEnvoyer, "cell 1 3,alignx center");
 	}
 
 	@Override
@@ -76,8 +86,8 @@ public class MotDePassePerduFrame implements ActionListener {
 			if(btn.getActionCommand().equals("envoyer")) {
 				if(!mail.getText().equals("")){
 					if(Utils.validate(mail.getText())) {
-						Utils.modfierMotDePasse(mail.getText());						
-						this.frame.dispose();
+						Utils.modfierMotDePasse(mail.getText());
+						lblUnMailVous.setVisible(true);
 					}
 				}
 			}
