@@ -39,6 +39,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
+import java.awt.CardLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 public class PanelCraft extends JPanel implements ActionListener{
 	  private Color color = Color.white;
@@ -47,13 +50,22 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  private InventaireDao inventairedao = new InventaireDao();
 	  private ObjetDao objetDao = new ObjetDao();
 	  private ArrayList<Inventaire> invs = new ArrayList<Inventaire>();
-	  private JLabel description_recette;	 
 	  private RecetteDao recettedao = new RecetteDao();
-	  	
 	  private ArrayList<Recette> listeAllRecette = new ArrayList<Recette>();
 	  private ArrayList<Recette> listeRecetteHOWOB = new ArrayList<Recette>();
 	  private ArrayList<Recette> listeRecetteFARMVILLAGE = new ArrayList<Recette>();
 	  private ArrayList<Recette> listeRecetteBOOMCRAFT = new ArrayList<Recette>();
+	  BufferedImage iconPlante1=null;
+	  BufferedImage iconPlante2=null;
+	  BufferedImage iconPlante3=null;
+	  BufferedImage iconPlante4=null;
+	  JLabel lblPlante1Recette;
+	  JLabel lblPlante2Recette;
+	  JLabel lblPlante3Recette;
+	  JLabel lblPlante4Recette;
+	  JLabel titre_recette;
+	  JLabel description_recette;
+	  	
 	  /**
 	 *  Modification Ã  la ligne 37
 	 */
@@ -72,10 +84,6 @@ public class PanelCraft extends JPanel implements ActionListener{
 	public PanelCraft(){
 	  	setLayout(new MigLayout("", "[][grow][]", "[150px:150px:150px][grow][80px:80px:80px,grow][]"));
 	  	
-	  	BufferedImage iconPlante1=null;
-	  	BufferedImage iconPlante2=null;
-	  	BufferedImage iconPlante3=null;
-	  	BufferedImage iconPlante4=null;
 	  	BufferedImage iconInventaire=null;
 	  	BufferedImage iconCraft=null;
 	  	BufferedImage iconVide=null;
@@ -245,12 +253,70 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	add(panel_infoRecette, "cell 1 1,grow");
 	  	panel_infoRecette.setLayout(new BorderLayout(0, 0));
 	  	
-	  	JLabel lblNewLabel = new JLabel("Information sur la recette");
+	  	JLabel lblNewLabel = new JLabel("Information sur la recette      ");
+	  	lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 	  	lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
 	  	panel_infoRecette.add(lblNewLabel, BorderLayout.NORTH);
 	  	
+	  	JPanel panelComposantRecette = new JPanel();
+	  	panel_infoRecette.add(panelComposantRecette, BorderLayout.WEST);
+	  	panelComposantRecette.setLayout(new GridLayout(2,1,0,-200));
+	  	panelComposantRecette.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+	  	
+	  	JLabel listecomporecette = new JLabel("Composants nécessaires");
+	  	listecomporecette.setVerticalAlignment(SwingConstants.TOP);
+	  	listecomporecette.setAlignmentX(Component.CENTER_ALIGNMENT);
+	  	listecomporecette.setSize(new Dimension(200, 25));
+	  	listecomporecette.setPreferredSize(new Dimension(200, 25));
+	  	listecomporecette.setMinimumSize(new Dimension(250, 25));
+	  	listecomporecette.setMaximumSize(new Dimension(250, 25));
+	  	listecomporecette.setFont(new Font("Tahoma", Font.BOLD, 15));
+	  	
+	  	panelComposantRecette.add(listecomporecette);
+	  	
+	  	JPanel panelListeCompo = new JPanel();
+	  	panelListeCompo.setLayout(new GridLayout(2, 2, 25, 25));
+	  	
+	  	lblPlante1Recette = new JLabel("");
+	  	lblPlante1Recette.setVerticalTextPosition(JLabel.BOTTOM);
+		lblPlante1Recette.setHorizontalTextPosition(JLabel.CENTER);
+		lblPlante1Recette.setIcon(new ImageIcon(iconPlante1));
+		panelListeCompo.add(lblPlante1Recette);
+	  	
+	  	lblPlante2Recette = new JLabel("");
+	  	lblPlante2Recette.setVerticalTextPosition(JLabel.BOTTOM);
+		lblPlante2Recette.setHorizontalTextPosition(JLabel.CENTER);
+		lblPlante2Recette.setIcon(new ImageIcon(iconPlante2));
+		panelListeCompo.add(lblPlante2Recette);
+	  	
+	  	lblPlante3Recette = new JLabel("");
+	  	lblPlante3Recette.setVerticalTextPosition(JLabel.BOTTOM);
+		lblPlante3Recette.setHorizontalTextPosition(JLabel.CENTER);
+		lblPlante3Recette.setIcon(new ImageIcon(iconPlante3));
+		panelListeCompo.add(lblPlante3Recette);
+	  	
+	  	lblPlante4Recette = new JLabel("");
+	  	lblPlante4Recette.setVerticalTextPosition(JLabel.BOTTOM);
+		lblPlante4Recette.setHorizontalTextPosition(JLabel.CENTER);
+		lblPlante4Recette.setIcon(new ImageIcon(iconPlante4));
+		panelListeCompo.add(lblPlante4Recette);
+		
+		panelComposantRecette.add(panelListeCompo);
+	  	
+	  	JPanel panel_1 = new JPanel();
+	  	panel_1.setSize(new Dimension(600, 250));
+	  	panel_1.setPreferredSize(new Dimension(600, 250));
+	  	panel_1.setMinimumSize(new Dimension(600, 250));
+	  	panel_1.setMaximumSize(new Dimension(600, 250));
+	  	panel_infoRecette.add(panel_1, BorderLayout.EAST);
+	  	panel_1.setLayout(new MigLayout("", "[600px]", "[40px][125px]"));
+	  	
+	  	titre_recette = new JLabel("");
+	  	titre_recette.setFont(new Font("Tahoma", Font.BOLD, 15));
+	  	panel_1.add(titre_recette, "cell 0 0,alignx left,aligny top");
+	  	
 	  	description_recette = new JLabel("");
-	  	panel_infoRecette.add(description_recette, BorderLayout.CENTER);
+	  	panel_1.add(description_recette, "cell 0 1");
 
 	  	
 	  	JPanel panel_listeRessources = new JPanel();
@@ -364,13 +430,29 @@ public class PanelCraft extends JPanel implements ActionListener{
 			String nombtn=btn.getName();
 			String[] str = nombtn.split("-");
 			if(str[0].equals("HOWOB")) {
-				description_recette.setText("HOWOB Description pour recette id : "+listeRecetteHOWOB.get(Integer.valueOf(str[1])).getIdRecette()+" : "+listeRecetteHOWOB.get(Integer.valueOf(str[1])).getDescription());
+				titre_recette.setText(String.valueOf(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getNomRecette()));
+				description_recette.setText(String.valueOf(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getDescription()));
+				lblPlante1Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte1()+" requis");
+				lblPlante2Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte2()+" requis");
+				lblPlante3Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte3()+" requis");
+				lblPlante4Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte4()+" requis");
 			} else {
 				if (str[0].equals("FARMVILLAGE")) {
-					description_recette.setText("FARMVILLAGE Description pour recette id : "+listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getIdRecette()+" : "+listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getDescription());
+					titre_recette.setText(String.valueOf(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getNomRecette()));
+					description_recette.setText(String.valueOf(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getDescription()));
+					lblPlante1Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte1()+" requis");
+					
+					lblPlante2Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte2()+" requis");
+					lblPlante3Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte3()+" requis");
+					lblPlante4Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte4()+" requis");
 				} else {
 					//str[0]=="BOOMCRAFT"
-					description_recette.setText("BOOMCRAFT Description pour recette id : "+listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getIdRecette()+" : "+listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getDescription());
+					titre_recette.setText(String.valueOf(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getNomRecette()));
+					description_recette.setText(String.valueOf(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getDescription()));
+					lblPlante1Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte1()+" requis");
+					lblPlante2Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte2()+" requis");
+					lblPlante3Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte3()+" requis");
+					lblPlante4Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte4()+" requis");
 				}
 			}
 			
