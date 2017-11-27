@@ -45,6 +45,13 @@ public final class Utils {
 		return nomAppli;
 
 	}
+	
+	public static String mailExistDansUneAutreAppli(String mail, String securePass) {
+		String nomAppli = null;
+
+		return nomAppli;
+
+	}
 
 	public static UUID generateUuid() {
 		return UUID.randomUUID();
