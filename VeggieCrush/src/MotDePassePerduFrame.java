@@ -25,6 +25,7 @@ public class MotDePassePerduFrame implements ActionListener {
 	private JTextField mail;
 	private JFrame frame;
 	private JLabel lblUnMailVous;
+	private JButton btnEnvoyer;
 
 	/**
 	 * Launch the application.
@@ -67,18 +68,15 @@ public class MotDePassePerduFrame implements ActionListener {
 		contentPane.add(mail, "cell 1 1,growx");
 		mail.setColumns(10);
 		
-		JButton btnEnvoyer = new JButton("Envoyer");
-		btnEnvoyer.addActionListener(this);
+		btnEnvoyer = new JButton("Envoyer");
+		btnEnvoyer.addActionListener(this);		
+		btnEnvoyer.setActionCommand("envoyer");
+		contentPane.add(btnEnvoyer, "cell 1 3,alignx center");
 		
 		lblUnMailVous = new JLabel("Un mail vous a été envoyé");
 		lblUnMailVous.setForeground(Color.BLUE);
 		lblUnMailVous.setVisible(false);
 		contentPane.add(lblUnMailVous, "cell 1 2,alignx center");
-		
-		
-		
-		btnEnvoyer.setActionCommand("envoyer");
-		contentPane.add(btnEnvoyer, "cell 1 3,alignx center");
 	}
 
 	@Override
@@ -95,8 +93,9 @@ public class MotDePassePerduFrame implements ActionListener {
 						if(account != null) {
 							Utils.modfierMotDePasse(mail.getText());
 							lblUnMailVous.setVisible(true);
+							btnEnvoyer.setText("Quitter");
+							btnEnvoyer.setActionCommand("quitter");
 							accountDao.updateFlag(account.getId(), "O");
-
 						} else {
 							JOptionPane.showMessageDialog(null, "Cette adresse mail n'est liée à aucun compte", "Mail invalide", JOptionPane.ERROR_MESSAGE, null);
 						}
@@ -106,6 +105,8 @@ public class MotDePassePerduFrame implements ActionListener {
 				} else {
 					JOptionPane.showMessageDialog(null, "Vous devez spécifier votre adresse mail", "Champs manquant", JOptionPane.WARNING_MESSAGE, null);
 				}
+			} else if (btn.getActionCommand().equals("quitter")) {
+				this.frame.dispose();
 			}
 		}
 	}
