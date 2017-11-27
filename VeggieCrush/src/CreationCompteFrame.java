@@ -13,6 +13,7 @@ import com.utils.Utils;
 
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -119,27 +120,26 @@ public class CreationCompteFrame implements ActionListener {
 						} else { 
 							// erreur, existe chez les autres + retourne le nom de l'Appli
 							// Utils.usernameExistDansUneAutreAppli(pseudo.getText(), securePass) renvoi le nom de l'appli
-							System.out.println("Ce nom d'utilisateur est déjà utilisé. Veuillez en utiliser un autre !");
+							JOptionPane.showMessageDialog(null, "Ce nom d'utilisateur est déjà utilisé. Veuillez en utiliser un autre", "Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 						}
 					} else {
 						// Compte deja existant chez nous
-						System.out.println("Ce nom d'utilisateur est déjà utilisé. Veuillez en utiliser un autre !");
+						JOptionPane.showMessageDialog(null, "Ce nom d'utilisateur est déjà utilisé. Veuillez en utiliser un autre", "Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 					}
 				} else {
-					
 					if (pseudo.getText().equals("")){
-						System.out.println("Le nom d'utilisateur est vide !");
+						JOptionPane.showMessageDialog(null, "Vous devez choisir un nom d'utilisateur", "Champs vide", JOptionPane.WARNING_MESSAGE, null);
 					}
 					if (mail.getText().equals("")){
-						System.out.println("L'adresse mail est vide !");
+						JOptionPane.showMessageDialog(null, "Vous devez saisir une adresse mail", "Champs vide", JOptionPane.WARNING_MESSAGE, null);
 					}
 					if (!Utils.validate(mail.getText())) {
-						System.out.println("L'adresse mail n'est pas au bon format !");
+						JOptionPane.showMessageDialog(null, "Cette adresse mail n'a pas un format valide", "Format mail invalide", JOptionPane.WARNING_MESSAGE, null);
 					}
 					if (String.valueOf(mdp.getPassword()).equals("") 
 							|| String.valueOf(mdp_confirm.getPassword()).equals("")
 							|| !(String.valueOf(mdp_confirm.getPassword()).equals(String.valueOf(mdp.getPassword())))) {
-						System.out.println("Les deux mots de passe ne correspondent pas !");
+						JOptionPane.showMessageDialog(null, "Les 2 mots de passe ne sont pas identiques", "Erreur de correspondance", JOptionPane.ERROR_MESSAGE, null);
 					}
 				}
 			}
