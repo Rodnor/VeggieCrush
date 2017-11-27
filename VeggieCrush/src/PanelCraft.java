@@ -364,13 +364,13 @@ public class PanelCraft extends JPanel implements ActionListener{
 			String nombtn=btn.getName();
 			String[] str = nombtn.split("-");
 			if(str[0].equals("HOWOB")) {
-				description_recette.setText("HOWOB Description pour recette id : "+listeRecetteHOWOB.get(Integer.valueOf(str[1])).getDescription());
+				description_recette.setText("HOWOB Description pour recette id : "+listeRecetteHOWOB.get(Integer.valueOf(str[1])).getIdRecette()+" : "+listeRecetteHOWOB.get(Integer.valueOf(str[1])).getDescription());
 			} else {
 				if (str[0].equals("FARMVILLAGE")) {
-					description_recette.setText("FARMVILLAGE Description pour recette id : "+listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getDescription());
+					description_recette.setText("FARMVILLAGE Description pour recette id : "+listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getIdRecette()+" : "+listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getDescription());
 				} else {
 					//str[0]=="BOOMCRAFT"
-					description_recette.setText("BOOMCRAFT Description pour recette id : "+listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getDescription());
+					description_recette.setText("BOOMCRAFT Description pour recette id : "+listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getIdRecette()+" : "+listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getDescription());
 				}
 			}
 			
