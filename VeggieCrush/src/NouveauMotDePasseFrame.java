@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 
@@ -85,7 +86,11 @@ public class NouveauMotDePasseFrame implements ActionListener {
 						
 						MainFrame frame = new MainFrame();
 						this.frame.dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Les 2 mots de passe ne sont pas identiques", "Erreur de correspondance", JOptionPane.ERROR_MESSAGE, null);
 					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Vous devez remplir les 2 champs de mot de passe", "Champs manquant", JOptionPane.WARNING_MESSAGE, null);
 				}
 			}
 		}

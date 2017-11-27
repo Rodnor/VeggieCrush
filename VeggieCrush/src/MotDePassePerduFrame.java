@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
@@ -88,7 +89,11 @@ public class MotDePassePerduFrame implements ActionListener {
 					if(Utils.validate(mail.getText())) {
 						Utils.modfierMotDePasse(mail.getText());
 						lblUnMailVous.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "Cette adresse mail n'est liée à aucun compte", "Mail invalide", JOptionPane.ERROR_MESSAGE, null);
 					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Vous devez spécifier votre adresse mail", "Champs manquant", JOptionPane.WARNING_MESSAGE, null);
 				}
 			}
 		}
