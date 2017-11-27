@@ -28,7 +28,7 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JPasswordField;
 
 public class ConnectionFrame implements ActionListener {
-	
+
 	private JFrame frame;
 	private JPanel contentPane;
 	private JTextField tf_pseudo;
@@ -55,75 +55,75 @@ public class ConnectionFrame implements ActionListener {
 	public ConnectionFrame() {
 		initialize();
 	}
-	
+
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Connexion");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
-		
-	    contentPane.setLayout(new MigLayout("", "[grow,center][grow,center]", "[30px][30px][30px][30px][30px][grow]"));
-	    
-	    frame.setVisible(true);
-	    frame.setResizable(false);
-	    frame.setBounds(100, 100, 450, 300);		
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setLocationRelativeTo(null);
-		
+
+		contentPane.setLayout(new MigLayout("", "[grow,center][grow,center]", "[30px][30px][30px][30px][30px][grow]"));
+
+		frame.setVisible(true);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 450, 300);		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+
 		JLabel lblPseudo = new JLabel("Pseudo :");
 		lblPseudo.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblPseudo, "cell 0 0 2 1,alignx center,growy");
-		
+
 		tf_pseudo = new JTextField();
 		contentPane.add(tf_pseudo, "cell 0 1 2 1,alignx center");
 		tf_pseudo.setColumns(10);
-		
+
 		JLabel lblMotDePasse = new JLabel("Mot de passe :");
 		lblMotDePasse.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblMotDePasse, "cell 0 2 2 1");
-		
+
 		passwordField = new JPasswordField();
 		Dimension dim = passwordField.getSize();
 		dim.setSize(130, 0);
 		passwordField.setPreferredSize(dim);
 		contentPane.add(passwordField, "cell 0 3 2 1,alignx center,aligny center");
-		
+
 		JButton btnConnexion = new JButton("Connexion");
 		btnConnexion.addActionListener(this);
 		btnConnexion.setActionCommand("connexion");
 		contentPane.add(btnConnexion, "cell 0 4 2 1,alignx center,growy");
-		
+
 		JLabel lblMDPOublie = new JLabel("Mot de passe oublié ?");
 		lblMDPOublie.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		lblMDPOublie.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMDPOublie.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {				
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {				
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				lblMDPOublie.setCursor(Cursor.getDefaultCursor());
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblMDPOublie.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				MotDePassePerduFrame frame = new MotDePassePerduFrame();
 			}
 		});
 		contentPane.add(lblMDPOublie, "cell 1 5,grow");
-		
+
 		btnCrerMonCompte = new JButton("Créer mon compte");
 		btnCrerMonCompte.addActionListener(this);
 		btnCrerMonCompte.setActionCommand("creer");
@@ -136,15 +136,17 @@ public class ConnectionFrame implements ActionListener {
 			JButton btn = (JButton) e.getSource();
 
 			if(btn.getActionCommand().equals("connexion")) {
-				
+
 				// TODO tester si le flag mdpPerdu est à true ou false
-				if(!flag) {
-					AccountDao adao = new AccountDao();
-					
-					String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
-					Account account = adao.getAccountByUsername(tf_pseudo.getText());
-					
+				//flag = superrequetedemichel();
+				
+				if(!flag) {		
 					if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
+						AccountDao adao = new AccountDao();
+
+						String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
+						Account account = adao.getAccountByUsername(tf_pseudo.getText());
+
 						// test utilisateur présent dans la BD ou celle des autres
 						// TODO verfifier mot de passe dans une autre API
 						if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
@@ -157,10 +159,20 @@ public class ConnectionFrame implements ActionListener {
 						JOptionPane.showMessageDialog(null, "Les champs doivent être remplis", "Champs manquants", JOptionPane.WARNING_MESSAGE, null);
 					}
 				} else {
-					String pseudo = tf_pseudo.getText();
-					
-					// Si on a trouvé quelque chose on ouvre la fenêtre pour modifier le mdpv 
-					NouveauMotDePasseFrame frame = new NouveauMotDePasseFrame(pseudo);
+					if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
+						AccountDao adao = new AccountDao();
+
+						String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
+						Account account = adao.getAccountByUsername(tf_pseudo.getText());
+
+						if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
+							NouveauMotDePasseFrame frame = new NouveauMotDePasseFrame(tf_pseudo.getText());
+						} else {
+							JOptionPane.showMessageDialog(null, "Votre nom d'utilisateur et/ou votre mot de passe sont invalides", "Identifiants invalides", JOptionPane.ERROR_MESSAGE, null);
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Les champs doivent être remplis", "Champs manquants", JOptionPane.WARNING_MESSAGE, null);
+					}
 				}
 			} else if (btn.getActionCommand().equals("creer")) {
 				CreationCompteFrame creationCompteFrame = new CreationCompteFrame();
