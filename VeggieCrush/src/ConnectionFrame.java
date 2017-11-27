@@ -139,6 +139,7 @@ public class ConnectionFrame implements ActionListener {
 
 				// TODO tester si le flag mdpPerdu est à true ou false
 				//flag = superrequetedemichel();
+				flag = true;
 				
 				if(!flag) {		
 					if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {

@@ -7,10 +7,17 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.dao.AccountDao;
+import com.entitie.Account;
+import com.sun.xml.bind.v2.runtime.output.UTF8XmlOutput;
+import com.utils.Utils;
+
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.mail.internet.NewsAddress;
 import javax.swing.JButton;
 
 public class NouveauMotDePasseFrame implements ActionListener {
@@ -80,9 +87,14 @@ public class NouveauMotDePasseFrame implements ActionListener {
 			JButton btn = (JButton) e.getSource();
 
 			if(btn.getActionCommand().equals("valider")) {
-				if(!String.valueOf(passwordField.getPassword()).equals("") && String.valueOf(passwordField_1.getPassword()).equals("")) {
+				if(!String.valueOf(passwordField.getPassword()).equals("") && !String.valueOf(passwordField_1.getPassword()).equals("")) {
 					if(String.valueOf(passwordField.getPassword()).equals(String.valueOf(passwordField_1.getPassword()))) {
-						// TODO Modification en base MPA
+
+						AccountDao accountDao = new AccountDao();
+						Account account = new Account();
+						account = accountDao.getAccountByUsername(utilisateur);
+						String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
+						accountDao.updatePasswordById(account.getId(), securePass);
 						
 						MainFrame frame = new MainFrame();
 						this.frame.dispose();
