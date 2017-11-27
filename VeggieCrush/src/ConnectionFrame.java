@@ -119,7 +119,7 @@ public class ConnectionFrame implements ActionListener {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				MotDePassePerduFrame frame = new MotDePassePerduFrame();
+				new MotDePassePerduFrame();
 			}
 		});
 		contentPane.add(lblMDPOublie, "cell 1 5,grow");
@@ -136,9 +136,10 @@ public class ConnectionFrame implements ActionListener {
 			JButton btn = (JButton) e.getSource();
 
 			if(btn.getActionCommand().equals("connexion")) {
+				
+				AccountDao adao = new AccountDao();
 
 				if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
-					AccountDao adao = new AccountDao();
 
 					String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
 					Account account = adao.getAccountByUsername(tf_pseudo.getText());
@@ -146,11 +147,14 @@ public class ConnectionFrame implements ActionListener {
 					// test utilisateur présent dans la BD ou celle des autres
 					// TODO verfifier mot de passe dans une autre API
 					if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
+						
+						adao.motDePasseAChanger(tf_pseudo);
+						
 						if(!flag) {		
-							MainFrame frame = new MainFrame();
+							new MainFrame();
 							this.frame.dispose();
 						} else {
-							NouveauMotDePasseFrame frame = new NouveauMotDePasseFrame(tf_pseudo.getText());
+							new NouveauMotDePasseFrame(tf_pseudo.getText());
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Votre nom d'utilisateur et/ou votre mot de passe sont invalides", "Identifiants invalides", JOptionPane.ERROR_MESSAGE, null);							
@@ -159,7 +163,7 @@ public class ConnectionFrame implements ActionListener {
 					JOptionPane.showMessageDialog(null, "Les champs doivent être remplis", "Champs manquants", JOptionPane.WARNING_MESSAGE, null);
 				}
 			} else if (btn.getActionCommand().equals("creer")) {
-				CreationCompteFrame creationCompteFrame = new CreationCompteFrame();
+				new CreationCompteFrame();
 			}
 		}
 	}
