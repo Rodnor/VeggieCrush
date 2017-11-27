@@ -121,5 +121,3 @@ public final class Utils {
 		return true;
 	}
 }
-
-// CREATE TABLE NOUVEAU_MDP ( ID INT  NOT NULL, FLAG VARCHAR(1) NOT NULL, CONSTRAINT PK_FLAG PRIMARY KEY (ID, FLAG));   
