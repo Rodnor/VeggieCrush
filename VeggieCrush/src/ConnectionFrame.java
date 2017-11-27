@@ -148,7 +148,7 @@ public class ConnectionFrame implements ActionListener {
 					// TODO verfifier mot de passe dans une autre API
 					if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
 						
-						adao.motDePasseAChanger(tf_pseudo);
+						flag = adao.motDePasseAChanger(tf_pseudo.getText());
 						
 						if(!flag) {		
 							new MainFrame();

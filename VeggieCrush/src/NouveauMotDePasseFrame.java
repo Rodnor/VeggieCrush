@@ -95,7 +95,7 @@ public class NouveauMotDePasseFrame implements ActionListener {
 						account = accountDao.getAccountByUsername(utilisateur);
 						String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
 						accountDao.updatePasswordById(account.getId(), securePass);
-						
+						accountDao.updateFlag(account.getId(), "N");
 						MainFrame frame = new MainFrame();
 						this.frame.dispose();
 					} else {
