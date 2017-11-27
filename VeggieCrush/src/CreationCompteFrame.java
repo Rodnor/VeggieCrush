@@ -83,7 +83,7 @@ public class CreationCompteFrame implements ActionListener {
 		contentPane.add(lblFaction, "cell 1 2");
 
 		panel = new JPanel();
-		contentPane.add(panel, "cell 1 3,grow");
+		contentPane.add(panel, "cell 1 3,growx,aligny center");
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		rdbtnFaction = new JRadioButton("Faction 1");
@@ -151,6 +151,7 @@ public class CreationCompteFrame implements ActionListener {
 							String uuidString = Utils.generateUuid().toString();
 							account = new Account(0, uuidString, pseudo.getText(), mail.getText(), securePass,id_faction, null, null, null);
 							adao.insertNewAccount(account);
+							new ConnectionFrame();
 							this.frame.dispose();
 						} else {
 							// Compte existe déja ailleurs
