@@ -95,6 +95,8 @@ public class MotDePassePerduFrame implements ActionListener {
 						if(account != null) {
 							Utils.modfierMotDePasse(mail.getText());
 							lblUnMailVous.setVisible(true);
+							accountDao.updateFlag(account.getId(), "O");
+
 						} else {
 							JOptionPane.showMessageDialog(null, "Cette adresse mail n'est liée à aucun compte", "Mail invalide", JOptionPane.ERROR_MESSAGE, null);
 						}

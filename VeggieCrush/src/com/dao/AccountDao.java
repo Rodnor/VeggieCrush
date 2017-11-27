@@ -21,14 +21,18 @@ public class AccountDao {
 	final static Logger logger = Logger.getLogger(AccountDao.class.getName()); //UNIXTIME(colonne_timestamp) as valeur_datetime
 
 	private final static String QUERY_FIND_ALL = "SELECT * FROM ACCOUNT";
-	private final static String QUERY_FIND_IN_NOUVEAU_MDP = "SELECT * FROM NOUVEAU_MDP WHERE id = ?";
+	private final static String QUERY_FIND_IN_NOUVEAU_MDP = "SELECT FLAG FROM NOUVEAU_MDP INNER JOIN ACCOUNT ON ACCOUNT.id = NOUVEAU_MDP.id WHERE username = ?";
 
 	
 	private final static String QUERY_FIND_BY_MAIL = "SELECT * FROM ACCOUNT WHERE email = ?";
 
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM ACCOUNT WHERE ID = ?";
 	private final static String QUERY_INSERT = "INSERT INTO ACCOUNT (id_global, id_faction, username, password, email, created_at, updated_at, deleted_at) values (?, ?, ?, ?, ?, ?, ?, ?)";
-	private final static String QUERY_UPDATE_PASSWORD_BY_ID = "UPDATE ACCOUNT SET password = ?, set updated_at = ?  WHERE id = ?";
+	//private final static String QUERY_UPDATE_PASSWORD_BY_ID = "UPDATE ACCOUNT SET password = ?, set updated_at = ?  WHERE id = ?";
+	private final static String QUERY_UPDATE_PASSWORD_BY_ID = "UPDATE ACCOUNT SET password = ? WHERE id = ?";
+
+	
+	private final static String QUERY_UPDATE_MOT_DE_PASSE_BY_ID = "UPDATE NOUVEAU_MDP SET FLAG = ? WHERE id = ?";
 
 	
 	private final static String QUERY_FIND_BY_USERNAME = "SELECT * FROM ACCOUNT WHERE USERNAME = ?";
@@ -163,8 +167,47 @@ public class AccountDao {
 			Date modifiedDate = new java.sql.Date(calendar.getTime().getTime());
 
 			stmt.setString(1, password);
-			stmt.setDate(2,modifiedDate);
-			stmt.setInt(3, id);
+			//stmt.setDate(2,modifiedDate);
+			//stmt.setInt(3, id);
+			stmt.setInt(2, id);
+
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			errorUpdate = true;
+			e.printStackTrace();
+			
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return errorUpdate;
+	}
+	
+	
+	public Boolean updateFlag(int id, String Flag) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		Boolean errorUpdate = false;
+		try {
+			con = Connecteur.getConnexion();
+			stmt = con.prepareStatement(QUERY_UPDATE_MOT_DE_PASSE_BY_ID);
+		
+			stmt.setString(1, Flag);
+			stmt.setInt(2, id);
 
 			stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -346,7 +389,7 @@ public class AccountDao {
 		return account;
 	}
 
-	public Boolean motDePasseAChanger(int id){
+	public Boolean motDePasseAChanger(String username){
 		Connection con = null;
 		PreparedStatement stmt = null;
 		
@@ -354,7 +397,7 @@ public class AccountDao {
 		try {
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_IN_NOUVEAU_MDP);
-			stmt.setInt(1, id);
+			stmt.setString(1, username);
 
 			final ResultSet rset = stmt.executeQuery();
 			while (rset.next()) {
