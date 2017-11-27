@@ -28,8 +28,7 @@ public class AccountDao {
 
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM ACCOUNT WHERE ID = ?";
 	private final static String QUERY_INSERT = "INSERT INTO ACCOUNT (id_global, id_faction, username, password, email, created_at, updated_at, deleted_at) values (?, ?, ?, ?, ?, ?, ?, ?)";
-	//private final static String QUERY_UPDATE_PASSWORD_BY_ID = "UPDATE ACCOUNT SET password = ?, set updated_at = ?  WHERE id = ?";
-	private final static String QUERY_UPDATE_PASSWORD_BY_ID = "UPDATE ACCOUNT SET password = ? WHERE id = ?";
+	private final static String QUERY_UPDATE_PASSWORD_BY_ID = "UPDATE ACCOUNT SET password = ?, updated_at = ?  WHERE id = ?";
 
 	
 	private final static String QUERY_UPDATE_MOT_DE_PASSE_BY_ID = "UPDATE NOUVEAU_MDP SET FLAG = ? WHERE id = ?";
@@ -167,9 +166,8 @@ public class AccountDao {
 			Date modifiedDate = new java.sql.Date(calendar.getTime().getTime());
 
 			stmt.setString(1, password);
-			//stmt.setDate(2,modifiedDate);
-			//stmt.setInt(3, id);
-			stmt.setInt(2, id);
+			stmt.setDate(2,modifiedDate);
+			stmt.setInt(3, id);
 
 			stmt.executeUpdate();
 		} catch (SQLException e) {
