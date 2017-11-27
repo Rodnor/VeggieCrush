@@ -21,6 +21,9 @@ public class AccountDao {
 	final static Logger logger = Logger.getLogger(AccountDao.class.getName()); //UNIXTIME(colonne_timestamp) as valeur_datetime
 
 	private final static String QUERY_FIND_ALL = "SELECT * FROM ACCOUNT";
+	private final static String QUERY_FIND_IN_NOUVEAU_MDP = "SELECT * FROM NOUVEAU_MDP WHERE id = ?";
+
+	
 	private final static String QUERY_FIND_BY_MAIL = "SELECT * FROM ACCOUNT WHERE email = ?";
 
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM ACCOUNT WHERE ID = ?";
@@ -343,4 +346,42 @@ public class AccountDao {
 		return account;
 	}
 
+	public Boolean motDePasseAChanger(int id){
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		Boolean flag = false;
+		try {
+			con = Connecteur.getConnexion();
+			stmt = con.prepareStatement(QUERY_FIND_IN_NOUVEAU_MDP);
+			stmt.setInt(1, id);
+
+			final ResultSet rset = stmt.executeQuery();
+			while (rset.next()) {
+				String flagRetourne = rset.getString("FLAG");
+				
+				flag = flagRetourne.equals("N") ? false : true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return flag;
+	}
 }
