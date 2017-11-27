@@ -98,6 +98,8 @@ public class CreationCompteFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		StringBuilder stringBuilder = new StringBuilder();
 		if(e.getSource() instanceof JButton) {
 			JButton btn = (JButton) e.getSource();
 
@@ -128,19 +130,33 @@ public class CreationCompteFrame implements ActionListener {
 					}
 				} else {
 					if (pseudo.getText().equals("")){
-						JOptionPane.showMessageDialog(null, "Vous devez choisir un nom d'utilisateur", "Champs vide", JOptionPane.WARNING_MESSAGE, null);
+						
+						stringBuilder.append("- Vous devez choisir un nom d'utilisateur");
 					}
 					if (mail.getText().equals("")){
-						JOptionPane.showMessageDialog(null, "Vous devez saisir une adresse mail", "Champs vide", JOptionPane.WARNING_MESSAGE, null);
+						if (stringBuilder.length() != 0 ){
+							stringBuilder.append("\n");
+						}
+						stringBuilder.append("- Vous devez saisir une adresse mail");
 					}
 					if (!Utils.validate(mail.getText())) {
-						JOptionPane.showMessageDialog(null, "Cette adresse mail n'a pas un format valide", "Format mail invalide", JOptionPane.WARNING_MESSAGE, null);
+						if (stringBuilder.length() != 0 ){
+							stringBuilder.append("\n");
+						}
+						stringBuilder.append("- Cette adresse mail n'a pas un format valide");
 					}
 					if (String.valueOf(mdp.getPassword()).equals("") 
 							|| String.valueOf(mdp_confirm.getPassword()).equals("")
 							|| !(String.valueOf(mdp_confirm.getPassword()).equals(String.valueOf(mdp.getPassword())))) {
-						JOptionPane.showMessageDialog(null, "Les 2 mots de passe ne sont pas identiques", "Erreur de correspondance", JOptionPane.ERROR_MESSAGE, null);
+						if (stringBuilder.length() != 0 ){
+							stringBuilder.append("\n");
+						}
+						stringBuilder.append("- Les 2 mots de passe ne sont pas identiques");	
 					}
+					
+					System.out.println(stringBuilder.toString());
+					JOptionPane.showMessageDialog(null, stringBuilder.toString(), "Erreur de correspondance", JOptionPane.ERROR_MESSAGE, null);
+
 				}
 			}
 		}
