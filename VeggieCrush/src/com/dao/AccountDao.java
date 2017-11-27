@@ -25,7 +25,7 @@ public class AccountDao {
 
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM ACCOUNT WHERE ID = ?";
 	private final static String QUERY_INSERT = "INSERT INTO ACCOUNT (id_global, id_faction, username, password, email, created_at, updated_at, deleted_at) values (?, ?, ?, ?, ?, ?, ?, ?)";
-	private final static String QUERY_UPDATE_BY_ID = "UPDATE ACCOUNT SET password = ? WHERE id = ?";
+	private final static String QUERY_UPDATE_PASSWORD_BY_ID = "UPDATE ACCOUNT SET password = ? WHERE id = ?";
 
 	
 	private final static String QUERY_FIND_BY_USERNAME = "SELECT * FROM ACCOUNT WHERE USERNAME = ?";
@@ -154,11 +154,11 @@ public class AccountDao {
 		Boolean errorUpdate = false;
 		try {
 			con = Connecteur.getConnexion();
-			stmt = con.prepareStatement(QUERY_UPDATE_BY_ID);
-			stmt.setString(2, password);
-			stmt.setInt(1, id);
+			stmt = con.prepareStatement(QUERY_UPDATE_PASSWORD_BY_ID);
+			stmt.setString(1, password);
+			stmt.setInt(2, id);
 
-			stmt.executeQuery();
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			errorUpdate = true;
 			e.printStackTrace();
@@ -270,7 +270,6 @@ public class AccountDao {
 
 			final ResultSet rset = stmt.executeQuery();
 			while (rset.next()) {
-				logger.debug("MiPa, une ligne trouvée");
 				account = mappingAccount(rset);
 			}
 		} catch (SQLException e) {
@@ -311,7 +310,6 @@ public class AccountDao {
 
 			final ResultSet rset = stmt.executeQuery();
 			while (rset.next()) {
-				logger.debug("MiPa, une ligne trouvée");
 				account = mappingAccount(rset);
 			}
 		} catch (SQLException e) {
