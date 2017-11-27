@@ -99,9 +99,20 @@ public class Test {
 		
 		
 		
+		
 		//System.out.println(Utils.generateNewPassword(13));
 		
 		//Utils.modfierMotDePasse()
+		
+		ArrayList<Account> accounts = new ArrayList<Account>();
+		
+		AccountDao accountDao = new AccountDao();
+		logger.debug("MiPa avant appel DAO");
+		accounts = accountDao.getAllAccounts();	
+
+		for (Account account : accounts) {
+			logger.debug(account.toString());
+		}
 
 	}
 

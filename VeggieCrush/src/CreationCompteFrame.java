@@ -101,45 +101,48 @@ public class CreationCompteFrame implements ActionListener {
 			JButton btn = (JButton) e.getSource();
 
 			if(btn.getActionCommand().equals("creer")) {
-				if(!pseudo.getText().equals("") && !mail.getText().equals("") && !String.valueOf(mdp.getPassword()).equals("") && !String.valueOf(mdp_confirm.getPassword()).equals("")) {
-					// test regexp sur adresse mail + test sur pseudo ou UUID
-					// test si personne existe dans la BD et dans celle des autres. Si non, on insère. Si oui, message comme quoi personne existe déjà
-					// test sur les mdp s'ils sont identiques
+				if(!pseudo.getText().equals("") && !mail.getText().equals("") 
+						&& Utils.validate(mail.getText())
+						&& !String.valueOf(mdp.getPassword()).equals("") 
+						&& !String.valueOf(mdp_confirm.getPassword()).equals("")
+						&& String.valueOf(mdp_confirm.getPassword()).equals(String.valueOf(mdp.getPassword()))) {
 					Account account = new Account();
 					
-					String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(mdp.getPassword()));
-
 					account = adao.getAccountByUsername(pseudo.getText());
-					if (account == null){ 
-						if(Utils.usernameExistDansUneAutreAppli(pseudo.getText(), securePass) == null) {// ()
-							//rajouter le test sur les autre appli Utils.usernameExistDansUneAutreAppli(pseudo.getText());
-							// creer un compte
-							
+					if (account == null){ // n'existe pas chez nous
+						String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(mdp.getPassword()));
+						if(Utils.usernameExistDansUneAutreAppli(pseudo.getText(), securePass) == null) { // n'existe pas ailleurs 
 							String uuidString = Utils.generateUuid().toString();
-							System.out.println("On peut créer avec uuid "+uuidString);
+							account = new Account(0, uuidString, pseudo.getText(), mail.getText(), securePass, 1, null, null, null);
+							adao.insertNewAccount(account);		
+							this.frame.dispose();
 						} else { 
-							System.out.println("On ne peut pas créer, existe deja chez les autres ");
 							// erreur, existe chez les autres + retourne le nom de l'Appli
+							// Utils.usernameExistDansUneAutreAppli(pseudo.getText(), securePass) renvoi le nom de l'appli
+							System.out.println("Ce nom d'utilisateur est déjà utilisé. Veuillez en utiliser un autre !");
 						}
-						
-						// créer 
 					} else {
-						System.out.println("On ne peut pas créer, existe déjà");
-
-						// erreur , deja existant chez nous
-						
+						// Compte deja existant chez nous
+						System.out.println("Ce nom d'utilisateur est déjà utilisé. Veuillez en utiliser un autre !");
 					}
-					//Account account = new Account(id, id_global, username, email, password, id_faction, created_at, updated_at, deleted_at);
-					//adao.insertNewAccount(account);
-					
-					// message compte créé
-					
-					this.frame.dispose();
 				} else {
-					// popup manque des champs
+					
+					if (pseudo.getText().equals("")){
+						System.out.println("Le nom d'utilisateur est vide !");
+					}
+					if (mail.getText().equals("")){
+						System.out.println("L'adresse mail est vide !");
+					}
+					if (!Utils.validate(mail.getText())) {
+						System.out.println("L'adresse mail n'est pas au bon format !");
+					}
+					if (String.valueOf(mdp.getPassword()).equals("") 
+							|| String.valueOf(mdp_confirm.getPassword()).equals("")
+							|| !(String.valueOf(mdp_confirm.getPassword()).equals(String.valueOf(mdp.getPassword())))) {
+						System.out.println("Les deux mots de passe ne correspondent pas !");
+					}
 				}
 			}
 		}
 	}
-
 }
