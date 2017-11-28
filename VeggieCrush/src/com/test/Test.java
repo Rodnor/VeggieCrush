@@ -1,5 +1,6 @@
 package com.test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.mail.MessagingException;
@@ -18,6 +19,7 @@ import com.entitie.Inventaire;
 import com.entitie.Objet;
 import com.entitie.Recette;
 import com.entitie.TypeObjet;
+import com.utils.HttpClient;
 import com.utils.SendMail;
 import com.utils.Utils;
 
@@ -103,8 +105,25 @@ public class Test {
 		//System.out.println(Utils.generateNewPassword(13));
 		
 		//Utils.modfierMotDePasse()
-		StringBuilder sb = new StringBuilder();
-		System.out.println(sb.length());
+		
+		HttpClient httpClient = new HttpClient();
+		System.out.println("On appelle");
+		JSONObject json = new JSONObject();
+		try {
+			json = httpClient.getHttpsRequest("https://veggiecrush.masi-henallux.be:8443/rest_server/api/test/testHTTP");
+
+			System.out.println(json.toString());
+			if (json.get("ok").equals(true)){
+				System.out.println("On a trouvé true");
+				
+			} else {
+				System.out.println("On a PAS trouvé true");
+
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

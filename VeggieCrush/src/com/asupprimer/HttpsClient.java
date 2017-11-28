@@ -1,4 +1,4 @@
-package com.utils;
+package com.asupprimer;
 
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -14,44 +14,6 @@ import org.codehaus.jettison.json.JSONObject;
 
 public final class HttpsClient {
 
-	public JSONObject getJsonByHttps(String urlHttps) {
-
-		JSONObject jObject = new JSONObject();
-
-		try {
-			URL url = new URL(urlHttps);
-			HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-
-			int responseCode = con.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-				String inputLine;
-				StringBuffer response = new StringBuffer();
-
-				while ((inputLine = in.readLine()) != null) {
-					response.append(inputLine);
-				}
-				in.close();
-
-				jObject = new JSONObject(response.toString());
-				String title = (String) jObject.get("title");
-				System.out.println(" trouvé : " + jObject.toString());
-
-			} else {
-				System.out.println("GET request not worked");
-			}
-
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		return jObject;
-
-	}
 
 	private void printCert (HttpsURLConnection con) {
 		if (con != null) {
