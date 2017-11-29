@@ -509,7 +509,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		InventaireDao inventaireDao = new InventaireDao();
 
-		Inventaire inventaireAInserer = new Inventaire(1, 1, nb1);
+		Inventaire inventaireAInserer = new Inventaire("1", 1, nb1);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
 		ArrayList<Inventaire> inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 1);
@@ -518,7 +518,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 			System.out.println("user 1, objet 1 : "+inventaire.toString());
 		}
 
-		inventaireAInserer = new Inventaire(1, 2, nb2);
+		inventaireAInserer = new Inventaire("1", 2, nb2);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
 		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 2);
@@ -527,7 +527,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 			System.out.println("user 1, objet 2 : "+inventaire.toString());
 		}
 
-		inventaireAInserer = new Inventaire(1, 3, nb3);
+		inventaireAInserer = new Inventaire("1", 3, nb3);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
 		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 3);
@@ -536,7 +536,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 			System.out.println("user 1, objet 3 : "+inventaire.toString());
 		}
 
-		inventaireAInserer = new Inventaire(1, 4, nb4);
+		inventaireAInserer = new Inventaire("1", 4, nb4);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
 		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 4);

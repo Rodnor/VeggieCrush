@@ -3,7 +3,6 @@ package com.entitie;
 public class Recette {
 	private int idRecette;
 	private int idObjet;
-	private int idFaction;
 	private String nomRecette;
 	private String type;
 	private String description;
@@ -23,12 +22,6 @@ public class Recette {
 	}
 	public void setIdObjet(int idObjet) {
 		this.idObjet = idObjet;
-	}
-	public int getIdFaction() {
-		return idFaction;
-	}
-	public void setIdFaction(int idFaction) {
-		this.idFaction = idFaction;
 	}
 	
 	public int getQte1() {
@@ -81,7 +74,6 @@ public class Recette {
 			int qte1, int qte2, int qte3, int qte4) {
 		this.idRecette = idRecette;
 		this.idObjet = idObjet;
-		this.idFaction = idFaction;
 		this.nomRecette = nomRecette;
 		this.type = type;
 		this.description = description;
@@ -92,7 +84,7 @@ public class Recette {
 	}
 	@Override
 	public String toString() {
-		return "Recette [idRecette=" + idRecette + ", idObjet=" + idObjet + ", idFaction=" + idFaction + ", nomRecette="
+		return "Recette [idRecette=" + idRecette + ", idObjet=" + idObjet + ", nomRecette="
 				+ nomRecette + ", type=" + type + ", description=" + description + ", qte1=" + qte1 + ", qte2=" + qte2
 				+ ", qte3=" + qte3 + ", qte4=" + qte4 + "]";
 	}

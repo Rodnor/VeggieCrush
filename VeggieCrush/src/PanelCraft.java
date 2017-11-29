@@ -275,7 +275,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	panelComposantRecette.setLayout(new GridLayout(2,1,0,-200));
 	  	panelComposantRecette.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
 	  	
-	  	JLabel listecomporecette = new JLabel("Composants nécessaires");
+	  	JLabel listecomporecette = new JLabel("Composants nï¿½cessaires");
 	  	listecomporecette.setVerticalAlignment(SwingConstants.TOP);
 	  	listecomporecette.setAlignmentX(Component.CENTER_ALIGNMENT);
 	  	listecomporecette.setSize(new Dimension(200, 25));
@@ -349,10 +349,10 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	inv_plante3.setName("3");
 	  	inv_plante4.setName("4");
 	  	
-	  	int qteplante1 = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 1);
-	  	int qteplante2 = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 2);
-	  	int qteplante3 = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 3);
-	  	int qteplante4 = objetDao.getNbObjetByIdAccountAndByIdObjet(1, 4);
+	  	int qteplante1 = objetDao.getNbObjetByIdAccountAndByIdObjet("1", 1);
+	  	int qteplante2 = objetDao.getNbObjetByIdAccountAndByIdObjet("1", 2);
+	  	int qteplante3 = objetDao.getNbObjetByIdAccountAndByIdObjet("1", 3);
+	  	int qteplante4 = objetDao.getNbObjetByIdAccountAndByIdObjet("1", 4);
 	  	
 	  	
 	  	

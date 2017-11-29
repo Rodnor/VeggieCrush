@@ -19,7 +19,7 @@ import com.entitie.TypeObjet;
 
 public class RecetteDao {
 	
-	private final static String QUERY_INSERT = "INSERT INTO RECETTE  (id_objet, id_faction, nom_recette, type, description, qte_plante1, qte_plante2, qte_plante3, qte_plante4) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private final static String QUERY_INSERT = "INSERT INTO RECETTE  (id_objet, nom_recette, type, description, qte_plante1, qte_plante2, qte_plante3, qte_plante4) values (?, ?, ?, ?, ?, ?, ?, ?)";
 	private final static String QUERY_DELETE_BY_ID = "DELETE FROM RECETTE WHERE id_recette = ?";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM RECETTE WHERE id_recette = ?";
 	private final static String QUERY_FIND_ALL = "SELECT * FROM RECETTE";
@@ -138,14 +138,13 @@ public class RecetteDao {
 
 			stmt = con.prepareStatement(QUERY_INSERT);
 			stmt.setInt(1,recette.getIdObjet());
-			stmt.setInt(2,recette.getIdFaction());
-			stmt.setString(3,recette.getNomRecette());
-			stmt.setString(4,recette.getType());
-			stmt.setString(5,recette.getDescription());
-			stmt.setInt(6,recette.getQte1());
-			stmt.setInt(7,recette.getQte2());
-			stmt.setInt(8,recette.getQte3());
-			stmt.setInt(9,recette.getQte4());
+			stmt.setString(2,recette.getNomRecette());
+			stmt.setString(3,recette.getType());
+			stmt.setString(4,recette.getDescription());
+			stmt.setInt(5,recette.getQte1());
+			stmt.setInt(6,recette.getQte2());
+			stmt.setInt(7,recette.getQte3());
+			stmt.setInt(8,recette.getQte4());
 
 			stmt.execute();
 		} catch (SQLException e) {

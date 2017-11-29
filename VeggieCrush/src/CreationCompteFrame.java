@@ -35,7 +35,7 @@ public class CreationCompteFrame implements ActionListener {
 	private JPanel panel;
 	private JRadioButton rdbtnFaction;
 	private JRadioButton rdbtnFaction_1;
-	private int id_faction = 0;
+	private String faction;
 
 	/**
 	 * Launch the application.
@@ -136,8 +136,8 @@ public class CreationCompteFrame implements ActionListener {
 				if (!pseudo.getText().equals("") && !mail.getText().equals("") && Utils.validate(mail.getText())
 						&& !String.valueOf(mdp.getPassword()).equals("")
 						&& !String.valueOf(mdp_confirm.getPassword()).equals("")
-						&& String.valueOf(mdp_confirm.getPassword()).equals(String.valueOf(mdp.getPassword()))
-						&& id_faction != 0) {
+						&& String.valueOf(mdp_confirm.getPassword()).equals(String.valueOf(mdp.getPassword()))) {
+					// TODO, controle sur la faction
 					Account account = new Account();
 					Account accountmail = new Account();
 
@@ -149,7 +149,7 @@ public class CreationCompteFrame implements ActionListener {
 						if (Utils.usernameExistDansUneAutreAppli(pseudo.getText(), securePass) == null
 								&& Utils.mailExistDansUneAutreAppli(mail.getText(), securePass) == null) { // n'existe pas ailleurs
 							String uuidString = Utils.generateUuid().toString();
-							account = new Account(0, uuidString, pseudo.getText(), mail.getText(), securePass,id_faction, null, null, null);
+							account = new Account(0, uuidString, pseudo.getText(), mail.getText(), securePass, faction, null, null, null);
 							adao.insertNewAccount(account);
 							new ConnectionFrame();
 							this.frame.dispose();
@@ -171,7 +171,7 @@ public class CreationCompteFrame implements ActionListener {
 						stringBuilder.append("- Vous devez choisir un nom d'utilisateur");
 					}
 					
-					if (id_faction == 0) {
+					if (faction == null) {
 						if (stringBuilder.length() != 0) {
 							stringBuilder.append("\n");
 						}
@@ -211,9 +211,9 @@ public class CreationCompteFrame implements ActionListener {
 			JRadioButton btn = (JRadioButton) e.getSource();
 
 			if (btn.getActionCommand().equals("Faction 1")) {
-				id_faction = 1;
+				faction = "Faction1";
 			} else {
-				id_faction = 2;
+				faction = "Faction2";
 			}
 		}
 	}

@@ -145,7 +145,8 @@ public class ObjetDao {
 		final String nom_objet = rset.getString("name_objet");
 		final String nom_type_objet = rset.getString("type_objet");
 		final TypeObjet type_objet = TypeObjet.valueOf(nom_type_objet);// TypeObjet.POTION;
-		final Objet objet = new Objet(id_objet, nom_objet, type_objet);
+		final int puissance_objet = rset.getInt("puissance_objet");
+		final Objet objet = new Objet(id_objet, nom_objet, type_objet, puissance_objet);
 		return objet;
 	}
 
@@ -186,7 +187,7 @@ public class ObjetDao {
 		return errorInsert;
 	}
 	
-	public int getNbObjetByIdAccountAndByIdObjet(int idAccount, int idObjet) {
+	public int getNbObjetByIdAccountAndByIdObjet(String idAccount, int idObjet) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 
@@ -195,7 +196,7 @@ public class ObjetDao {
 		try {
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_COUNT_BY_ID_ACCOUNT_AND_BY_ID_OBJET);
-			stmt.setInt(1, idAccount);
+			stmt.setString(1, idAccount);
 			stmt.setInt(2, idObjet);
 
 			final ResultSet rset = stmt.executeQuery();
@@ -224,7 +225,7 @@ public class ObjetDao {
 		return nombre;
 	}
 	
-	public int testPresentInInventaireByAccounByObjet(int idAccount, int idObjet) {
+	public int testPresentInInventaireByAccounByObjet(String idAccount, int idObjet) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 
@@ -233,7 +234,7 @@ public class ObjetDao {
 		try {
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_PRESENT_BY_ID_ACCOUNT_AND_BY_ID_OBJET);
-			stmt.setInt(1, idAccount);
+			stmt.setString(1, idAccount);
 			stmt.setInt(2, idObjet);
 
 			final ResultSet rset = stmt.executeQuery();

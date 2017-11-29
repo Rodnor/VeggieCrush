@@ -101,7 +101,7 @@ public class InventaireDao {
 	
 	private Inventaire mappingInventaire(final ResultSet rset) throws SQLException {
 		final int id_objet = rset.getInt("id_objet");
-		final int id_user = rset.getInt("id_user");
+		final String id_user = rset.getString("id_user");
 		final int qte = rset.getInt("qte");
 		final Inventaire inventaire = new Inventaire(id_user, id_objet, qte);
 		return inventaire;
@@ -125,12 +125,13 @@ public class InventaireDao {
 					logger.info("nb"+nbObjetDejaPresent);
 
 					stmt.setInt(1, nbObjetDejaPresent+inventaire.getQuantite());
-					stmt.setInt(2, inventaire.getId_user());
-					stmt.setInt(3, inventaire.getId_objet());	
+					stmt.setString(2, inventaire.getId_user());
+					stmt.setInt(3, inventaire.getId_objet());
+					// TODO controler si il ne faut pas faire appel à UPDATE ici ?
 			} else {
 				stmt = con.prepareStatement(QUERY_INSERT);
 				stmt.setInt(1, inventaire.getId_objet());
-				stmt.setInt(2, inventaire.getId_user());
+				stmt.setString(2, inventaire.getId_user());
 				stmt.setInt(3, inventaire.getQuantite());
 			}
 			
