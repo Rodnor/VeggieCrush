@@ -67,15 +67,10 @@ public class MainFrame {
 		            break;
 		        }
 		    }
-		} catch (UnsupportedLookAndFeelException e) {
-		    // handle exception
-		} catch (ClassNotFoundException e) {
-		    // handle exception
-		} catch (InstantiationException e) {
-		    // handle exception
-		} catch (IllegalAccessException e) {
-		    // handle exception
-		}
+		} catch (UnsupportedLookAndFeelException e) {} 
+		catch (ClassNotFoundException e) {} 
+		catch (InstantiationException e) {} 
+		catch (IllegalAccessException e) {}
 
 
 		frame = new JFrame();
@@ -98,5 +93,4 @@ public class MainFrame {
 	    
 	    frame.getContentPane().setForeground(Color.RED);
 	}
-
 }
