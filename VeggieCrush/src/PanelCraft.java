@@ -59,6 +59,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  BufferedImage iconPlante2=null;
 	  BufferedImage iconPlante3=null;
 	  BufferedImage iconPlante4=null;
+	  BufferedImage imgFond=null;
 	  JLabel lblPlante1Recette;
 	  JLabel lblPlante2Recette;
 	  JLabel lblPlante3Recette;
@@ -87,6 +88,13 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	BufferedImage iconInventaire=null;
 	  	BufferedImage iconCraft=null;
 	  	BufferedImage iconVide=null;
+	  	
+	  	try {
+			imgFond = ImageIO.read(new File("images/pierre.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	  	
 		try {
 			iconPlante1 = ImageIO.read(new File("images/herbe1.jpg"));
@@ -160,6 +168,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	System.out.println(listeRecetteBOOMCRAFT);
 	  	
 	  	JPanel panel_listeRecette = new JPanel();
+	  	panel_listeRecette.setOpaque(false);
 	  	add(panel_listeRecette, "cell 1 0,grow");
 	  	
 	  	JTabbedPane tabbedPane = new JTabbedPane();
@@ -167,6 +176,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	JComponent panel1 = makeTextPanel(10);
 	  	
 	  	JPanel btnPnl1 = new JPanel();
+	  	
 
 	    // Adding buttons to the project
 	  	JButton[] buttons1 = new JButton[listeRecetteBOOMCRAFT.size()];
@@ -250,6 +260,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	int nbRow = invs.size()%5;
 	  	
 	  	JPanel panel_infoRecette = new JPanel();
+	  	panel_infoRecette.setOpaque(false);
 	  	add(panel_infoRecette, "cell 1 1,grow");
 	  	panel_infoRecette.setLayout(new BorderLayout(0, 0));
 	  	
@@ -259,6 +270,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	panel_infoRecette.add(lblNewLabel, BorderLayout.NORTH);
 	  	
 	  	JPanel panelComposantRecette = new JPanel();
+	  	panelComposantRecette.setOpaque(false);
 	  	panel_infoRecette.add(panelComposantRecette, BorderLayout.WEST);
 	  	panelComposantRecette.setLayout(new GridLayout(2,1,0,-200));
 	  	panelComposantRecette.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
@@ -275,6 +287,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	panelComposantRecette.add(listecomporecette);
 	  	
 	  	JPanel panelListeCompo = new JPanel();
+	  	panelListeCompo.setOpaque(false);
 	  	panelListeCompo.setLayout(new GridLayout(2, 2, 25, 25));
 	  	
 	  	lblPlante1Recette = new JLabel("");
@@ -302,8 +315,10 @@ public class PanelCraft extends JPanel implements ActionListener{
 		panelListeCompo.add(lblPlante4Recette);
 		
 		panelComposantRecette.add(panelListeCompo);
+		
 	  	
 	  	JPanel panel_1 = new JPanel();
+	  	panel_1.setOpaque(false);
 	  	panel_1.setSize(new Dimension(600, 250));
 	  	panel_1.setPreferredSize(new Dimension(600, 250));
 	  	panel_1.setMinimumSize(new Dimension(600, 250));
@@ -320,6 +335,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 
 	  	
 	  	JPanel panel_listeRessources = new JPanel();
+	  	panel_listeRecette.setOpaque(false);
 	  	add(panel_listeRessources, "cell 1 2,grow");
 	  	panel_listeRessources.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
@@ -359,6 +375,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	inv_plante4.setIcon(new ImageIcon(iconPlante4));
         
         panel_listeRessources.add(inv_plante1);
+        panel_listeRessources.setOpaque(false);
         
         JSpinner spinner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante1,
                 1));
@@ -407,6 +424,7 @@ public class PanelCraft extends JPanel implements ActionListener{
         btnCraft.setFocusPainted(false);
         btnCraft.setContentAreaFilled(false);
 	  	panel_btCraft.add(btnCraft);
+	  	panel_btCraft.setOpaque(false);
 	  	
 	  	
 	  		  	
@@ -418,6 +436,8 @@ public class PanelCraft extends JPanel implements ActionListener{
 	    g.setColor(Color.white);
 	    g.setFont(new Font("Arial", Font.BOLD, 15));
 	    g.drawString(this.message, 10, 20);
+	    g.drawImage(imgFond, 0, 0, null);
+
 	  }
 
 

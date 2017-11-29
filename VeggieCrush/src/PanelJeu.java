@@ -15,6 +15,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -75,9 +78,16 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private Clip clip = null;
 	private JToggleButton tglbtnMuteSound;
 	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("jeu");
-
+	private BufferedImage imgFond=null;
 
 	public PanelJeu(){
+		
+		try {
+			imgFond = ImageIO.read(new File("images/foret.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		System.out.println("TEST POUR TLS : "+applicationProperties.getString("test.pour.montrer.a.tristan"));
 		
@@ -552,4 +562,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 	}
+	public void paintComponent(Graphics g){
+	    g.drawImage(imgFond, 0, 0, null);
+
+	  }
 }
