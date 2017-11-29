@@ -15,8 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -25,13 +23,11 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import sun.audio.*;
 import javax.swing.JToggleButton;
 
 public class PanelJeu extends JPanel implements ActionListener {
@@ -76,6 +72,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int multiplicateurBonus3=1;
 	private int multiplicateurBonus4=1;
 	private Clip clip = null;
+	private Clip sound = null;
 	private JToggleButton tglbtnMuteSound;
 	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("jeu");
 	private BufferedImage imgFond=null;
@@ -208,7 +205,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 				startThreads();
 
-				playMusic();
+				playMusic(new File("sounds/game.wav"));
 
 				btnJouer.setVisible(false);
 			} else {
@@ -234,6 +231,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 									}
 
 									if(b[row][col] != prevJButton && canSwitch) {
+										playSound(new File("sounds/cut.wav"));
 										next = (ImageIcon) b[row][col].getIcon();
 										String tmp = b[row][col].getName();
 
@@ -258,7 +256,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void startThreads() {
-
+	
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -538,10 +536,10 @@ public class PanelJeu extends JPanel implements ActionListener {
 		}
 	}
 
-	public void playMusic() {
+	public void playMusic(File file) {
 
 		try {
-			File file = new File("sounds/game.wav"); 
+			//File file = new File("sounds/game.wav"); 
 			clip = null;
 			try {
 				clip = AudioSystem.getClip();
@@ -562,8 +560,34 @@ public class PanelJeu extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-	public void paintComponent(Graphics g){
+	
+	public void playSound(File file) {
+
+		try {
+			//File file = new File("sounds/game.wav"); 
+			sound = null;
+			try {
+				sound = AudioSystem.getClip();
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			} 
+			try {
+				sound.open(AudioSystem.getAudioInputStream(file));
+				sound.start();
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			} catch (UnsupportedAudioFileException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void paintComponent(Graphics g) {
 	    g.drawImage(imgFond, 0, 0, null);
 
-	  }
+	}
 }
