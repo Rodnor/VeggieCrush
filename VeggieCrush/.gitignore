@@ -4,3 +4,4 @@
 /target/
 /log_attaque_base.log
 /.DS_Store
+/src/application.properties
