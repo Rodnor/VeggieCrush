@@ -106,6 +106,7 @@ public final class Utils {
 		}
 		
 		accountDao.updatePasswordById(account.getId(), securePass);
+		accountDao.updateFlag(account.getId(), "O");
 		
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Bonjour ");

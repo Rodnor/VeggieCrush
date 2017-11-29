@@ -99,7 +99,19 @@ public class Test {
 			System.out.println(rec.toString());
 		}
 		*/
+		Account test1 = new Account(0, // je mets un id = 0 car il est auto-incrémenté
+				"id_globaaal1", // id_global avec le protocole de BEN
+				"michel", //string
+				"parism@3il.fr", // String
+				"pass", // mot de pass TODO voir pour le cryptage
+				"Lumière",  // id_faction 1 ou 2
+				null, // la date de création est gérée par le DAO (date du jour)
+				null,
+				null);
 		
+		AccountDao accountDao = new AccountDao();
+		
+		accountDao.insertNewAccount(test1);
 		
 		
 		
@@ -133,16 +145,6 @@ public class Test {
 			e.printStackTrace();
 		}
 		*/
-		
-		System.out.println("MiPa");
-		
-		GestionBonus gestionBonus = new GestionBonus();
-		
-		ArrayList<Bonus> liste = gestionBonus.recupererBonus();
-		
-		for (Bonus bonus : liste) {
-			System.out.println(bonus.toString());
-		}
 		
 
 	}

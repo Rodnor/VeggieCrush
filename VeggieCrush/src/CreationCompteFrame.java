@@ -151,6 +151,7 @@ public class CreationCompteFrame implements ActionListener {
 							String uuidString = Utils.generateUuid().toString();
 							account = new Account(0, uuidString, pseudo.getText(), mail.getText(), securePass, faction, null, null, null);
 							adao.insertNewAccount(account);
+
 							new ConnectionFrame();
 							this.frame.dispose();
 						} else {

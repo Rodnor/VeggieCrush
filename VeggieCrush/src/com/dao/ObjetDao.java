@@ -22,7 +22,7 @@ public class ObjetDao {
 	private final static String QUERY_FIND_BY_ID_ACCOUNT = "SELECT * FROM ACCOUNT "
 															+ "INNER JOIN INVENTAIRE ON ACCOUNT.id = INVENTAIRE.id_global "
 															+ "INNER JOIN OBJET ON INVENTAIRE.id_objet = OBJET.id_objet " + "WHERE INVENTAIRE.id_global = ?";
-	private final static String QUERY_COUNT_BY_ID_ACCOUNT_AND_BY_ID_OBJET = "SELECT qte FROM INVENTAIRE WHERE id_user = ? AND id_objet = ?";
+	private final static String QUERY_COUNT_BY_ID_ACCOUNT_AND_BY_ID_OBJET = "SELECT qte FROM INVENTAIRE WHERE id_global = ? AND id_objet = ?";
 	private final static String QUERY_PRESENT_BY_ID_ACCOUNT_AND_BY_ID_OBJET = "SELECT count(*) as nb FROM INVENTAIRE WHERE id_global = ? AND id_objet = ?";
 
 	private final static String QUERY_INSERT = "INSERT INTO OBJET (id_objet, name_objet, type_objet, puissance_objet) values (?, ?, ?, ?)";
