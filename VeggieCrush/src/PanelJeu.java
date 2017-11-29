@@ -372,7 +372,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void finDePartie() {
-		clip.stop();
+		//clip.stop();
 
 		explorer(b, b[0][0], 0, 0, herbe1);
 		explorer(b, b[0][8], 0, 8, herbe2);
@@ -413,9 +413,9 @@ public class PanelJeu extends JPanel implements ActionListener {
 			resetElements();
 		}
 
-		if(option == JOptionPane.NO_OPTION){
+		/*if(option == JOptionPane.NO_OPTION){
 			System.exit(0);
-		}
+		}*/
 	}
 
 	public void explorer(JButton graphe[][], JButton bouton, int rowCurrentButton, int colCurrentButton, ArrayList<JButton> liste) {
@@ -531,7 +531,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	public void playMusic() {
 
 		try {
-			File file = new File("sounds/music.wav"); 
+			File file = new File("sounds/game.wav"); 
 			clip = null;
 			try {
 				clip = AudioSystem.getClip();
