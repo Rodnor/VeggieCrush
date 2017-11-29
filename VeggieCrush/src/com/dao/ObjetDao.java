@@ -101,7 +101,7 @@ public class ObjetDao {
 		return objet;
 	}
 
-	public ArrayList<Objet> getObjetByIdAccount(int idAccount) {
+	public ArrayList<Objet> getObjetByIdAccount(String idAccount) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 
@@ -109,7 +109,7 @@ public class ObjetDao {
 		try {
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_ID_ACCOUNT);
-			stmt.setInt(1, idAccount);
+			stmt.setString(1, idAccount);
 
 			Objet objet = new Objet();
 

@@ -101,7 +101,7 @@ public class InventaireDao {
 	
 	private Inventaire mappingInventaire(final ResultSet rset) throws SQLException {
 		final int id_objet = rset.getInt("id_objet");
-		final String id_user = rset.getString("id_user");
+		final String id_user = rset.getString("id_global");
 		final int qte = rset.getInt("qte");
 		final Inventaire inventaire = new Inventaire(id_user, id_objet, qte);
 		return inventaire;
