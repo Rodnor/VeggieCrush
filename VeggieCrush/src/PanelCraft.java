@@ -90,7 +90,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	BufferedImage iconVide=null;
 	  	
 	  	try {
-			imgFond = ImageIO.read(new File("images/pierre.jpg"));
+			imgFond = ImageIO.read(new File("images/bois.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

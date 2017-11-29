@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -109,6 +110,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		add(nbCoupsRestants, "cell 0 1");
 
 		canvas = new JPanel();
+		canvas.setOpaque(false);
 		add(canvas, "cell 0 2 3 5,alignx center,aligny center");
 		canvas.setLayout(new GridLayout(9, 9, -25, -10));
 
