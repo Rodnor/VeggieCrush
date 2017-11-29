@@ -19,6 +19,7 @@ import com.entitie.Account;
 import com.entitie.Inventaire;
 import com.entitie.Objet;
 import com.test.Test;
+import com.utils.MusicPlayer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,8 +31,11 @@ import javax.swing.JLabel;
 public class MainFrame {
 
 	private JFrame frame;
-	private JTabbedPane onglet;
-	final static Logger logger = Logger.getLogger(MainFrame.class.getName());
+	private static JTabbedPane onglet;
+	private final static Logger logger = Logger.getLogger(MainFrame.class.getName());
+	private String UUID;
+	private boolean craftMusicIsOn=false;
+	private boolean gameMusicIsOn=true;
 
 	/**
 	 * Launch the application.
@@ -40,7 +44,7 @@ public class MainFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainFrame window = new MainFrame();
+					MainFrame window = new MainFrame("");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,8 +56,9 @@ public class MainFrame {
 	/**
 	 * Create the application.
 	 */
-	public MainFrame() {
+	public MainFrame(String UUID) {
 		initialize();
+		this.UUID = UUID;
 	}
 
 	/**
@@ -90,7 +95,47 @@ public class MainFrame {
 		frame.setBounds(100, 100, 900, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setLocationRelativeTo(null);
-	    
-	    frame.getContentPane().setForeground(Color.RED);
+	    	    
+	    Thread t = new Thread() {
+			public void run() {
+				while(true) {
+					if(MusicPlayer.gameMusicIsMute) {
+						MusicPlayer.stopGameMusic();
+					}
+					if(onglet.getSelectedIndex() == 1) {
+						if(gameMusicIsOn) {
+							MusicPlayer.stopGameMusic();
+							gameMusicIsOn = false;
+							craftMusicIsOn=true;
+						}
+
+						if(craftMusicIsOn) {
+							MusicPlayer.playCraftMusic();
+						}
+					}
+					if(onglet.getSelectedIndex() == 0) {
+						if(craftMusicIsOn) {
+							MusicPlayer.stopCraftMusic();
+							craftMusicIsOn = false;
+							gameMusicIsOn = true;
+						}
+						
+						if(gameMusicIsOn && !MusicPlayer.gameMusicIsMute) {
+							MusicPlayer.playGameMusic();
+						}
+					}
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		t.start();
+	}
+	
+	public static JTabbedPane getTabbedPane() {
+		return onglet;
 	}
 }

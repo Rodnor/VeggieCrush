@@ -4,6 +4,7 @@ import com.dao.InventaireDao;
 import com.entitie.Inventaire;
 import com.utils.Bonus;
 import com.utils.GestionBonus;
+import com.utils.MusicPlayer;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -74,7 +75,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int multiplicateurBonus3=1;
 	private int multiplicateurBonus4=1;
 	private Clip clip = null;
-	private Clip sound = null;
 	private JToggleButton tglbtnMuteSound;
 	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("jeu");
 	private BufferedImage imgFond=null;
@@ -185,13 +185,12 @@ public class PanelJeu extends JPanel implements ActionListener {
 			@Override
 			public void itemStateChanged(ItemEvent ev) {
 				if(ev.getStateChange()==ItemEvent.SELECTED){
-					if(clip != null) {
-						clip.stop();
+					if(MusicPlayer.loopPanelGame != null) {
+						MusicPlayer.gameMusicIsMute=true;
 					}					
 				} else if(ev.getStateChange()==ItemEvent.DESELECTED){
-					if(clip != null) {
-						clip.start();
-						clip.loop(Clip.LOOP_CONTINUOUSLY);
+					if(MusicPlayer.loopPanelGame != null) {
+						MusicPlayer.gameMusicIsMute=false;
 					}
 				}
 			}
@@ -213,7 +212,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 				startThreads();
 
-				playMusic(new File("sounds/game.wav"));
+				//MusicPlayer.playMusic("sounds/game.wav");
 
 				btnJouer.setVisible(false);
 			} else {
@@ -239,7 +238,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 									}
 
 									if(b[row][col] != prevJButton && canSwitch) {
-										playSound(new File("sounds/cut.wav"));
+										MusicPlayer.playSound();
 										next = (ImageIcon) b[row][col].getIcon();
 										String tmp = b[row][col].getName();
 
@@ -264,6 +263,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void startThreads() {
+		
+		MainFrame.getTabbedPane().setEnabledAt(1, false);
 	
 		try {
 			Thread.sleep(2000);
@@ -376,7 +377,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 				try {
 					b[i][j] = new JButton(new ImageIcon(ImageIO.read(new File("images/vide.png"))));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				b[i][j].setBorderPainted(false);
@@ -388,8 +388,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void finDePartie() {
-		//clip.stop();
-
 		explorer(b, b[0][0], 0, 0, herbe1);
 		explorer(b, b[0][8], 0, 8, herbe2);
 		explorer(b, b[8][0], 8, 0, herbe3);
@@ -421,6 +419,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 		lblScore.setText("Score : "+scoreTotal);
 
 		sendDatasToDatabase();
+		
+		MainFrame.getTabbedPane().setEnabledAt(1, true);
 
 		// on reset les éléments du jeu
 		int option = JOptionPane.showConfirmDialog(null, "Voulez-vous rejouer ?", "Fin de partie !", JOptionPane.YES_NO_OPTION);
@@ -457,7 +457,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		canvas.removeAll();
 		revalidate();
 		repaint();
-		// slash slmash
+
 		lblScore.setText("Score : "+(0+scoreBonus));
 		nbCoupsRestants.setText("Nombre de coups restants : "+String.valueOf(nombreCoups+nombreCoupsBonus));
 		nbHerbe1.setText(String.valueOf(0+herbe1Bonus));
@@ -543,64 +543,14 @@ public class PanelJeu extends JPanel implements ActionListener {
 			System.out.println("user 1, objet 4 : "+inventaire.toString());
 		}
 	}
-
-	public void playMusic(File file) {
-
-		try {
-			//File file = new File("sounds/game.wav"); 
-			clip = null;
-			try {
-				clip = AudioSystem.getClip();
-			} catch (LineUnavailableException e) {
-				e.printStackTrace();
-			} 
-			try {
-				clip.open(AudioSystem.getAudioInputStream(file));
-				clip.loop(Clip.LOOP_CONTINUOUSLY);
-			} catch (LineUnavailableException e) {
-				e.printStackTrace();
-			} catch (UnsupportedAudioFileException e) {
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void playSound(File file) {
-
-		try {
-			sound = null;
-			try {
-				sound = AudioSystem.getClip();
-			} catch (LineUnavailableException e) {
-				e.printStackTrace();
-			} 
-			try {
-				sound.open(AudioSystem.getAudioInputStream(file));
-				sound.start();
-			} catch (LineUnavailableException e) {
-				e.printStackTrace();
-			} catch (UnsupportedAudioFileException e) {
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void attribuerBonus() {
 		listeBonus = gestionBonus.recupererBonus();
 		
 		for (Bonus bonus : listeBonus) {
-			System.out.println(bonus.toString());
 			if(bonus.getPossedeBonus()) {
 				switch(bonus.getNomJeu()) {
-					case "howob" : scoreBonus = 250;
+					case "howob" : scoreBonus = 500;
 						break;
 					case "farmvillage" : tempsBonus = 15;
 						break;
