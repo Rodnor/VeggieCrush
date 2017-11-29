@@ -2,6 +2,8 @@ import javax.swing.JPanel;
 
 import com.dao.InventaireDao;
 import com.entitie.Inventaire;
+import com.utils.Bonus;
+import com.utils.GestionBonus;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -47,7 +49,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int nombreCoupsBonus=0;
 	private int tempsBonus=0;
 	private int tempsBase=30;
-	private int tempsTotal=tempsBase+tempsBonus;
+	private int tempsTotal;
 	private int scoreBonus=0;
 	private int herbe1Bonus=0;
 	private int herbe2Bonus=0;
@@ -76,8 +78,14 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private JToggleButton tglbtnMuteSound;
 	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("jeu");
 	private BufferedImage imgFond=null;
+	private GestionBonus gestionBonus = new GestionBonus();
+	private ArrayList<Bonus> listeBonus;
 
 	public PanelJeu(){
+		
+		attribuerBonus();
+		
+		tempsTotal=tempsBase+tempsBonus;
 		
 		try {
 			imgFond = ImageIO.read(new File("images/foret.jpg"));
@@ -564,7 +572,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 	public void playSound(File file) {
 
 		try {
-			//File file = new File("sounds/game.wav"); 
 			sound = null;
 			try {
 				sound = AudioSystem.getClip();
@@ -583,6 +590,24 @@ public class PanelJeu extends JPanel implements ActionListener {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void attribuerBonus() {
+		listeBonus = gestionBonus.recupererBonus();
+		
+		for (Bonus bonus : listeBonus) {
+			System.out.println(bonus.toString());
+			if(bonus.getPossedeBonus()) {
+				switch(bonus.getNomJeu()) {
+					case "howob" : scoreBonus = 250;
+						break;
+					case "farmvillage" : tempsBonus = 15;
+						break;
+					case "boomcraft" : nombreCoupsBonus = 10;
+						break;
+				}
+			}
 		}
 	}
 	
