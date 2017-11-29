@@ -86,14 +86,14 @@ public class CreationCompteFrame implements ActionListener {
 		contentPane.add(panel, "cell 1 3,growx,aligny center");
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		rdbtnFaction = new JRadioButton("Faction 1");
+		rdbtnFaction = new JRadioButton("Lumiere");
 		rdbtnFaction.addActionListener(this);
-		rdbtnFaction.setActionCommand("Faction 1");
+		rdbtnFaction.setActionCommand("Lumiere");
 		panel.add(rdbtnFaction);
 
-		rdbtnFaction_1 = new JRadioButton("Faction 2");
+		rdbtnFaction_1 = new JRadioButton("Ombre");
 		rdbtnFaction_1.addActionListener(this);
-		rdbtnFaction_1.setActionCommand("Faction 2");
+		rdbtnFaction_1.setActionCommand("Ombre");
 		panel.add(rdbtnFaction_1);
 
 		ButtonGroup group = new ButtonGroup();
@@ -210,10 +210,10 @@ public class CreationCompteFrame implements ActionListener {
 		if (e.getSource() instanceof JRadioButton) {
 			JRadioButton btn = (JRadioButton) e.getSource();
 
-			if (btn.getActionCommand().equals("Faction 1")) {
-				faction = "Faction1";
+			if (btn.getActionCommand().equals("Ombre")) {
+				faction = "Ombre";
 			} else {
-				faction = "Faction2";
+				faction = "Lumière";
 			}
 		}
 	}

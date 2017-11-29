@@ -20,12 +20,12 @@ public class ObjetDao {
 	private final static String QUERY_FIND_ALL = "SELECT * FROM OBJET";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM OBJET WHERE id_objet = ?";
 	private final static String QUERY_FIND_BY_ID_ACCOUNT = "SELECT * FROM ACCOUNT "
-															+ "INNER JOIN INVENTAIRE ON ACCOUNT.id = INVENTAIRE.id_user "
-															+ "INNER JOIN OBJET ON INVENTAIRE.id_objet = OBJET.id_objet " + "WHERE INVENTAIRE.id_user = ?";
+															+ "INNER JOIN INVENTAIRE ON ACCOUNT.id = INVENTAIRE.id_global "
+															+ "INNER JOIN OBJET ON INVENTAIRE.id_objet = OBJET.id_objet " + "WHERE INVENTAIRE.id_global = ?";
 	private final static String QUERY_COUNT_BY_ID_ACCOUNT_AND_BY_ID_OBJET = "SELECT qte FROM INVENTAIRE WHERE id_user = ? AND id_objet = ?";
-	private final static String QUERY_PRESENT_BY_ID_ACCOUNT_AND_BY_ID_OBJET = "SELECT count(*) as nb FROM INVENTAIRE WHERE id_user = ? AND id_objet = ?";
+	private final static String QUERY_PRESENT_BY_ID_ACCOUNT_AND_BY_ID_OBJET = "SELECT count(*) as nb FROM INVENTAIRE WHERE id_global = ? AND id_objet = ?";
 
-	private final static String QUERY_INSERT = "INSERT INTO OBJET (id_objet, name_objet, type_objet) values (?, ?, ?)";
+	private final static String QUERY_INSERT = "INSERT INTO OBJET (id_objet, name_objet, type_objet, puissance_objet) values (?, ?, ?, ?)";
 	private final static String QUERY_DELETE_BY_ID = "DELETE FROM OBJET WHERE id_objet = ?";
 
 
@@ -162,6 +162,7 @@ public class ObjetDao {
 			stmt.setInt(1, objet.getId_objet());
 			stmt.setString(2, objet.getNom_objet());
 			stmt.setString(3, objet.getType_objet().getNom());
+			stmt.setInt(3, objet.getPuissance_objet());
 
 			stmt.execute();
 		} catch (SQLException e) {

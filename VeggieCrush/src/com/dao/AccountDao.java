@@ -196,7 +196,7 @@ public class AccountDao {
 	}
 	
 	
-	public Boolean updateFlag(int id, String Flag) {
+	public Boolean updateFlag(int id, String flag) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		Boolean errorUpdate = false;
@@ -204,7 +204,7 @@ public class AccountDao {
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_UPDATE_MOT_DE_PASSE_BY_ID);
 		
-			stmt.setString(1, Flag);
+			stmt.setString(1, flag);
 			stmt.setInt(2, id);
 
 			stmt.executeUpdate();
@@ -244,18 +244,6 @@ public class AccountDao {
 		Timestamp createdAT = rset.getTimestamp("created_at");
 		Timestamp updatedAT = rset.getTimestamp("updated_at");
 		Timestamp deletedAT = rset.getTimestamp("deleted_at");
-
-		/**if (Utils.testDateNulleForTimstamp(createdAT)) {
-			createdAT = null;
-		}
-		
-		if (Utils.testDateNulleForTimstamp(updatedAT)) {
-			updatedAT = null;
-		}
-		
-		if (Utils.testDateNulleForTimstamp(deletedAT)) {
-			deletedAT = null;
-		} **/
 		
 		final Account account = new Account(id, id_global, username, email, password, faction, createdAT, updatedAT, deletedAT);
 		return account;
