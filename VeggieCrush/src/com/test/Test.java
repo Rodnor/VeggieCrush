@@ -19,6 +19,8 @@ import com.entitie.Inventaire;
 import com.entitie.Objet;
 import com.entitie.Recette;
 import com.entitie.TypeObjet;
+import com.utils.Bonus;
+import com.utils.GestionBonus;
 import com.utils.HttpClient;
 import com.utils.SendMail;
 import com.utils.Utils;
@@ -106,24 +108,42 @@ public class Test {
 		
 		//Utils.modfierMotDePasse()
 		
+		/*
 		HttpClient httpClient = new HttpClient();
 		System.out.println("On appelle");
 		JSONObject json = new JSONObject();
-		try {
-			json = httpClient.getHttpsRequest("https://veggiecrush.masi-henallux.be:8443/rest_server/api/test/testHTTP");
+		
+		JSONObject jsonEntre = new JSONObject();
 
-			System.out.println(json.toString());
-			if (json.get("ok").equals(true)){
-				System.out.println("On a trouvé true");
+		
+		try {
+			jsonEntre.put("username", "test");
+			jsonEntre.put("password", "test");
+			json = httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be:8443/rest_server/api/test/testHttpWithJSON",jsonEntre);
+
+			if (json != null){
+				System.out.println(json.toString());
 				
 			} else {
-				System.out.println("On a PAS trouvé true");
+				System.out.println("erreur JSON");
 
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
+		
+		System.out.println("MiPa");
+		
+		GestionBonus gestionBonus = new GestionBonus();
+		
+		ArrayList<Bonus> liste = gestionBonus.recupererBonus();
+		
+		for (Bonus bonus : liste) {
+			System.out.println(bonus.toString());
+		}
+		
 
 	}
 

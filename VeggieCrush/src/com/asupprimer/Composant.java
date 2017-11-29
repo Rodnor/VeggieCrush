@@ -1,4 +1,4 @@
-package com.entitie;
+package com.asupprimer;
 
 public enum Composant { // TODO
 	
