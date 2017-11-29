@@ -70,7 +70,7 @@ public class Recette {
 	}
 	
 	
-	public Recette(int idRecette, int idObjet, int idFaction, String nomRecette, String type, String description,
+	public Recette(int idRecette, int idObjet, String nomRecette, String type, String description,
 			int qte1, int qte2, int qte3, int qte4) {
 		this.idRecette = idRecette;
 		this.idObjet = idObjet;

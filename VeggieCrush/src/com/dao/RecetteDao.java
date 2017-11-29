@@ -105,7 +105,6 @@ public class RecetteDao {
 
 		final int id_recette = rset.getInt("id_recette");
 		final int id_objet = rset.getInt("id_objet");
-		final int id_faction = rset.getInt("id_faction");
 		final String nom_recette = rset.getString("nom_recette");
 		final String type = rset.getString("type");
 		final String descritpion = rset.getString("description");
@@ -116,7 +115,6 @@ public class RecetteDao {
 
 		Recette recette = new Recette(id_recette,
 				id_objet,
-				id_faction,
 				nom_recette,
 				type,
 				descritpion,
