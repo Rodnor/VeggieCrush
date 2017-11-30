@@ -16,28 +16,28 @@ import com.bd.Connecteur;
 import com.entitie.Account;
 import com.utils.Utils;
 
+/**
+ * Classe permettant la gestion des ACCOUNTS
+ */
 public class AccountDao {
-
-	final static Logger logger = Logger.getLogger(AccountDao.class.getName()); //UNIXTIME(colonne_timestamp) as valeur_datetime
-
+	
+	private final static Logger logger = Logger.getLogger(AccountDao.class.getName());
+	
 	private final static String QUERY_FIND_ALL = "SELECT * FROM ACCOUNT";
 	private final static String QUERY_FIND_IN_NOUVEAU_MDP = "SELECT FLAG FROM NOUVEAU_MDP INNER JOIN ACCOUNT ON ACCOUNT.id = NOUVEAU_MDP.id WHERE username = ?";
-
-	
 	private final static String QUERY_FIND_BY_MAIL = "SELECT * FROM ACCOUNT WHERE email = ?";
-
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM ACCOUNT WHERE ID = ?";
 	private final static String QUERY_INSERT = "INSERT INTO ACCOUNT (id_global, faction, username, password, email, created_at, updated_at, deleted_at) values (?, ?, ?, ?, ?, ?, ?, ?)";
 	private final static String QUERY_UPDATE_PASSWORD_BY_ID = "UPDATE ACCOUNT SET password = ?, updated_at = ?  WHERE id = ?";
-
-	
 	private final static String QUERY_UPDATE_MOT_DE_PASSE_BY_ID = "UPDATE NOUVEAU_MDP SET FLAG = ? WHERE ID = ?";
 	private final static String INSERT_MOT_DE_PASSE_BY_ID = "INSERT INTO NOUVEAU_MDP (ID, FLAG) values (?, ?)";
-
-	
 	private final static String QUERY_FIND_BY_USERNAME = "SELECT * FROM ACCOUNT WHERE USERNAME = ?";
 	private final static String QUERY_FIND_BY_UID = "SELECT * FROM ACCOUNT WHERE id_global = ?";
 
+	/**
+	 * Retourne tout les comptes 
+	 * @return ArrayList<Account>
+	 */
 	public ArrayList<Account> getAllAccounts() {
 		Connection connexion = null;
 		Statement stmt = null;
@@ -73,6 +73,11 @@ public class AccountDao {
 		return accounts;
 	}
 
+	/**
+	 * Recherche le compte en fonction de son id. Retourne <code>null</code> si pas de résultat  
+	 * @param id
+	 * @return account
+	 */
 	public Account getAccountById(int id) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -113,6 +118,11 @@ public class AccountDao {
 		return account;
 	}
 	
+	/**
+	 * Recherche le compte en fonction de son mail. Retourne <code>null</code> si pas de résultat  
+	 * @param mail
+	 * @return account
+	 */
 	public Account getAccountByMail(String mail) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -153,8 +163,12 @@ public class AccountDao {
 		return account;
 	}
 	
-	
-	
+	/**
+	 * Permet de mettre un jour le mot de passe en fonction de l'id du compte
+	 * @param id
+	 * @param password
+	 * @return <code>true</code> si tout est ok et <code>false</code> en cas d'erreur
+	 */
 	public Boolean updatePasswordById(int id, String password) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -197,6 +211,12 @@ public class AccountDao {
 	}
 	
 	
+	/**
+	 * Permet de mettre à jour la table NOUVEAU_MDP (gestion de la génération des nouveaux mot de passe) 
+	 * @param id
+	 * @param flag
+	 * @return <code>true</code> si tout est ok et <code>false</code> en cas d'erreur
+	 */
 	public Boolean updateFlag(int id, String flag) {
 
 		Connection con = null;
@@ -235,6 +255,12 @@ public class AccountDao {
 		return errorUpdate;
 	}
 	
+	/**
+	 * Permet de créer une ligne dans la table NOUVEAU_MDP (gestion de la génération des nouveaux mot de passe) 
+	 * @param id
+	 * @param flag
+	 * @return <code>true</code> si tout est ok et <code>false</code> en cas d'erreur
+	 */
 	public Boolean createFlag(int id, String flag) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -244,7 +270,6 @@ public class AccountDao {
 			stmt = con.prepareStatement(INSERT_MOT_DE_PASSE_BY_ID);
 			stmt.setInt(1, id);		
 			stmt.setString(2, flag);
-
 
 			stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -272,6 +297,12 @@ public class AccountDao {
 		return errorUpdate;
 	}
 
+	/**
+	 * Permet de mapper un objet java et les resulats d'une requete SQL
+	 * @param rset
+	 * @return account
+	 * @throws SQLException
+	 */
 	private Account mappingAccount(final ResultSet rset) throws SQLException {
 		final int id = rset.getInt("id");
 		final String id_global = rset.getString("id_global");
@@ -288,6 +319,13 @@ public class AccountDao {
 		return account;
 	}
 	
+	/**
+	 * Permet d'insérer une nouvelle ligne dans la table ACCOUNT
+	 * 
+	 * @param account
+	 * @return <code>true</code> si tout est ok et <code>false</code> en cas
+	 *         d'erreur
+	 */
 	public Boolean insertNewAccount(Account account) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -300,7 +338,7 @@ public class AccountDao {
 
 			// create the mysql insert preparedstatement
 			stmt = con.prepareStatement(QUERY_INSERT);
-			stmt.setString(1, account.getGlobalID());
+			stmt.setString(1, account.getId_global());
 			stmt.setString(2, account.getFaction());
 			stmt.setString(3, account.getUsername());
 			stmt.setString(4, account.getPassword());
@@ -339,6 +377,11 @@ public class AccountDao {
 	}
 	
 	
+	/**
+	 * Recherche le compte en fonction de son uuid. Retourne <code>null</code> si pas de résultat  
+	 * @param mail
+	 * @return account
+	 */
 	public Account getAccounByUid(String uid) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -378,7 +421,11 @@ public class AccountDao {
 		return account;
 	}
 	
-	
+	/**
+	 * Recherche le compte en fonction de son username. Retourne <code>null</code> si pas de résultat  
+	 * @param username
+	 * @return account
+	 */
 	public Account getAccountByUsername(String username) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -419,6 +466,11 @@ public class AccountDao {
 		return account;
 	}
 
+	/**
+	 * Permet de savoir si l'utilisateur doit modifier son mot de passe lors de sa connexion
+	 * @param username
+	 * @return boolean <code>true</code> s'il faut changer le mot de passe <code>false</code> sinon
+	 */
 	public Boolean motDePasseAChanger(String username){
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -454,7 +506,6 @@ public class AccountDao {
 				}
 			}
 		}
-		
 		return flag;
 	}
 }

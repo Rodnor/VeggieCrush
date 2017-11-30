@@ -512,7 +512,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		Inventaire inventaireAInserer = new Inventaire("1", 1, nb1);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
-		ArrayList<Inventaire> inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 1);
+		ArrayList<Inventaire> inventaires = inventaireDao.getInventaireByUuidAndByIdObjet("1", 1);
 
 		for (Inventaire inventaire : inventaires) {
 			System.out.println("user 1, objet 1 : "+inventaire.toString());
@@ -521,7 +521,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		inventaireAInserer = new Inventaire("1", 2, nb2);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
-		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 2);
+		inventaires = inventaireDao.getInventaireByUuidAndByIdObjet("1", 2);
 
 		for (Inventaire inventaire : inventaires) {
 			System.out.println("user 1, objet 2 : "+inventaire.toString());
@@ -530,7 +530,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		inventaireAInserer = new Inventaire("1", 3, nb3);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
-		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 3);
+		inventaires = inventaireDao.getInventaireByUuidAndByIdObjet("1", 3);
 
 		for (Inventaire inventaire : inventaires) {
 			System.out.println("user 1, objet 3 : "+inventaire.toString());
@@ -539,7 +539,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		inventaireAInserer = new Inventaire("1", 4, nb4);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
-		inventaires = inventaireDao.getInventaireByIdAccountAndByIdObjet(1, 4);
+		inventaires = inventaireDao.getInventaireByUuidAndByIdObjet("1", 4);
 
 		for (Inventaire inventaire : inventaires) {
 			System.out.println("user 1, objet 4 : "+inventaire.toString());
@@ -547,7 +547,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 	
 	public void attribuerBonus() {
-		listeBonus = gestionBonus.recupererBonus();
+		listeBonus = gestionBonus.recupererBonus("UUID-TMP"); // TODO, passer l'UUID du joueur
 		
 		for (Bonus bonus : listeBonus) {
 			if(bonus.getPossedeBonus()) {

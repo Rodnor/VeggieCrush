@@ -12,20 +12,20 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Classe permettant l'envoi de mail (pour la récupération de mot de passe)
+ */
 public class SendMail {
-
-	/**
-	 * Ressource contenant les éléments statiques liés à la création et l'envoi d'un email.
-	 */
+	
 	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("application");
 
 	/**
-	 * Envoi d'un email utilisant une socket SSL (SSLSocketFactory).
-	 * @param to celui ou ceux qui doivent recevoir l'email (séparation des adresses par des virgules)
-	 * @param subject sujet de l'email
-	 * @param content contenu de l'email
-	 * @throws AddressException les adresses de destinations sont incorrectes
-	 * @throws MessagingException une erreur est survenue à l'envoi de l'email
+	 * Constructeur
+	 * @param to
+	 * @param subject
+	 * @param content
+	 * @throws AddressException
+	 * @throws MessagingException
 	 */
 	public static void sendEmailSSL(String to, String subject, String content) throws AddressException, MessagingException {		
 		
@@ -36,7 +36,6 @@ public class SendMail {
 		props.put("mail.smtp.auth", applicationProperties.getString("mail.smtp.auth"));
 		props.put("mail.smtp.port", applicationProperties.getString("mail.smtp.port"));
 
-		// authentification
 		Session session = Session.getDefaultInstance(props,
 			new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
@@ -45,13 +44,11 @@ public class SendMail {
 			}
 		);
 
-		// construct message
 		Message message = new MimeMessage(session);
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 		message.setSubject(subject);
 		message.setContent(content, "text/html; charset=ISO-8859-1");
 
-		// send email
 		Transport.send(message);
 	}
 }

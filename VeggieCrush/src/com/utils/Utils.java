@@ -1,11 +1,9 @@
 package com.utils;
 
-import java.io.FileWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
-import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -16,36 +14,55 @@ import javax.mail.MessagingException;
 import com.dao.AccountDao;
 import com.entitie.Account;
 
+/**
+ * Classe permettant de regrouper les méthodes Utils
+ */
+/**
+ * @author michelparis
+ *
+ */
+/**
+ * @author michelparis
+ *
+ */
+/**
+ * @author michelparis
+ *
+ */
 public final class Utils {
 
-	// public static String salt = "3iLh3nalluX";
 	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("application");
-	private static String salt = applicationProperties.getString("bd.pass.salt");
-
-		
-	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
+	private static String salt = applicationProperties.getString("bd.pass.salt");	
+	private static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
 		    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 	
+	/**
+	 * Permet de tester la nullité d'une chaine avant de l'inserer dans un JSON
+	 * @param string
+	 * @return <code>false</code> si la chaine est vide, <code>true</code> sinon
+	 */
 	public static Boolean testStringForJson (String string) {
 		return (string!= null && !string.equals(""));
 	}
 
-	public static Boolean testDateNulleForTimstamp(Timestamp timestamp) {
-		Timestamp reference = new Timestamp(0);
-		if (reference.equals(timestamp)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
+	/**
+	 * Permet de verifier si le compte existe dans un autre jeu. Retourne <code>null</code> si le compte n'existe pas
+	 * @param username
+	 * @param securePass
+	 * @return nom de l'appli
+	 */
 	public static String usernameExistDansUneAutreAppli(String username, String securePass) {
 		String nomAppli = null;
-
 		return nomAppli;
 
 	}
 	
+	/**
+	 * Permet de verifier si le mail existe dans un autre jeu. Retourne <code>null</code> si le compte n'existe pas
+	 * @param username
+	 * @param securePass
+	 * @return nom de l'appli
+	 */
 	public static String mailExistDansUneAutreAppli(String mail, String securePass) {
 		String nomAppli = null;
 
@@ -53,10 +70,20 @@ public final class Utils {
 
 	}
 
+	
+	/**
+	 * Permet de générer l'uuid unique
+	 * @return uuid
+	 */
 	public static UUID generateUuid() {
 		return UUID.randomUUID();
 	}
 
+	/**
+	 * Permet de crypter le mot de passe avec SHA-512 et la clef commune
+	 * @param passwordToHash
+	 * @return mot de passe
+	 */
 	public static String get_SHA_512_SecurePassword(String passwordToHash) {
 		String generatedPassword = null;
 		try {
@@ -76,23 +103,39 @@ public final class Utils {
 		return generatedPassword;
 	}
 	
+	/**
+	 * Permet de valider le format d'une adresse mail 
+	 * @param emailStr
+	 * @return
+	 */
 	public static boolean validate(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
         return matcher.find();
 	}
 
-	public static String generateNewPassword(int size) {
+	/**
+	 * Permet de génerer un nouveau mot de passe alétoire
+	 * @param taille
+	 * @return mot de passe
+	 */
+	public static String generateNewPassword(int taille) {
 		
-	    String chars = "abcdefghijklmnopqrstuvwxyz!():-_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; // Tu supprimes les lettres dont tu ne veux pas
+	    String chars = "abcdefghijklmnopqrstuvwxyz!():-_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 	    String pass = "";
 
-	    for(int x=0;x<size;x++) {
-	       int i = (int)Math.floor(Math.random() * 68); // Si tu supprimes des lettres tu diminues ce nb
+	    for(int x=0;x<taille;x++) {
+	       int i = (int)Math.floor(Math.random() * 68);
 	       pass += chars.charAt(i);
 	    }
 	    return pass;
 	}
 	
+	/**
+	 * Permet de modifier le mot de passe en base et de l'envoyer par mail à l'utilisateur
+	 * @param adresseMail
+	 * @return <code>true</code> si tout est ok et <code>false</code> en cas
+	 *         d'erreur
+	 */
 	public static Boolean modfierMotDePasse(String adresseMail){
 		
 		String pass = Utils.generateNewPassword(13);

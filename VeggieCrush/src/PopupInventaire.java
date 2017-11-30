@@ -54,7 +54,7 @@ public class PopupInventaire extends JFrame implements ActionListener{
 		InventaireDao invdao = new InventaireDao();
 		ArrayList<Inventaire> inv = new ArrayList<Inventaire>();
 		JPanel btnPnl1 = new JPanel();
-		inv=invdao.getInventaireByIdAccount(1);
+		inv=invdao.getInventaireByUuid(1);
 		int cpt=0;
 		for (int i=0; i<inv.size();i++) {
 			if(i%5==0) {
@@ -74,7 +74,7 @@ public class PopupInventaire extends JFrame implements ActionListener{
 	    }
 		
 	    for (int index = 0; index < inv.size(); index++) {
-	    	projectNameList.set(index, "Qte : " + inv.get(index).getQuantite());
+	    	projectNameList.set(index, "Qte : " + inv.get(index).getQte());
 	    }
 	    
 	    String[] projectNames = projectNameList.toArray(new String[0]);

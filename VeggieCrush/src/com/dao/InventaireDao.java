@@ -16,6 +16,9 @@ import com.entitie.Account;
 import com.entitie.Inventaire;
 import com.entitie.Objet;
 
+/**
+ * Classe permettant la gestion des INVENTAIRES
+ */
 public class InventaireDao {
 	
 	private final static String QUERY_FIND_ALL = "SELECT * FROM INVENTAIRE";
@@ -24,9 +27,12 @@ public class InventaireDao {
 	private final static String QUERY_INSERT = "INSERT INTO INVENTAIRE (id_objet, id_global, qte) values (?, ?, ?)";
 	private final static String QUERY_UPDATE = "UPDATE INVENTAIRE SET qte = ? WHERE id_global = ? AND id_objet = ?";
 
-	
-	final static Logger logger = Logger.getLogger(InventaireDao.class.getName());
+	private final static Logger logger = Logger.getLogger(InventaireDao.class.getName());
 
+	/**
+	 * Permet de récupérer tous les inventaires en base
+	 * @return ArrayList<Inventaire>
+	 */
 	public ArrayList<Inventaire> getAllInventaires() {
 		Connection connexion = null;
 		Statement stmt = null;
@@ -61,8 +67,13 @@ public class InventaireDao {
 		}
 		return inventaires;
 	}
-
-	public ArrayList<Inventaire> getInventaireByIdAccount(int id) {
+	
+/**
+ * Recherche tous les inventaires en fonction de l'uid de la personne
+ * @param id
+ * @return ArrayList<Inventaire>
+ */
+	public ArrayList<Inventaire> getInventaireByUuid(int id) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ArrayList<Inventaire> inventaires = new ArrayList<Inventaire>();
@@ -99,6 +110,12 @@ public class InventaireDao {
 		return inventaires;
 	}
 	
+	/**
+	 * Permet de mapper un objet java et les resulats d'une requete SQL
+	 * @param rset
+	 * @return inventaire
+	 * @throws SQLException
+	 */
 	private Inventaire mappingInventaire(final ResultSet rset) throws SQLException {
 		final int id_objet = rset.getInt("id_objet");
 		final String id_user = rset.getString("id_global");
@@ -106,7 +123,12 @@ public class InventaireDao {
 		final Inventaire inventaire = new Inventaire(id_user, id_objet, qte);
 		return inventaire;
 	}
-
+	
+	/**
+	 * Permet d'insérer une nouvelle ligne dans la table INVENTAIRE
+	 * @param inventaire
+	 * @return <code>true</code> si tout est ok et <code>false</code> en cas d'erreur
+	 */
 	public Boolean insertNewInventaire(Inventaire inventaire) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -116,15 +138,15 @@ public class InventaireDao {
 
 			ObjetDao objetDao = new ObjetDao();
 			
-			int dejaPresentEnbase = objetDao.testPresentInInventaireByAccounByObjet(inventaire.getId_user(), inventaire.getId_objet());
+			int dejaPresentEnbase = objetDao.countObjectInInventaireForUuid(inventaire.getId_user(), inventaire.getId_objet());
 			logger.info("deja"+dejaPresentEnbase);
 
 			if (dejaPresentEnbase == 1){
 					stmt = con.prepareStatement(QUERY_UPDATE);
-					int nbObjetDejaPresent = objetDao.getNbObjetByIdAccountAndByIdObjet(inventaire.getId_user(), inventaire.getId_objet());
+					int nbObjetDejaPresent = objetDao.getNbObjetByUuidAndByIdObjet(inventaire.getId_user(), inventaire.getId_objet());
 					logger.info("nb"+nbObjetDejaPresent);
 
-					stmt.setInt(1, nbObjetDejaPresent+inventaire.getQuantite());
+					stmt.setInt(1, nbObjetDejaPresent+inventaire.getQte());
 					stmt.setString(2, inventaire.getId_user());
 					stmt.setInt(3, inventaire.getId_objet());
 					// TODO controler si il ne faut pas faire appel à UPDATE ici ?
@@ -132,7 +154,7 @@ public class InventaireDao {
 				stmt = con.prepareStatement(QUERY_INSERT);
 				stmt.setInt(1, inventaire.getId_objet());
 				stmt.setString(2, inventaire.getId_user());
-				stmt.setInt(3, inventaire.getQuantite());
+				stmt.setInt(3, inventaire.getQte());
 			}
 			
 			stmt.execute();
@@ -159,7 +181,15 @@ public class InventaireDao {
 		return errorInsert;
 	}
 	
-	public ArrayList<Inventaire> getInventaireByIdAccountAndByIdObjet(int idAccount, int idObjet) {
+	/**
+	 * Recherche tous les inventaires en fonction de l'uid de la personne et de
+	 * l'id de l'objet
+	 * 
+	 * @param idGlobal
+	 * @param idObjet
+	 * @return ArrayList<Inventaire>
+	 */
+	public ArrayList<Inventaire> getInventaireByUuidAndByIdObjet(String idGlobal, int idObjet) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 
@@ -167,7 +197,7 @@ public class InventaireDao {
 		try {
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_ID_ACCOUNT_AND_BY_ID_OBJET);
-			stmt.setInt(1, idAccount);
+			stmt.setString(1, idGlobal);
 			stmt.setInt(2, idObjet);
 
 			Inventaire inventaire = new Inventaire();

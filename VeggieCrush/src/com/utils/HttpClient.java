@@ -16,13 +16,22 @@ import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+/**
+ * Classe permettant de gérer les appels HTTP(S) sur l'API VeggieCrush
+ */
 public final class HttpClient {
 
 	private static final Logger logger = Logger.getLogger(HttpClient.class.getName());
-	
-	public JSONObject getHttpRequest (String url) {
+
+	/**
+	 * Permet de créer une requête HTTP GET
+	 * 
+	 * @param url
+	 * @return JSONObject
+	 */
+	public JSONObject getHttpRequest(String url) {
 		JSONObject jsonRetour = new JSONObject();
-		
+
 		try {
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -49,11 +58,18 @@ public final class HttpClient {
 		}
 		return jsonRetour;
 	}
-	
-	public JSONObject postRequestWithJsonParam (String url, JSONObject jsonEnvoi){
+
+	/**
+	 * Permet de créer une requête HTTP POST avec des paramètre JSON dans le
+	 * body
+	 * 
+	 * @param url
+	 * @return JSONObject
+	 */
+	public JSONObject postRequestWithJsonParam(String url, JSONObject jsonEnvoi) {
 
 		JSONObject jsonRetour = new JSONObject();
-		
+
 		try {
 			HttpURLConnection con;
 
@@ -61,17 +77,17 @@ public final class HttpClient {
 			con = (HttpURLConnection) url_call.openConnection();
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-			con.setRequestProperty("Content-Type","application/json");
-			
+			con.setRequestProperty("Content-Type", "application/json");
+
 			con.setDoOutput(true);
-			
+
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(jsonEnvoi.toString());
 			wr.flush();
 			wr.close();
-			
+
 			int responseCode = con.getResponseCode();
-				
+
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 				String output;
@@ -81,7 +97,7 @@ public final class HttpClient {
 					response.append(output);
 				}
 				in.close();
-				
+
 				jsonRetour = new JSONObject(response.toString());
 			}
 		} catch (IOException e) {
@@ -91,7 +107,13 @@ public final class HttpClient {
 		}
 		return jsonRetour;
 	}
-	
+
+	/**
+	 * Permet de créer une requête HTTPS GET
+	 * 
+	 * @param url
+	 * @return JSONObject
+	 */
 	public JSONObject getHttpsRequest(String urlHttps) {
 
 		JSONObject jObject = new JSONObject();
@@ -125,12 +147,17 @@ public final class HttpClient {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
+
 		return jObject;
 
 	}
-	
-	private void printCert (HttpsURLConnection con) {
+
+	/**
+	 * Permet de connaitre et verifier le certificat SSL
+	 * 
+	 * @param con
+	 */
+	private void printCert(HttpsURLConnection con) {
 		if (con != null) {
 			try {
 				System.out.println("Response Code : " + con.getResponseCode());

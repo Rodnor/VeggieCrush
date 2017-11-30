@@ -96,7 +96,7 @@ public class NouveauMotDePasseFrame implements ActionListener {
 						String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
 						accountDao.updatePasswordById(account.getId(), securePass);
 						accountDao.updateFlag(account.getId(), "N");
-						MainFrame frame = new MainFrame(account.getGlobalID());
+						MainFrame frame = new MainFrame(account.getId_global());
 						this.frame.dispose();
 					} else {
 						JOptionPane.showMessageDialog(null, "Les 2 mots de passe ne sont pas identiques", "Erreur de correspondance", JOptionPane.ERROR_MESSAGE, null);

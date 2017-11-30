@@ -151,7 +151,7 @@ public class ConnectionFrame implements ActionListener {
 						flag = adao.motDePasseAChanger(tf_pseudo.getText());
 						
 						if(!flag) {		
-							new MainFrame(account.getGlobalID());
+							new MainFrame(account.getId_global());
 							this.frame.dispose();
 						} else {
 							new NouveauMotDePasseFrame(tf_pseudo.getText());

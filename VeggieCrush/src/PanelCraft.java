@@ -256,7 +256,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	panel3.setPreferredSize(new Dimension(500, 90));
 	  	panel_listeRecette.add(tabbedPane);
 	  	
-	  	invs = inventairedao.getInventaireByIdAccount(1);
+	  	invs = inventairedao.getInventaireByUuid(1);
 	  	int nbRow = invs.size()%5;
 	  	
 	  	JPanel panel_infoRecette = new JPanel();
@@ -349,10 +349,10 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	inv_plante3.setName("3");
 	  	inv_plante4.setName("4");
 	  	
-	  	int qteplante1 = objetDao.getNbObjetByIdAccountAndByIdObjet("1", 1);
-	  	int qteplante2 = objetDao.getNbObjetByIdAccountAndByIdObjet("1", 2);
-	  	int qteplante3 = objetDao.getNbObjetByIdAccountAndByIdObjet("1", 3);
-	  	int qteplante4 = objetDao.getNbObjetByIdAccountAndByIdObjet("1", 4);
+	  	int qteplante1 = objetDao.getNbObjetByUuidAndByIdObjet("1", 1);
+	  	int qteplante2 = objetDao.getNbObjetByUuidAndByIdObjet("1", 2);
+	  	int qteplante3 = objetDao.getNbObjetByUuidAndByIdObjet("1", 3);
+	  	int qteplante4 = objetDao.getNbObjetByUuidAndByIdObjet("1", 4);
 	  	
 	  	
 	  	
