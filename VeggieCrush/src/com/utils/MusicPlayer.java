@@ -16,6 +16,7 @@ public class MusicPlayer {
 	private static int compteur1=0;
 	private static int compteur2=0;
 	public static boolean gameMusicIsMute=false;
+	public static boolean craftMusicIsMute=false;
 
 	public MusicPlayer () {}
 
@@ -103,7 +104,9 @@ public class MusicPlayer {
 	}
 
 	public static void stopCraftMusic() {
-		compteur2--;
+		if(compteur2 == 1) {
+			compteur2--;
+		}
 		loopPanelCraft.stop();
 	}
 

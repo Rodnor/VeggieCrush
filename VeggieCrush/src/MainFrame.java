@@ -102,6 +102,9 @@ public class MainFrame {
 					if(MusicPlayer.gameMusicIsMute) {
 						MusicPlayer.stopGameMusic();
 					}
+					if(MusicPlayer.craftMusicIsMute) {
+						MusicPlayer.stopCraftMusic();
+					}
 					if(onglet.getSelectedIndex() == 1) {
 						if(gameMusicIsOn) {
 							MusicPlayer.stopGameMusic();
@@ -109,7 +112,7 @@ public class MainFrame {
 							craftMusicIsOn=true;
 						}
 
-						if(craftMusicIsOn) {
+						if(craftMusicIsOn && !MusicPlayer.craftMusicIsMute) {
 							MusicPlayer.playCraftMusic();
 						}
 					}

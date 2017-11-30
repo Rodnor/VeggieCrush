@@ -22,6 +22,7 @@ import com.dao.RecetteDao;
 import com.entitie.Inventaire;
 import com.entitie.Recette;
 import com.sun.xml.bind.v2.schemagen.xmlschema.List;
+import com.utils.MusicPlayer;
 
 import java.awt.GridLayout;
 import java.awt.Robot;
@@ -36,6 +37,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
@@ -403,9 +406,27 @@ public class PanelCraft extends JPanel implements ActionListener{
         
         JPanel panel_btCraft = new JPanel();
         add(panel_btCraft, "cell 1 3,grow");
+        panel_btCraft.setLayout(new MigLayout("", "[270px][75px][75px]", "[29px]"));
+        
+        JToggleButton tglbtnMute = new JToggleButton("Mute Sound");
+        tglbtnMute.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent ev) {
+				if(ev.getStateChange()==ItemEvent.SELECTED){
+					if(MusicPlayer.loopPanelCraft != null) {
+						MusicPlayer.craftMusicIsMute=true;
+					}					
+				} else if(ev.getStateChange()==ItemEvent.DESELECTED){
+					if(MusicPlayer.loopPanelCraft != null) {
+						MusicPlayer.craftMusicIsMute=false;
+					}
+				}
+			}
+		});
+        panel_btCraft.add(tglbtnMute, "cell 0 0,alignx left,aligny bottom");
         
         JButton btnInventaire= new JButton(new ImageIcon(iconInventaire));
-        panel_btCraft.add(btnInventaire);
+        panel_btCraft.add(btnInventaire, "cell 1 0,alignx left,aligny top");
         btnInventaire.setBorderPainted(false);
         btnInventaire.setFocusPainted(false);
         btnInventaire.setContentAreaFilled(false);
@@ -423,7 +444,7 @@ public class PanelCraft extends JPanel implements ActionListener{
         btnCraft.setBorderPainted(false);
         btnCraft.setFocusPainted(false);
         btnCraft.setContentAreaFilled(false);
-	  	panel_btCraft.add(btnCraft);
+	  	panel_btCraft.add(btnCraft, "cell 2 0,alignx left,aligny top");
 	  	panel_btCraft.setOpaque(false);
 	  	
 	  	
