@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.JToggleButton;
+import java.awt.Font;
 
 public class PanelJeu extends JPanel implements ActionListener {
 
@@ -101,12 +102,15 @@ public class PanelJeu extends JPanel implements ActionListener {
 		setLayout(new MigLayout("", "[][][grow][][][][grow]", "[][][grow][grow][grow][grow][grow][]"));
 
 		lblTimer = new JLabel("Temps restant : "+String.valueOf(tempsTotal));
+		lblTimer.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(lblTimer, "cell 0 0");
 
 		lblScore = new JLabel("Score : "+String.valueOf(0+scoreBonus));
+		lblScore.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(lblScore, "cell 6 0");
 
 		nbCoupsRestants = new JLabel("Nombre de coups restants : "+String.valueOf(nombreCoups+nombreCoupsBonus));
+		nbCoupsRestants.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(nbCoupsRestants, "cell 0 1");
 
 		canvas = new JPanel();
@@ -127,9 +131,11 @@ public class PanelJeu extends JPanel implements ActionListener {
 		add(thumb, "cell 3 3,alignx center,aligny center");
 
 		JLabel lblX = new JLabel("x");
+		lblX.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(lblX, "cell 4 3");
 
 		nbHerbe1 = new JLabel(String.valueOf(0+herbe1Bonus));
+		nbHerbe1.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(nbHerbe1, "cell 5 3");
 
 		try {
@@ -142,9 +148,11 @@ public class PanelJeu extends JPanel implements ActionListener {
 		add(thumb, "cell 3 4,alignx center,aligny center");
 
 		JLabel lblNewLabel = new JLabel("x");
+		lblNewLabel.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(lblNewLabel, "cell 4 4");
 
 		nbHerbe2 = new JLabel(String.valueOf(0+herbe2Bonus));
+		nbHerbe2.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(nbHerbe2, "cell 5 4");
 
 		try {
@@ -157,9 +165,11 @@ public class PanelJeu extends JPanel implements ActionListener {
 		add(thumb, "cell 3 5,alignx center,aligny center");
 
 		JLabel lblNewLabel_1 = new JLabel("x");
+		lblNewLabel_1.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(lblNewLabel_1, "cell 4 5");
 
 		nbHerbe3= new JLabel(String.valueOf(0+herbe3Bonus));
+		nbHerbe3.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(nbHerbe3, "cell 5 5");
 
 		try {
@@ -172,9 +182,11 @@ public class PanelJeu extends JPanel implements ActionListener {
 		add(thumb, "cell 3 6,alignx center,aligny center");
 
 		JLabel lblNewLabel_2 = new JLabel("x");
+		lblNewLabel_2.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(lblNewLabel_2, "cell 4 6");
 
 		nbHerbe4 = new JLabel(String.valueOf(0+herbe4Bonus));
+		nbHerbe4.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(nbHerbe4, "cell 5 6");
 
 		btnJouer = new JButton("Jouer !");
