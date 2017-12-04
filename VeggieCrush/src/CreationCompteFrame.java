@@ -146,8 +146,7 @@ public class CreationCompteFrame implements ActionListener {
 
 					if (account == null && accountmail == null) {// n'existe pas chez nous
 						String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(mdp.getPassword()));
-						if (Utils.usernameExistDansUneAutreAppli(pseudo.getText(), securePass) == null
-								&& Utils.mailExistDansUneAutreAppli(mail.getText(), securePass) == null) { // n'existe pas ailleurs
+						if (Utils.creditsExistDansUneAutreAppli(pseudo.getText(), mail.getText()) == null) { // n'existe pas ailleurs
 							String uuidString = Utils.generateUuid().toString();
 							account = new Account(0, uuidString, pseudo.getText(), mail.getText(), securePass, faction, null, null, null);
 							adao.insertNewAccount(account);
@@ -157,13 +156,13 @@ public class CreationCompteFrame implements ActionListener {
 						} else {
 							// Compte existe déja ailleurs
 							JOptionPane.showMessageDialog(null,
-									"Ce nom d'utilisateur est déjà utilisé. Veuillez en utiliser un autre",
+									"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre",
 									"Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 						}
 					} else {
 						// Compte deja existant chez nous
 						JOptionPane.showMessageDialog(null,
-								"Ce nom d'utilisateur est déjà utilisé. Veuillez en utiliser un autre",
+								"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre",
 								"Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 					}
 				} else {
@@ -201,7 +200,7 @@ public class CreationCompteFrame implements ActionListener {
 					}
 
 					System.out.println(stringBuilder.toString());
-					JOptionPane.showMessageDialog(null, stringBuilder.toString(), "Erreur de correspondance",
+					JOptionPane.showMessageDialog(null, stringBuilder.toString(), "Erreur",
 							JOptionPane.ERROR_MESSAGE, null);
 
 				}

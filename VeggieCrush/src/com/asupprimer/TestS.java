@@ -5,11 +5,12 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import com.utils.HttpClient;
+import com.utils.Utils;
 
 public class TestS {
 
 	public static void main(String[] args) {
-		HttpClient httpClient = new HttpClient();		
+	/*	HttpClient httpClient = new HttpClient();		
 		System.out.println("On appelle");
 		JSONObject json = new JSONObject();
 		try {
@@ -28,7 +29,8 @@ public class TestS {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+*/
+		Utils.signinDansUneAutreAppli("test","test");
 	}
 
 }

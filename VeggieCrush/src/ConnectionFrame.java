@@ -145,7 +145,8 @@ public class ConnectionFrame implements ActionListener {
 
 					// test utilisateur présent dans la BD ou celle des autres
 					// TODO verfifier mot de passe dans une autre API
-					if(account != null && Utils.usernameExistDansUneAutreAppli(tf_pseudo.getText(), securePass) == null && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
+					System.out.println("account Trouvé"+account);
+					if((account != null || Utils.signinDansUneAutreAppli(tf_pseudo.getText(), String.valueOf(passwordField.getPassword())) != null) && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
 						
 						flag = adao.motDePasseAChanger(tf_pseudo.getText());
 						

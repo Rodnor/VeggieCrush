@@ -10,6 +10,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.MessagingException;
+import javax.swing.JEditorPane;
+
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import com.dao.AccountDao;
 import com.entitie.Account;
@@ -51,25 +55,62 @@ public final class Utils {
 	 * @param securePass
 	 * @return nom de l'appli
 	 */
-	public static String usernameExistDansUneAutreAppli(String username, String securePass) {
+	public static String signinDansUneAutreAppli(String username, String password) {
 		String nomAppli = null;
-		return nomAppli;
+		
+		HttpClient httpClient = new HttpClient();
+		JSONObject jsonEnvoi = new JSONObject();
+		try {
+			jsonEnvoi.put("username", username);
+			jsonEnvoi.put("password", password);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		
+		System.out.println(jsonEnvoi.toString());
 
+		
+		JSONObject jsonRetour = httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/signinAutreJeu", jsonEnvoi);
+		System.out.println(jsonRetour.toString());
+		try {
+			if (!jsonRetour.isNull("signin")){
+				nomAppli = jsonRetour.getString("signin");
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return nomAppli;
 	}
-	
-	/**
-	 * Permet de verifier si le mail existe dans un autre jeu. Retourne <code>null</code> si le compte n'existe pas
-	 * @param username
-	 * @param securePass
-	 * @return nom de l'appli
-	 */
-	public static String mailExistDansUneAutreAppli(String mail, String securePass) {
+
+	public static String creditsExistDansUneAutreAppli(String username, String mail) {
 		String nomAppli = null;
+		
+		HttpClient httpClient = new HttpClient();
+		JSONObject jsonEnvoi = new JSONObject();
+		try {
+			jsonEnvoi.put("username", username);
+			jsonEnvoi.put("email", mail);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		
+		//JSONObject jsonRetour = httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/existingAutreJeu", jsonEnvoi);
+		System.out.println("MIPA OGHOH");
+		JSONObject jsonRetour = httpClient.getHttpsRequest("https://veggiecrush.masi-henallux.be/rest_server/api/account/existingAutreJeu");
 
+		try {
+			if (!jsonRetour.get("existing").equals("null")){
+				nomAppli = jsonRetour.getString("existing");
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
 		return nomAppli;
-
 	}
-
 	
 	/**
 	 * Permet de générer l'uuid unique
