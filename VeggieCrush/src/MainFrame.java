@@ -33,9 +33,12 @@ public class MainFrame {
 	private JFrame frame;
 	private static JTabbedPane onglet;
 	private final static Logger logger = Logger.getLogger(MainFrame.class.getName());
-	private String UUID;
+	private static String UUID;
 	private boolean craftMusicIsOn=false;
 	private boolean gameMusicIsOn=true;
+	private static boolean bonusBoomcraft;
+	private static boolean bonusFarmVillage;
+	private static boolean bonusHowob;
 
 	/**
 	 * Launch the application.
@@ -44,7 +47,7 @@ public class MainFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainFrame window = new MainFrame("");
+					MainFrame window = new MainFrame("",false,false,false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,9 +59,12 @@ public class MainFrame {
 	/**
 	 * Create the application.
 	 */
-	public MainFrame(String UUID) {
+	public MainFrame(String UUID, boolean bonusBoomcraft, boolean bonusFarmVillage, boolean bonusHowob) {
 		initialize();
 		this.UUID = UUID;
+		this.bonusBoomcraft = bonusBoomcraft;
+		this.bonusFarmVillage = bonusFarmVillage;
+		this.bonusHowob = bonusHowob;
 	}
 
 	/**
@@ -140,5 +146,21 @@ public class MainFrame {
 	
 	public static JTabbedPane getTabbedPane() {
 		return onglet;
+	}
+	
+	public static String getUUID() {
+		return UUID;
+	}
+	
+	public static boolean getBonusBoomCraft() {
+		return bonusBoomcraft;
+	}
+	
+	public static boolean getBonusFarmVillage() {
+		return bonusFarmVillage;
+	}
+	
+	public static boolean getBonusHowob() {
+		return bonusHowob;
 	}
 }

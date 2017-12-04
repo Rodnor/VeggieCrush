@@ -33,6 +33,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.JToggleButton;
+
+import org.apache.log4j.chainsaw.Main;
+
 import java.awt.Font;
 
 public class PanelJeu extends JPanel implements ActionListener {
@@ -76,19 +79,16 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int multiplicateurBonus2=1;
 	private int multiplicateurBonus3=1;
 	private int multiplicateurBonus4=1;
-	private Clip clip = null;
 	private JToggleButton tglbtnMuteSound;
 	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("jeu");
 	private BufferedImage imgFond=null;
-	private GestionBonus gestionBonus = new GestionBonus();
-	private ArrayList<Bonus> listeBonus;
 
 	public PanelJeu(){
-		
+
 		attribuerBonus();
-		
+
 		tempsTotal=tempsBase+tempsBonus;
-		
+
 		try {
 			imgFond = ImageIO.read(new File("images/foret.jpg"));
 		} catch (IOException e) {
@@ -97,8 +97,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 		}
 
 		System.out.println("TEST POUR TLS : "+applicationProperties.getString("test.pour.montrer.a.tristan"));
-		
-		
+
+
 		setLayout(new MigLayout("", "[][][grow][][][][grow]", "[][][grow][grow][grow][grow][grow][]"));
 
 		lblTimer = new JLabel("Temps restant : "+String.valueOf(tempsTotal));
@@ -277,9 +277,9 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void startThreads() {
-		
+
 		MainFrame.getTabbedPane().setEnabledAt(1, false);
-	
+
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -433,7 +433,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		lblScore.setText("Score : "+scoreTotal);
 
 		sendDatasToDatabase();
-		
+
 		MainFrame.getTabbedPane().setEnabledAt(1, true);
 
 		// on reset les éléments du jeu
@@ -557,25 +557,22 @@ public class PanelJeu extends JPanel implements ActionListener {
 			System.out.println("user 1, objet 4 : "+inventaire.toString());
 		}
 	}
-	
+
 	public void attribuerBonus() {
-		listeBonus = gestionBonus.recupererBonus("UUID-TMP"); // TODO, passer l'UUID du joueur
-		
-		for (Bonus bonus : listeBonus) {
-			if(bonus.getPossedeBonus()) {
-				switch(bonus.getNomJeu()) {
-					case "howob" : scoreBonus = 500;
-						break;
-					case "farmvillage" : tempsBonus = 15;
-						break;
-					case "boomcraft" : nombreCoupsBonus = 10;
-						break;
-				}
-			}
+		if(MainFrame.getBonusHowob()) {
+			tempsBonus = 15;
+		}
+
+		if(MainFrame.getBonusFarmVillage()) {
+			scoreBonus = 500;
+		}
+
+		if(MainFrame.getBonusBoomCraft()) {
+			nombreCoupsBonus = 10;
 		}
 	}
-	
+
 	public void paintComponent(Graphics g) {
-	    g.drawImage(imgFond, 0, 0, null);
+		g.drawImage(imgFond, 0, 0, null);
 	}
 }
