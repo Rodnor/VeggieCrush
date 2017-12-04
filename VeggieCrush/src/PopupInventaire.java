@@ -54,10 +54,11 @@ public class PopupInventaire extends JFrame implements ActionListener{
 		InventaireDao invdao = new InventaireDao();
 		ArrayList<Inventaire> inv = new ArrayList<Inventaire>();
 		JPanel btnPnl1 = new JPanel();
-		inv=invdao.getInventaireByUuid(1);
+		
+		inv=invdao.getInventaireByUuid(MainFrame.getUUID());
 		int cpt=0;
 		for (int i=0; i<inv.size();i++) {
-			if(i%5==0) {
+			if(i%6==0) {
 				cpt++;
 			}
 		}
@@ -70,7 +71,7 @@ public class PopupInventaire extends JFrame implements ActionListener{
 	  	ArrayList<String> projectNameList = new ArrayList<String>();
 		
 	    for (int index = 0; index < 6*cpt; index++) {
-	        projectNameList.add("Qte : 0");
+	        projectNameList.add("");
 	    }
 		
 	    for (int index = 0; index < inv.size(); index++) {
@@ -79,15 +80,20 @@ public class PopupInventaire extends JFrame implements ActionListener{
 	    
 	    String[] projectNames = projectNameList.toArray(new String[0]);
 
-	    // Adding buttons to the project
 	    JLabel[] buttons = new JLabel[projectNameList.size()];
 	    BufferedImage iconPlante = null;
 	    try {
 	        for (int i = 0; i < projectNames.length; i++) {
 	        	buttons[i] = new JLabel(projectNames[i]);
 	        	if(i<inv.size()) {
-	        		iconPlante = ImageIO.read(new File("images/herbe"+String.valueOf(i+1)+".jpg"));
-	        		buttons[i].setIcon(new ImageIcon(iconPlante));
+	        		if(i<4) {
+	        			iconPlante = ImageIO.read(new File("images/herbe"+String.valueOf(i+1)+".jpg"));
+		        		buttons[i].setIcon(new ImageIcon(iconPlante));
+	        		} else {
+	        			iconPlante = ImageIO.read(new File("images/recette"+String.valueOf(inv.get(i).getId_objet()-4)+".png"));
+		        		buttons[i].setIcon(new ImageIcon(iconPlante));
+	        		}
+	        		
 	        	} else {
 	        		buttons[i].setIcon(new ImageIcon(iconVide));
 	        	}

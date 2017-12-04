@@ -3,6 +3,8 @@ import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JTabbedPane;
@@ -145,6 +147,13 @@ public class MainFrame {
 			}
 		};
 		t.start();
+		
+		frame.addWindowListener(new WindowAdapter() {
+		    @Override
+		    public void windowClosing(WindowEvent e) {
+		       	PanelCraft.setRun(false);
+		    }
+		});
 	}
 	
 	public static JTabbedPane getTabbedPane() {

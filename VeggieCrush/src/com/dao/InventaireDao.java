@@ -68,19 +68,21 @@ public class InventaireDao {
 		return inventaires;
 	}
 	
+	
+	
 /**
  * Recherche tous les inventaires en fonction de l'uid de la personne
  * @param id
  * @return ArrayList<Inventaire>
  */
-	public ArrayList<Inventaire> getInventaireByUuid(int id) {
+	public ArrayList<Inventaire> getInventaireByUuid(String id) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ArrayList<Inventaire> inventaires = new ArrayList<Inventaire>();
 		try {
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_ID);
-			stmt.setInt(1, id);
+			stmt.setString(1, id);
 
 			final ResultSet rset = stmt.executeQuery();
 			Inventaire inventaire = new Inventaire();
@@ -124,11 +126,7 @@ public class InventaireDao {
 		return inventaire;
 	}
 	
-	/**
-	 * Permet d'insérer une nouvelle ligne dans la table INVENTAIRE
-	 * @param inventaire
-	 * @return <code>true</code> si tout est ok et <code>false</code> en cas d'erreur
-	 */
+	
 	public Boolean insertNewInventaire(Inventaire inventaire) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -156,8 +154,8 @@ public class InventaireDao {
 				stmt.setString(2, inventaire.getId_user());
 				stmt.setInt(3, inventaire.getQte());
 			}
-			
 			stmt.execute();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			errorInsert = true;
@@ -180,6 +178,107 @@ public class InventaireDao {
 		}
 		return errorInsert;
 	}
+	
+	private Boolean reductionPlante(String uuid, int iditem, int qteareduire) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		Boolean errorInsert = false;
+		try {
+			con = Connecteur.getConnexion();
+
+			ObjetDao objetDao = new ObjetDao();
+			
+			stmt = con.prepareStatement(QUERY_UPDATE);
+			int nbObjetDejaPresent = objetDao.getNbObjetByUuidAndByIdObjet(uuid, iditem);
+
+			stmt.setInt(1, nbObjetDejaPresent-qteareduire);
+			stmt.setString(2, uuid);
+			stmt.setInt(3, iditem);
+			// TODO controler si il ne faut pas faire appel à UPDATE ici ?
+			
+			stmt.execute();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			errorInsert = true;
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return errorInsert;
+	}
+	
+	
+	public Boolean craftNewItem(String uuid, int idObjetCrafte, int qte1, int qte2, int qte3, int qte4) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		Boolean errorInsert = false;
+		try {
+			con = Connecteur.getConnexion();
+
+			ObjetDao objetDao = new ObjetDao();
+			
+			int dejaPresentEnbase = objetDao.countObjectInInventaireForUuid(uuid,idObjetCrafte);
+			logger.info("deja"+dejaPresentEnbase);
+
+			if (dejaPresentEnbase == 1){
+					stmt = con.prepareStatement(QUERY_UPDATE);
+					int nbObjetDejaPresent = objetDao.getNbObjetByUuidAndByIdObjet(uuid, idObjetCrafte);
+					logger.info("nb"+nbObjetDejaPresent);
+
+					stmt.setInt(1, nbObjetDejaPresent+1);
+					stmt.setString(2, uuid);
+					stmt.setInt(3, idObjetCrafte);
+					// TODO controler si il ne faut pas faire appel à UPDATE ici ?
+			} else {
+				stmt = con.prepareStatement(QUERY_INSERT);
+				stmt.setInt(1, idObjetCrafte);
+				stmt.setString(2, uuid);
+				stmt.setInt(3, 1);
+			}
+			stmt.execute();
+			reductionPlante(uuid,1,qte1);
+			reductionPlante(uuid,2,qte2);
+			reductionPlante(uuid,3,qte3);
+			reductionPlante(uuid,4,qte4);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			errorInsert = true;
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return errorInsert;
+	}
+	
+	
 	
 	/**
 	 * Recherche tous les inventaires en fonction de l'uid de la personne et de

@@ -22,6 +22,7 @@ import com.dao.RecetteDao;
 import com.entitie.Inventaire;
 import com.entitie.Recette;
 import com.sun.xml.bind.v2.schemagen.xmlschema.List;
+import com.utils.Bonus;
 import com.utils.MusicPlayer;
 
 import java.awt.GridLayout;
@@ -34,6 +35,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,18 +60,28 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  private ArrayList<Recette> listeRecetteHOWOB = new ArrayList<Recette>();
 	  private ArrayList<Recette> listeRecetteFARMVILLAGE = new ArrayList<Recette>();
 	  private ArrayList<Recette> listeRecetteBOOMCRAFT = new ArrayList<Recette>();
-	  BufferedImage iconPlante1=null;
-	  BufferedImage iconPlante2=null;
-	  BufferedImage iconPlante3=null;
-	  BufferedImage iconPlante4=null;
-	  BufferedImage imgFond=null;
-	  JLabel lblPlante1Recette;
-	  JLabel lblPlante2Recette;
-	  JLabel lblPlante3Recette;
-	  JLabel lblPlante4Recette;
-	  JLabel titre_recette;
-	  JLabel description_recette;
-	  	
+	  private BufferedImage iconPlante1=null;
+	  private BufferedImage iconPlante2=null;
+	  private BufferedImage iconPlante3=null;
+	  private BufferedImage iconPlante4=null;
+	  private BufferedImage imgFond=null;
+	  private BufferedImage iconInventaire=null;
+	  private BufferedImage iconCraft=null;
+	  private BufferedImage iconVide=null;
+	  private JLabel lblPlante1Recette;
+	  private JLabel lblPlante2Recette;
+	  private JLabel lblPlante3Recette;
+	  private JLabel lblPlante4Recette;
+	  private JLabel titre_recette;
+	  private JLabel description_recette;
+	  private JSpinner spinner, spinner_1, spinner_2, spinner_3;
+	  private Thread t;
+	  static private boolean run = true;
+	  private JLabel inv_plante1,inv_plante2,inv_plante3, inv_plante4;
+	  private int qteplante1=0;
+	  private int qteplante2=0;
+	  private int qteplante3=0;
+	  private int qteplante4=0;
 	  /**
 	 *  Modification Ã  la ligne 37
 	 */
@@ -83,14 +95,16 @@ public class PanelCraft extends JPanel implements ActionListener{
 	        return panel;
 	    }
 
-	  
-	  
+
+
+	public static void setRun(boolean run) {
+		PanelCraft.run = run;
+	}
+
+
+
 	public PanelCraft(){
 	  	setLayout(new MigLayout("", "[][grow][]", "[150px:150px:150px][grow][80px:80px:80px,grow][]"));
-	  	
-	  	BufferedImage iconInventaire=null;
-	  	BufferedImage iconCraft=null;
-	  	BufferedImage iconVide=null;
 	  	
 	  	try {
 			imgFond = ImageIO.read(new File("images/bois_fond.jpg"));
@@ -165,10 +179,6 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  			}
 	  		}
 		}
-	  	System.out.println(listeAllRecette);
-	  	System.out.println(listeRecetteHOWOB);
-	  	System.out.println(listeRecetteFARMVILLAGE);
-	  	System.out.println(listeRecetteBOOMCRAFT);
 	  	
 	  	JPanel panel_listeRecette = new JPanel();
 	  	panel_listeRecette.setOpaque(false);
@@ -187,7 +197,6 @@ public class PanelCraft extends JPanel implements ActionListener{
 	        for (int i = 0; i < listeRecetteBOOMCRAFT.size(); i++) {
 	            buttons1[i] = new JButton();
 	            buttons1[i].setIcon(new ImageIcon(ImageIO.read(new File("images/recette"+listeRecetteBOOMCRAFT.get(i).getIdRecette()+".png"))));
-	            //buttons1[i].setIcon(new ImageIcon(iconVide));
 	            buttons1[i].setName("BOOMCRAFT-"+i);
 	            buttons1[i].setBorderPainted(false);
 	            buttons1[i].setFocusPainted(false);
@@ -213,7 +222,6 @@ public class PanelCraft extends JPanel implements ActionListener{
 	    try {
 	        for (int i = 0; i < listeRecetteFARMVILLAGE.size(); i++) {
 	            buttons2[i] = new JButton();
-	            System.out.println("images/recette"+listeRecetteFARMVILLAGE.get(i).getIdRecette()+".png");
 	            buttons2[i].setIcon(new ImageIcon(ImageIO.read(new File("images/recette"+listeRecetteFARMVILLAGE.get(i).getIdRecette()+".png"))));
 	            buttons2[i].setName("FARMVILLAGE-"+i);
 	            buttons2[i].setBorderPainted(false);
@@ -239,9 +247,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	    try {
 	        for (int i = 0; i < listeRecetteHOWOB.size(); i++) {
 	            buttons3[i] = new JButton();
-	            
 	            buttons3[i].setIcon(new ImageIcon(ImageIO.read(new File("images/recette"+listeRecetteHOWOB.get(i).getIdRecette()+".png"))));
-	            //buttons3[i].setIcon(new ImageIcon(iconVide));
 	            buttons3[i].setName("HOWOB-"+i);
 	            buttons3[i].setBorderPainted(false);
 	            buttons3[i].setFocusPainted(false);
@@ -263,7 +269,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	panel3.setPreferredSize(new Dimension(500, 90));
 	  	panel_listeRecette.add(tabbedPane);
 	  	
-	  	invs = inventairedao.getInventaireByUuid(1);
+	  	invs = inventairedao.getInventaireByUuid(MainFrame.getUUID());
 	  	int nbRow = invs.size()%5;
 	  	
 	  	JPanel panel_infoRecette = new JPanel();
@@ -357,7 +363,6 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	add(panel_listeRessources, "cell 1 2,grow");
 	  	panel_listeRessources.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-	  	JLabel inv_plante1,inv_plante2,inv_plante3, inv_plante4;
 	  	inv_plante1 = new JLabel();
 	  	inv_plante2 = new JLabel();
 	  	inv_plante3 = new JLabel();
@@ -367,13 +372,10 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	inv_plante3.setName("3");
 	  	inv_plante4.setName("4");
 	  	
-	  	int qteplante1 = objetDao.getNbObjetByUuidAndByIdObjet("1", 1);
-	  	int qteplante2 = objetDao.getNbObjetByUuidAndByIdObjet("1", 2);
-	  	int qteplante3 = objetDao.getNbObjetByUuidAndByIdObjet("1", 3);
-	  	int qteplante4 = objetDao.getNbObjetByUuidAndByIdObjet("1", 4);
-	  	
-	  	
-	  	
+	  	qteplante1 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 1);
+	  	qteplante2 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 2);
+	  	qteplante3 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 3);
+	  	qteplante4 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 4);
 	  	
 	  	inv_plante1.setText(qteplante1+" Dispo");
 	  	inv_plante1.setVerticalTextPosition(JLabel.BOTTOM);
@@ -391,34 +393,78 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	inv_plante2.setIcon(new ImageIcon(iconPlante2));
 	  	inv_plante3.setIcon(new ImageIcon(iconPlante3));
 	  	inv_plante4.setIcon(new ImageIcon(iconPlante4));
+	  	
+	  	spinner = new JSpinner(new SpinnerNumberModel(0, 0, qteplante1,
+                1));
         
+        //int w = spinner.getWidth();   int h = spinner.getHeight();
+        //spinner.setMinimumSize(new Dimension(w*2,h));
+        
+	  	spinner_1 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante2,
+                1));
+        //spinner_1.setMinimumSize(new Dimension(w*2,h));
+        
+	  	spinner_2 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante3,
+                1));
+        //spinner_2.setMinimumSize(new Dimension(w*2,h));
+        
+	  	spinner_3 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante4,
+                1));
+       // spinner_3.setMinimumSize(new Dimension(w*2,h));
+
         panel_listeRessources.add(inv_plante1);
         panel_listeRessources.setOpaque(false);
         
-        JSpinner spinner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante1,
-                1));
         
-        int w = spinner.getWidth();   int h = spinner.getHeight();
         panel_listeRessources.add(spinner);
         panel_listeRessources.add(inv_plante2);
         
-        JSpinner spinner_1 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante2,
-                1));
-        spinner_1.setMinimumSize(new Dimension(w*2,h));
+       
         panel_listeRessources.add(spinner_1);
         panel_listeRessources.add(inv_plante3);
         
-        JSpinner spinner_2 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante3,
-                1));
-        spinner_2.setMinimumSize(new Dimension(w*2,h));
+        
         panel_listeRessources.add(spinner_2);
         panel_listeRessources.add(inv_plante4);
         
-        JSpinner spinner_3 = new JSpinner(new SpinnerNumberModel(0.0, 0.0, qteplante4,
-                1));
-        spinner_3.setMinimumSize(new Dimension(w*2,h));
+        
         panel_listeRessources.add(spinner_3);
         
+	  	
+	  	t = new Thread() {
+			public void run() {
+				while(run) {
+					
+					
+				  	inv_plante1.setText(qteplante1+" Dispo");
+				  	inv_plante1.setVerticalTextPosition(JLabel.BOTTOM);
+				  	inv_plante1.setHorizontalTextPosition(JLabel.CENTER);
+				  	inv_plante2.setText(qteplante2+" Dispo");
+				  	inv_plante2.setVerticalTextPosition(JLabel.BOTTOM);
+				  	inv_plante2.setHorizontalTextPosition(JLabel.CENTER);
+				  	inv_plante3.setText(qteplante3+" Dispo");
+				  	inv_plante3.setVerticalTextPosition(JLabel.BOTTOM);
+				  	inv_plante3.setHorizontalTextPosition(JLabel.CENTER);
+				  	inv_plante4.setText(qteplante4+" Dispo");
+				  	inv_plante4.setVerticalTextPosition(JLabel.BOTTOM);
+				  	inv_plante4.setHorizontalTextPosition(JLabel.CENTER);
+				  	
+				  	
+			        
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				if(!run) {
+
+			        t.interrupt();
+				}
+			}
+		};
+		t.start();
+
         JPanel panel_btCraft = new JPanel();
         add(panel_btCraft, "cell 1 3,grow");
         panel_btCraft.setLayout(new MigLayout("", "[270px][75px][75px]", "[29px]"));
@@ -459,6 +505,87 @@ public class PanelCraft extends JPanel implements ActionListener{
         btnCraft.setBorderPainted(false);
         btnCraft.setFocusPainted(false);
         btnCraft.setContentAreaFilled(false);
+        
+        
+        btnCraft.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int idobj = 0;
+				try {
+					spinner.commitEdit();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					spinner_1.commitEdit();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					spinner_2.commitEdit();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					spinner_3.commitEdit();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				idobj=recettedao.getIdRecetteByComposants((Integer)spinner.getValue(), (Integer)spinner_1.getValue(), (Integer)spinner_2.getValue(),(Integer)spinner_3.getValue());
+				System.out.println("id recette trouvée :"+String.valueOf(idobj));
+				if(idobj!=0) {
+					inventairedao.craftNewItem(MainFrame.getUUID(), idobj, (Integer)spinner.getValue(), (Integer)spinner_1.getValue(), (Integer)spinner_2.getValue(), (Integer)spinner_3.getValue());
+					qteplante1 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 1);
+				  	qteplante2 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 2);
+				  	qteplante3 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 3);
+				  	qteplante4 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 4);
+				  	System.out.println("qte4 :"+String.valueOf(qteplante4));
+					
+				  	panel_listeRessources.removeAll();
+				  	repaint();
+				  	
+				  	spinner = new JSpinner(new SpinnerNumberModel(0, 0, qteplante1,
+			                1));
+				  	spinner.setValue(0);
+			        
+				  	spinner_1 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante2,
+			                1));
+				  	spinner_1.setValue(0);
+				  	spinner_2 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante3,
+			                1));
+				  	spinner_2.setValue(0);
+				  	spinner_3 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante4,
+			                1));
+				  	spinner_3.setValue(0);
+				  	panel_listeRessources.add(inv_plante1);
+			        panel_listeRessources.setOpaque(false);
+			        
+			        
+			        panel_listeRessources.add(spinner);
+			        panel_listeRessources.add(inv_plante2);
+			        
+			       
+			        panel_listeRessources.add(spinner_1);
+			        panel_listeRessources.add(inv_plante3);
+			        
+			        
+			        panel_listeRessources.add(spinner_2);
+			        panel_listeRessources.add(inv_plante4);
+			        
+			        
+			        panel_listeRessources.add(spinner_3);
+			        
+			        
+				}
+			}
+		});
+        
 	  	panel_btCraft.add(btnCraft, "cell 2 0,alignx left,aligny top");
 	  	panel_btCraft.setOpaque(false);
 	  	
