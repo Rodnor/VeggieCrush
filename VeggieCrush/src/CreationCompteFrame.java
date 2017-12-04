@@ -7,8 +7,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+
 import com.dao.AccountDao;
 import com.entitie.Account;
+import com.utils.HttpClient;
 import com.utils.Utils;
 
 import net.miginfocom.swing.MigLayout;
@@ -145,24 +149,38 @@ public class CreationCompteFrame implements ActionListener {
 					account = adao.getAccountByUsername(pseudo.getText());
 
 					if (account == null && accountmail == null) {// n'existe pas chez nous
-						String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(mdp.getPassword()));
-						if (Utils.creditsExistDansUneAutreAppli(pseudo.getText(), mail.getText()) == null) { // n'existe pas ailleurs
-							String uuidString = Utils.generateUuid().toString();
-							account = new Account(0, uuidString, pseudo.getText(), mail.getText(), securePass, faction, null, null, null);
-							adao.insertNewAccount(account);
 
-							new ConnectionFrame();
+						if (Utils.creditsExistDansUneAutreAppli(pseudo.getText(), mail.getText()) == null) { // n'existe pas ailleurs
+
+							String uuidString = Utils.generateUuid().toString();
+							account = new Account(0, uuidString, pseudo.getText(), mail.getText(), String.valueOf(mdp.getPassword()), faction, null, null, null);
+							HttpClient httpClient = new HttpClient();
+							JSONObject jsonObject = httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/insert", account.getJson());
+							Boolean errorInsert = false;
+							try {
+								if (!jsonObject.isNull("error_insert")){
+									errorInsert = (Boolean) jsonObject.get("error_insert");
+								}
+							} catch (JSONException error) {
+								error.printStackTrace();
+							}
+							
+							System.out.println("errorinsert"+errorInsert);
+							if(errorInsert == false){
+								new ConnectionFrame();
+							}
+
 							this.frame.dispose();
 						} else {
 							// Compte existe déja ailleurs
 							JOptionPane.showMessageDialog(null,
-									"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre",
+									"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre1",
 									"Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 						}
 					} else {
 						// Compte deja existant chez nous
 						JOptionPane.showMessageDialog(null,
-								"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre",
+								"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre2",
 								"Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 					}
 				} else {

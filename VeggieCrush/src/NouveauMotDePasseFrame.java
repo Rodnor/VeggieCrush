@@ -8,9 +8,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+
 import com.dao.AccountDao;
 import com.entitie.Account;
 import com.sun.xml.bind.v2.runtime.output.UTF8XmlOutput;
+import com.utils.HttpClient;
 import com.utils.Utils;
 
 import net.miginfocom.swing.MigLayout;
@@ -97,8 +101,19 @@ public class NouveauMotDePasseFrame implements ActionListener {
 						AccountDao accountDao = new AccountDao();
 						Account account = new Account();
 						account = accountDao.getAccountByUsername(utilisateur);
-						String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
-						accountDao.updatePasswordById(account.getId(), securePass);
+						//accountDao.updatePasswordById(account.getId(), );
+						HttpClient httpClient = new HttpClient();
+						JSONObject jsonEnvoi = new JSONObject();
+						try {
+							jsonEnvoi.put("id", account.getId());
+							jsonEnvoi.put("password", String.valueOf(passwordField.getPassword()));
+							
+						} catch (JSONException error) {
+							error.printStackTrace();
+						}
+						
+						httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/updatePassword", jsonEnvoi);
+						
 						accountDao.updateFlag(account.getId(), "N");
 						new BonusFrame(account.getId_global());
 						this.frame.dispose();

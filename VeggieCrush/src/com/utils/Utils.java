@@ -21,22 +21,8 @@ import com.entitie.Account;
 /**
  * Classe permettant de regrouper les méthodes Utils
  */
-/**
- * @author michelparis
- *
- */
-/**
- * @author michelparis
- *
- */
-/**
- * @author michelparis
- *
- */
 public final class Utils {
 
-	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("application");
-	private static String salt = applicationProperties.getString("bd.pass.salt");	
 	private static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
 		    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 	
@@ -53,10 +39,10 @@ public final class Utils {
 	 * Permet de verifier si le compte existe dans un autre jeu. Retourne <code>null</code> si le compte n'existe pas
 	 * @param username
 	 * @param securePass
-	 * @return nom de l'appli
+	 * @return uuid
 	 */
 	public static String signinDansUneAutreAppli(String username, String password) {
-		String nomAppli = null;
+		String uuidTrouve = null;
 		
 		HttpClient httpClient = new HttpClient();
 		JSONObject jsonEnvoi = new JSONObject();
@@ -68,20 +54,17 @@ public final class Utils {
 		}
 		
 		
-		System.out.println(jsonEnvoi.toString());
-
-		
 		JSONObject jsonRetour = httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/signinAutreJeu", jsonEnvoi);
-		System.out.println(jsonRetour.toString());
+
 		try {
-			if (!jsonRetour.isNull("signin")){
-				nomAppli = jsonRetour.getString("signin");
+			if (!jsonRetour.isNull("signin") && jsonRetour.get("signin").equals(true) && !jsonRetour.isNull("uuid_ailleurs")){
+				uuidTrouve = jsonRetour.getString("uuid_ailleurs");
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		
-		return nomAppli;
+		return uuidTrouve;
 	}
 
 	public static String creditsExistDansUneAutreAppli(String username, String mail) {
@@ -95,7 +78,6 @@ public final class Utils {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
 		
 		JSONObject jsonRetour = httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/existingAutreJeu", jsonEnvoi);
 		
@@ -118,29 +100,6 @@ public final class Utils {
 		return UUID.randomUUID();
 	}
 
-	/**
-	 * Permet de crypter le mot de passe avec SHA-512 et la clef commune
-	 * @param passwordToHash
-	 * @return mot de passe
-	 */
-	public static String get_SHA_512_SecurePassword(String passwordToHash) {
-		String generatedPassword = null;
-		try {
-			MessageDigest md = MessageDigest.getInstance("SHA-512");
-			md.update(salt.getBytes("UTF-8"));
-			byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < bytes.length; i++) {
-				sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-			}
-			generatedPassword = sb.toString();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return generatedPassword;
-	}
 	
 	/**
 	 * Permet de valider le format d'une adresse mail 
@@ -178,7 +137,6 @@ public final class Utils {
 	public static Boolean modfierMotDePasse(String adresseMail){
 		
 		String pass = Utils.generateNewPassword(13);
-		String securePass = get_SHA_512_SecurePassword(pass);
 		
 		AccountDao accountDao = new AccountDao();
 		Account account = accountDao.getAccountByMail(adresseMail);
@@ -187,7 +145,17 @@ public final class Utils {
 			return false;
 		}
 		
-		accountDao.updatePasswordById(account.getId(), securePass);
+		
+		HttpClient httpClient = new HttpClient();
+		JSONObject jsonEnvoi = new JSONObject();
+		try {
+			jsonEnvoi.put("id", String.valueOf(account.getId()));
+			jsonEnvoi.put("password", pass);
+		} catch (JSONException error) {
+			error.printStackTrace();
+		}
+
+		httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/updatePassword", jsonEnvoi);
 		accountDao.updateFlag(account.getId(), "O");
 		
 		StringBuilder stringBuilder = new StringBuilder();
@@ -209,5 +177,35 @@ public final class Utils {
 		}
 		
 		return true;
+	}
+	
+	public static String signinVeggie(String username, String pass) {
+		JSONObject jsonRetour = new JSONObject();
+		JSONObject jsonEnvoi = new JSONObject();
+		
+		try {
+			jsonEnvoi.put("password", pass);
+			jsonEnvoi.put("username", username);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(jsonEnvoi.toString());
+
+		HttpClient httpClient = new HttpClient();
+		
+		jsonRetour = httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/signin", jsonEnvoi);
+		System.out.println(jsonRetour.toString());
+		try {
+			if (jsonRetour.isNull("error") && !jsonRetour.isNull("user") && !jsonRetour.getJSONObject("user").isNull("globalId")){
+				
+				return (String) jsonRetour.getJSONObject("user").get("globalId");
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }
