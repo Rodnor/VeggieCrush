@@ -36,8 +36,8 @@ public class MainFrame {
 	private static String UUID;
 	private boolean craftMusicIsOn=false;
 	private boolean gameMusicIsOn=true;
-	private static boolean bonusBoomcraft;
-	private static boolean bonusFarmVillage;
+	private static boolean bonusBoomcraft=false;
+	private static boolean bonusFarmVillage=false;
 	private static boolean bonusHowob;
 
 	/**
@@ -47,7 +47,7 @@ public class MainFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainFrame window = new MainFrame("",false,false,false);
+					MainFrame window = new MainFrame();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -59,12 +59,16 @@ public class MainFrame {
 	/**
 	 * Create the application.
 	 */
-	public MainFrame(String UUID, boolean bonusBoomcraft, boolean bonusFarmVillage, boolean bonusHowob) {
-		initialize();
+	public MainFrame(String UUID, boolean bonusBoomCraft, boolean bonusFarmVillage, boolean bonusHowob) {
 		this.UUID = UUID;
-		this.bonusBoomcraft = bonusBoomcraft;
+		this.bonusBoomcraft = bonusBoomCraft;
 		this.bonusFarmVillage = bonusFarmVillage;
 		this.bonusHowob = bonusHowob;
+		initialize();
+	}
+	
+	public MainFrame() {
+		initialize();
 	}
 
 	/**
@@ -87,12 +91,11 @@ public class MainFrame {
 		frame = new JFrame();
 	    frame.setTitle("Jeu");
 	    
-	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft(), new PanelDemandes(Color.BLUE)};
+	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft()};
 
 	    onglet = new JTabbedPane();
 	    onglet.add("Jeu", tPan[0]);
 	    onglet.add("Craft", tPan[1]);
-	    onglet.add("Demandes", tPan[2]);
 
 	    frame.getContentPane().add(onglet);
 

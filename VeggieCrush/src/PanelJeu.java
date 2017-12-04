@@ -82,8 +82,11 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private JToggleButton tglbtnMuteSound;
 	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("jeu");
 	private BufferedImage imgFond=null;
+	private JButton btnRgles;
 
 	public PanelJeu(){
+		
+		System.out.println(MainFrame.getUUID());
 
 		attribuerBonus();
 
@@ -210,6 +213,9 @@ public class PanelJeu extends JPanel implements ActionListener {
 			}
 		});
 		add(tglbtnMuteSound, "cell 0 7");
+		
+		btnRgles = new JButton("Règles");
+		add(btnRgles, "cell 6 7");
 	}
 
 	@Override

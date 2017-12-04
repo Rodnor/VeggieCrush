@@ -65,7 +65,6 @@ public class ConnectionFrame implements ActionListener {
 
 		contentPane.setLayout(new MigLayout("", "[grow,center][grow,center]", "[30px][30px][30px][30px][30px][grow]"));
 
-		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 450, 300);		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

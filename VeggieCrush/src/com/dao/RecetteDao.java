@@ -26,6 +26,7 @@ public class RecetteDao {
 	private final static String QUERY_DELETE_BY_ID = "DELETE FROM RECETTE WHERE id_recette = ?";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM RECETTE WHERE id_recette = ?";
 	private final static String QUERY_FIND_ALL = "SELECT * FROM RECETTE";
+	private final static String QUERY_FIND_ID_RECETTE_BY_COMPO = "SELECT id_objet FROM RECETTE where qte_plante1=? and qte_plante2=? and qte_plante3=? and qte_plante4=?";
 
 	private final static Logger logger = Logger.getLogger(ObjetDao.class.getName());
 
@@ -69,6 +70,50 @@ public class RecetteDao {
 			}
 		}
 		return recette;
+	}
+	
+	/**
+	 * Permet de recherche une recette en fonction de son id
+	 * 
+	 * @param idRecette
+	 * @return recette
+	 */
+	public int getIdRecetteByComposants(int qte1, int qte2, int qte3, int qte4) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		int resultat=0;		
+		try {
+			con = Connecteur.getConnexion();
+			stmt = con.prepareStatement(QUERY_FIND_ID_RECETTE_BY_COMPO);
+			stmt.setInt(1, qte1);
+			stmt.setInt(2, qte2);
+			stmt.setInt(3, qte3);
+			stmt.setInt(4, qte4);
+
+			final ResultSet rset = stmt.executeQuery();
+			while (rset.next()) {
+				resultat = rset.getInt("id_objet");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return resultat;
 	}
 
 	/**

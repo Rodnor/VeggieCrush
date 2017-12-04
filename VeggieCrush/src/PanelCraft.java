@@ -93,7 +93,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	BufferedImage iconVide=null;
 	  	
 	  	try {
-			imgFond = ImageIO.read(new File("images/bois.jpg"));
+			imgFond = ImageIO.read(new File("images/bois_fond.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -186,7 +186,8 @@ public class PanelCraft extends JPanel implements ActionListener{
 	    try {
 	        for (int i = 0; i < listeRecetteBOOMCRAFT.size(); i++) {
 	            buttons1[i] = new JButton();
-	            buttons1[i].setIcon(new ImageIcon(iconVide));
+	            buttons1[i].setIcon(new ImageIcon(ImageIO.read(new File("images/recette"+listeRecetteBOOMCRAFT.get(i).getIdRecette()+".png"))));
+	            //buttons1[i].setIcon(new ImageIcon(iconVide));
 	            buttons1[i].setName("BOOMCRAFT-"+i);
 	            buttons1[i].setBorderPainted(false);
 	            buttons1[i].setFocusPainted(false);
@@ -212,7 +213,8 @@ public class PanelCraft extends JPanel implements ActionListener{
 	    try {
 	        for (int i = 0; i < listeRecetteFARMVILLAGE.size(); i++) {
 	            buttons2[i] = new JButton();
-	            buttons2[i].setIcon(new ImageIcon(iconVide));
+	            System.out.println("images/recette"+listeRecetteFARMVILLAGE.get(i).getIdRecette()+".png");
+	            buttons2[i].setIcon(new ImageIcon(ImageIO.read(new File("images/recette"+listeRecetteFARMVILLAGE.get(i).getIdRecette()+".png"))));
 	            buttons2[i].setName("FARMVILLAGE-"+i);
 	            buttons2[i].setBorderPainted(false);
 	            buttons2[i].setFocusPainted(false);
@@ -237,7 +239,9 @@ public class PanelCraft extends JPanel implements ActionListener{
 	    try {
 	        for (int i = 0; i < listeRecetteHOWOB.size(); i++) {
 	            buttons3[i] = new JButton();
-	            buttons3[i].setIcon(new ImageIcon(iconVide));
+	            
+	            buttons3[i].setIcon(new ImageIcon(ImageIO.read(new File("images/recette"+listeRecetteHOWOB.get(i).getIdRecette()+".png"))));
+	            //buttons3[i].setIcon(new ImageIcon(iconVide));
 	            buttons3[i].setName("HOWOB-"+i);
 	            buttons3[i].setBorderPainted(false);
 	            buttons3[i].setFocusPainted(false);
@@ -254,7 +258,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	    panel3.add(new JScrollPane(btnPnl3), BorderLayout.CENTER);
 	  	tabbedPane.addTab("Recettes HoWoB", panel3);
 	  	
-	  	panel1.setPreferredSize(new Dimension(500, 90));
+	  	panel1.setPreferredSize(new Dimension(500, 100));
 	  	panel2.setPreferredSize(new Dimension(500, 90));
 	  	panel3.setPreferredSize(new Dimension(500, 90));
 	  	panel_listeRecette.add(tabbedPane);
@@ -267,19 +271,20 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	add(panel_infoRecette, "cell 1 1,grow");
 	  	panel_infoRecette.setLayout(new BorderLayout(0, 0));
 	  	
-	  	JLabel lblNewLabel = new JLabel("Information sur la recette      ");
-	  	lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-	  	lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
-	  	panel_infoRecette.add(lblNewLabel, BorderLayout.NORTH);
-	  	
 	  	JPanel panelComposantRecette = new JPanel();
 	  	panelComposantRecette.setOpaque(false);
 	  	panel_infoRecette.add(panelComposantRecette, BorderLayout.WEST);
 	  	panelComposantRecette.setLayout(new GridLayout(2,1,0,-200));
 	  	panelComposantRecette.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
 	  	
-	  	JLabel listecomporecette = new JLabel("Composants n�cessaires");
+	  	JPanel panel_2 = new JPanel();
+	  	panel_2.setOpaque(false);
+	  	panelComposantRecette.add(panel_2);
+	  	
+	  	JLabel listecomporecette = new JLabel("Composants n\u00E9cessaires");
 	  	listecomporecette.setVerticalAlignment(SwingConstants.TOP);
+	  	listecomporecette.setHorizontalTextPosition(SwingConstants.CENTER);
+	  	listecomporecette.setHorizontalAlignment(SwingConstants.CENTER);
 	  	listecomporecette.setAlignmentX(Component.CENTER_ALIGNMENT);
 	  	listecomporecette.setSize(new Dimension(200, 25));
 	  	listecomporecette.setPreferredSize(new Dimension(200, 25));
@@ -287,7 +292,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	listecomporecette.setMaximumSize(new Dimension(250, 25));
 	  	listecomporecette.setFont(new Font("Tahoma", Font.BOLD, 15));
 	  	
-	  	panelComposantRecette.add(listecomporecette);
+	  	panel_2.add(listecomporecette);
 	  	
 	  	JPanel panelListeCompo = new JPanel();
 	  	panelListeCompo.setOpaque(false);
@@ -321,13 +326,14 @@ public class PanelCraft extends JPanel implements ActionListener{
 		
 	  	
 	  	JPanel panel_1 = new JPanel();
+	  	panel_1.setAlignmentY(Component.TOP_ALIGNMENT);
 	  	panel_1.setOpaque(false);
 	  	panel_1.setSize(new Dimension(600, 250));
 	  	panel_1.setPreferredSize(new Dimension(600, 250));
 	  	panel_1.setMinimumSize(new Dimension(600, 250));
 	  	panel_1.setMaximumSize(new Dimension(600, 250));
 	  	panel_infoRecette.add(panel_1, BorderLayout.EAST);
-	  	panel_1.setLayout(new MigLayout("", "[600px]", "[40px][125px]"));
+	  	panel_1.setLayout(new MigLayout("", "[600px,grow]", "[40px,grow][125px,grow,top]"));
 	  	
 	  	titre_recette = new JLabel("");
 	  	titre_recette.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -335,6 +341,15 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	
 	  	description_recette = new JLabel("");
 	  	panel_1.add(description_recette, "cell 0 1");
+	  	
+	  	JPanel panel = new JPanel();
+	  	panel.setOpaque(false);
+	  	panel_infoRecette.add(panel, BorderLayout.NORTH);
+	  	
+	  	JLabel label = new JLabel("Information sur la recette      ");
+	  	label.setHorizontalAlignment(SwingConstants.CENTER);
+	  	label.setFont(new Font("Tahoma", Font.BOLD, 20));
+	  	panel.add(label);
 
 	  	
 	  	JPanel panel_listeRessources = new JPanel();
