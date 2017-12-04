@@ -35,13 +35,17 @@ public class NouveauMotDePasseFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NouveauMotDePasseFrame window = new NouveauMotDePasseFrame("");
+					NouveauMotDePasseFrame window = new NouveauMotDePasseFrame();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+	}
+	
+	public NouveauMotDePasseFrame() {
+		initialize();
 	}
 
 	public NouveauMotDePasseFrame(String utilisateur) {

@@ -23,18 +23,18 @@ import javax.swing.JToggleButton;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
-public class BonusFrame extends JFrame implements ActionListener {
+public class BonusFrame implements ActionListener {
 	
 	private JFrame frame;
-	private String UUID;
+	private static String UUID;
 
 	private JPanel contentPane;
 	private JLabel lblBonusHowob;
 	private JLabel lblBonusBoomCraft;
 	private JLabel lblBonusFarmVillage;
-	private boolean bonusHowob=false;
-	private boolean bonusBoomCraft=false;
-	private boolean bonusFarmVillage=false;
+	private static boolean bonusHowob=false;
+	private static boolean bonusBoomCraft=false;
+	private static boolean bonusFarmVillage=false;
 	private JButton btnValider;
 	private GestionBonus gestionBonus = new GestionBonus();
 	private ArrayList<Bonus> listeBonus;
@@ -48,7 +48,7 @@ public class BonusFrame extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BonusFrame window = new BonusFrame("");
+					BonusFrame window = new BonusFrame();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,12 +56,16 @@ public class BonusFrame extends JFrame implements ActionListener {
 			}
 		});
 	}
+	
+	public BonusFrame(String UUID) {
+		this.UUID = UUID;
+		initialize();
+	}
 
 	/**
 	 * Create the application.
 	 */
-	public BonusFrame(String UUID) {
-		this.UUID = UUID;
+	public BonusFrame() {
 		initialize();
 	}
 	
@@ -69,10 +73,15 @@ public class BonusFrame extends JFrame implements ActionListener {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 300);
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[grow,center][grow]", "[grow][grow][grow][grow][center]"));
+		
+		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 		
 		JLabel lblNewLabel = new JLabel("Choisissez vos bonus :");
 		contentPane.add(lblNewLabel, "cell 0 0");
@@ -136,7 +145,7 @@ public class BonusFrame extends JFrame implements ActionListener {
 		
 		btnValider = new JButton("Valider");
 		btnValider.addActionListener(this);
-		btnValider.setActionCommand("Valider");
+		btnValider.setActionCommand("valider");
 		contentPane.add(btnValider, "cell 0 4");
 		
 		Thread t = new Thread() {
@@ -178,7 +187,7 @@ public class BonusFrame extends JFrame implements ActionListener {
 					
 					listeBonus.clear();
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -194,14 +203,16 @@ public class BonusFrame extends JFrame implements ActionListener {
 			JButton btn = (JButton) e.getSource();
 
 			if(btn.getActionCommand().equals("valider")) {
+
 				new MainFrame(UUID, bonusBoomCraft, bonusFarmVillage, bonusHowob);
+				
 				this.run=false;
 				this.frame.dispose();
 			}
 		}
 	}
 	
-	public String getUUID() {
-		return this.UUID;
+	public static String getUUID() {
+		return BonusFrame.UUID;
 	}
 }

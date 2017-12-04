@@ -35,7 +35,7 @@ public class GestionBonus {
 		Bonus bonus = new Bonus();
 
 		jsonObject = httpClient.getHttpRequest(
-				"http://veggiecrush.masi-henallux.be/rest_server/api/bonus/" + FARMVILLAGE + "/" + uuid);
+				"https://veggiecrush.masi-henallux.be/rest_server/api/bonus/" + FARMVILLAGE + "/" + uuid);
 
 		if (!jsonObject.isNull(FARMVILLAGE)) {
 			try {
@@ -47,7 +47,7 @@ public class GestionBonus {
 		}
 
 		jsonObject = httpClient
-				.getHttpRequest("http://veggiecrush.masi-henallux.be/rest_server/api/bonus/" + HOWOB + "/" + uuid);
+				.getHttpRequest("https://veggiecrush.masi-henallux.be/rest_server/api/bonus/" + HOWOB + "/" + uuid);
 
 		if (!jsonObject.isNull(HOWOB)) {
 			try {
@@ -59,7 +59,7 @@ public class GestionBonus {
 		}
 
 		jsonObject = httpClient
-				.getHttpRequest("http://veggiecrush.masi-henallux.be/rest_server/api/bonus/" + BOOMCRAFT + "/" + uuid);
+				.getHttpRequest("https://veggiecrush.masi-henallux.be/rest_server/api/bonus/" + BOOMCRAFT + "/" + uuid);
 
 		if (!jsonObject.isNull(BOOMCRAFT)) {
 			try {
