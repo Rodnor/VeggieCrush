@@ -226,7 +226,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 			JButton btn = (JButton) e.getSource();
 			
 			if(btn.getActionCommand().equals("regles")) {
-				System.out.println("coucou");
 				new ReglesFrame();
 			} else if(btn.getActionCommand().equals("jouer")) {
 				// On remplis le canevas

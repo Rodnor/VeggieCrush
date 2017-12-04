@@ -1,9 +1,15 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
 import java.awt.GridLayout;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
@@ -40,7 +46,7 @@ public class ReglesFrame {
 	public void initialize() {
 		frame = new JFrame("Règles du jeu");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setBounds(100, 100, 800, 600);
+		frame.setBounds(100, 100, 819, 774);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,18 +60,39 @@ public class ReglesFrame {
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, "cell 0 0,grow");
-		panel.setLayout(new MigLayout("", "[][grow]", "[][][grow]"));
+		panel.setLayout(new MigLayout("", "[120px:120px:120px][grow]", "[][][grow]"));
 		
 		JLabel lblFentreDeJeu = new JLabel("Fenêtre de jeu");
 		panel.add(lblFentreDeJeu, "cell 0 0");
 		
 		JTextPane txtpnLoremIpsumDolor = new JTextPane();
-		txtpnLoremIpsumDolor.setText("\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac tellus at lorem lobortis consequat sit amet ut dui. Praesent non tempus nunc. Donec ut fermentum sem. Pellentesque aliquet mi quis nisl bibendum interdum. Maecenas pretium aliquet lacinia. Vestibulum a mi quis nibh dictum gravida. Ut eu mi sodales, tincidunt nisi id, eleifend sem. In elementum pellentesque nisi, ac mattis tellus vestibulum non. Maecenas ultrices augue vitae dui condimentum pellentesque. Vivamus dictum dui quis turpis rutrum, in interdum elit varius.\n\nDonec consequat ornare odio nec congue. Nunc eu enim quis dolor fermentum aliquam. Curabitur placerat risus nec sapien dapibus, non lacinia ipsum vulputate. In vel imperdiet libero. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum a ultricies odio, in imperdiet enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut felis orci, mattis fermentum ligula ut, sagittis tincidunt ex.\n\nAliquam porttitor leo ut quam convallis vulputate. Etiam auctor erat ante, convallis rhoncus orci euismod ut. Etiam non rutrum ipsum. Maecenas aliquam magna nec cursus tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et rhoncus ante. Pellentesque quis ante quis neque pharetra placerat. Duis rhoncus tincidunt eros, vitae eleifend lacus fermentum id. Donec efficitur, lacus sit amet suscipit hendrerit, ante nunc dictum sem, quis egestas sapien nulla ac lacus. Pellentesque gravida est sit amet nibh laoreet imperdiet. Aliquam vehicula mattis auctor. Nulla a porta est. Integer mattis urna in mattis dictum. ");
+		try {
+			StyledDocument document = (StyledDocument)txtpnLoremIpsumDolor.getDocument();
+	        document.insertString(document.getLength(), "Le principe du jeu est simple. Il vous faudra récolter le plus de plantes possibles. Pour cela, il faut créer des chemins de cases adjacentes pour des plantes de même couleur. Les cases doivent se toucher par la droite, la gauche, le haut ou le bas pour être comptabilisées dans le chemin de chaque couleur. Vous pouvez récolter 4 types de ressources et les chemins doivent obligatoirement démarrer d'un des coins de la grille. Pour que les plantes se touchent, votre seule possibilité est d'échanger la position des plantes souhaitées en cliquant sur l'une puis sur l'autre.\n\nA chaque partie, une grille de 9x9 cases est générée aléatoirement. Chaque coin de la grille sera cependant toujours de la même couleur. En haut à gauche,", null);
+	        document.insertString(document.getLength(), " ce sera le point de départ pour récolter des plantes vertes. En haut à droite,", null);
+	        document.insertString(document.getLength(), " ce sera le point de départ pour récolter des plantes rouge. En bas à droite,", null);
+	        document.insertString(document.getLength(), " ce sera le point de départ pour récolter des plantes violettes. En bas à gauche,", null);
+	        document.insertString(document.getLength(), " ce sera le point de départ pour récolter des plantes jaunes. Les chemins de couleur démarrant de tout autre endroit ne seront pas pris en compte.\n\n", null);
+	        document.insertString(document.getLength(), "Votre tâche sera compliquée par plusieurs facteurs. De base, votre temps sera limité à 30 secondes, vous n'aurez droit qu'à 25 coups pour échanger les plantes et votre score démarrera à 0. Vous pourez augmenter ces quantités via des bonus en provenance des 3 autres jeux.\n\n", null);
+	        document.insertString(document.getLength(), "Par défaut, chaque case du chemin rapporte 20 points. Lorsque le chemin atteint 10 cases, les points pour la couleur de celui-ci sont doublés. Mais il n'est pas garanti de récolter toutes les plantes des chemins, la récolte sera conditionnée par votre score.\n\n", null);
+	        document.insertString(document.getLength(), "Si celui-ci, calculé en fin de partie, est compris entre 0 et 500, vous ne récolterez aucune plante. Entre 500 et 1000, vous récolterez 50% des plantes composants vos chemins. Entre 1000 et 2000 points, vous récolterez 100% des plantes composants vos chemins. Au délà, vous en récolterez le double.\n\n", null);
+	        document.insertString(document.getLength(), "Vous savez tout maintenant, bon jeu !", null);
+		} catch (BadLocationException e){
+            e.printStackTrace();
+        }
+		
 		panel.add(txtpnLoremIpsumDolor, "cell 1 2,grow");
 		txtpnLoremIpsumDolor.setEditable(false);
 		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, "cell 0 1,grow");
+		panel_1.setLayout(new MigLayout("", "[120px:120px:120px][grow]", "[16px][grow]"));
+		
+		JLabel lblFentreDeCraft = new JLabel("Fenêtre de craft");
+		panel_1.add(lblFentreDeCraft, "cell 0 0,alignx left,aligny top");
+		
+		JTextPane textPane = new JTextPane();
+		panel_1.add(textPane, "cell 1 1,grow");
 	}
 
 }
