@@ -195,7 +195,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		btnJouer = new JButton("Jouer !");
 		btnJouer.addActionListener(this);	
 		btnJouer.setActionCommand("jouer");
-		add(btnJouer, "cell 1 7");
+		add(btnJouer, "cell 1 7,alignx center,aligny bottom");
 
 		tglbtnMuteSound = new JToggleButton("Mute Sound");
 		tglbtnMuteSound.addItemListener(new ItemListener() {
@@ -212,12 +212,12 @@ public class PanelJeu extends JPanel implements ActionListener {
 				}
 			}
 		});
-		add(tglbtnMuteSound, "cell 0 7");
+		add(tglbtnMuteSound, "cell 0 7,alignx left,aligny bottom");
 		
 		btnRgles = new JButton("Règles");
 		btnRgles.addActionListener(this);
 		btnRgles.setActionCommand("regles");
-		add(btnRgles, "cell 6 7");
+		add(btnRgles, "cell 6 7,alignx right,aligny bottom");
 	}
 
 	@Override
@@ -226,7 +226,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 			JButton btn = (JButton) e.getSource();
 			
 			if(btn.getActionCommand().equals("regles")) {
-				new ReglesFrame();
+				ReglesFrame.getInstance();
 			} else if(btn.getActionCommand().equals("jouer")) {
 				// On remplis le canevas
 				fillCanvas();

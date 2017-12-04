@@ -467,7 +467,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 
         JPanel panel_btCraft = new JPanel();
         add(panel_btCraft, "cell 1 3,grow");
-        panel_btCraft.setLayout(new MigLayout("", "[270px][75px][75px]", "[29px]"));
+        panel_btCraft.setLayout(new MigLayout("", "[grow][grow,right][grow,left][grow]", "[29px]"));
         
         JToggleButton tglbtnMute = new JToggleButton("Mute Sound");
         tglbtnMute.addItemListener(new ItemListener() {
@@ -487,7 +487,7 @@ public class PanelCraft extends JPanel implements ActionListener{
         panel_btCraft.add(tglbtnMute, "cell 0 0,alignx left,aligny bottom");
         
         JButton btnInventaire= new JButton(new ImageIcon(iconInventaire));
-        panel_btCraft.add(btnInventaire, "cell 1 0,alignx left,aligny top");
+        panel_btCraft.add(btnInventaire, "cell 1 0,alignx right,aligny top");
         btnInventaire.setBorderPainted(false);
         btnInventaire.setFocusPainted(false);
         btnInventaire.setContentAreaFilled(false);
@@ -538,7 +538,7 @@ public class PanelCraft extends JPanel implements ActionListener{
 				}
 				
 				idobj=recettedao.getIdRecetteByComposants((Integer)spinner.getValue(), (Integer)spinner_1.getValue(), (Integer)spinner_2.getValue(),(Integer)spinner_3.getValue());
-				System.out.println("id recette trouvée :"+String.valueOf(idobj));
+				System.out.println("id recette trouvï¿½e :"+String.valueOf(idobj));
 				if(idobj!=0) {
 					inventairedao.craftNewItem(MainFrame.getUUID(), idobj, (Integer)spinner.getValue(), (Integer)spinner_1.getValue(), (Integer)spinner_2.getValue(), (Integer)spinner_3.getValue());
 					qteplante1 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 1);
@@ -589,7 +589,10 @@ public class PanelCraft extends JPanel implements ActionListener{
 	  	panel_btCraft.add(btnCraft, "cell 2 0,alignx left,aligny top");
 	  	panel_btCraft.setOpaque(false);
 	  	
-	  	
+	  	JButton btnRgles = new JButton("RÃ¨gles");
+	  	btnRgles.addActionListener(this);
+		btnRgles.setActionCommand("regles");
+	  	panel_btCraft.add(btnRgles, "cell 3 0,alignx right,aligny bottom");
 	  		  	
 	  }
 	
@@ -610,37 +613,40 @@ public class PanelCraft extends JPanel implements ActionListener{
 
 		if(e.getSource() instanceof JButton) {
 			JButton btn = (JButton) e.getSource();
-			String nombtn=btn.getName();
-			String[] str = nombtn.split("-");
-			if(str[0].equals("HOWOB")) {
-				titre_recette.setText(String.valueOf(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getNomRecette()));
-				description_recette.setText(String.valueOf(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getDescription()));
-				lblPlante1Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte1()+" requis");
-				lblPlante2Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte2()+" requis");
-				lblPlante3Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte3()+" requis");
-				lblPlante4Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte4()+" requis");
+			
+			if(btn.getActionCommand().equals("regles")) {
+				ReglesFrame.getInstance();
 			} else {
-				if (str[0].equals("FARMVILLAGE")) {
-					titre_recette.setText(String.valueOf(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getNomRecette()));
-					description_recette.setText(String.valueOf(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getDescription()));
-					lblPlante1Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte1()+" requis");
-					
-					lblPlante2Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte2()+" requis");
-					lblPlante3Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte3()+" requis");
-					lblPlante4Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte4()+" requis");
+				String nombtn=btn.getName();
+				String[] str = nombtn.split("-");
+				if(str[0].equals("HOWOB")) {
+					titre_recette.setText(String.valueOf(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getNomRecette()));
+					description_recette.setText(String.valueOf(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getDescription()));
+					lblPlante1Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte1()+" requis");
+					lblPlante2Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte2()+" requis");
+					lblPlante3Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte3()+" requis");
+					lblPlante4Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte4()+" requis");
 				} else {
-					//str[0]=="BOOMCRAFT"
-					titre_recette.setText(String.valueOf(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getNomRecette()));
-					description_recette.setText(String.valueOf(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getDescription()));
-					lblPlante1Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte1()+" requis");
-					lblPlante2Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte2()+" requis");
-					lblPlante3Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte3()+" requis");
-					lblPlante4Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte4()+" requis");
+					if (str[0].equals("FARMVILLAGE")) {
+						titre_recette.setText(String.valueOf(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getNomRecette()));
+						description_recette.setText(String.valueOf(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getDescription()));
+						lblPlante1Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte1()+" requis");
+						
+						lblPlante2Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte2()+" requis");
+						lblPlante3Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte3()+" requis");
+						lblPlante4Recette.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte4()+" requis");
+					} else {
+						//str[0]=="BOOMCRAFT"
+						titre_recette.setText(String.valueOf(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getNomRecette()));
+						description_recette.setText(String.valueOf(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getDescription()));
+						lblPlante1Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte1()+" requis");
+						lblPlante2Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte2()+" requis");
+						lblPlante3Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte3()+" requis");
+						lblPlante4Recette.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte4()+" requis");
+					}
 				}
 			}
-			
 		}
-		
 	}
 }
 // MIPA BAS

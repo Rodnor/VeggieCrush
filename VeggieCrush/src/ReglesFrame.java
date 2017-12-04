@@ -10,15 +10,20 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import org.omg.CORBA.INITIALIZE;
+
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
 public class ReglesFrame {
 
-	private JFrame frame;
-	private JPanel contentPane;
+	private static JFrame frame=null;
+	private static JPanel contentPane;
 
 	/**
 	 * Launch the application.
@@ -43,7 +48,7 @@ public class ReglesFrame {
 		initialize();
 	}
 	
-	public void initialize() {
+	public static void initialize() {
 		frame = new JFrame("Règles du jeu");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100, 100, 819, 774);
@@ -94,5 +99,12 @@ public class ReglesFrame {
 		JTextPane textPane = new JTextPane();
 		panel_1.add(textPane, "cell 1 1,grow");
 	}
-
+	
+	public static JFrame getInstance() {
+		if (frame == null) { 	
+			initialize();
+		}
+		frame.setVisible(true);
+		return frame;
+	}
 }
