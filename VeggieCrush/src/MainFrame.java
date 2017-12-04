@@ -13,6 +13,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import com.dao.AccountDao;
 import com.dao.InventaireDao;
@@ -21,6 +23,7 @@ import com.entitie.Account;
 import com.entitie.Inventaire;
 import com.entitie.Objet;
 import com.test.Test;
+import com.utils.HttpClient;
 import com.utils.MusicPlayer;
 
 import java.awt.BorderLayout;
@@ -66,6 +69,7 @@ public class MainFrame {
 		this.bonusBoomcraft = bonusBoomCraft;
 		this.bonusFarmVillage = bonusFarmVillage;
 		this.bonusHowob = bonusHowob;
+		miseAjourAutresJeux(UUID, bonusHowob, bonusFarmVillage, bonusBoomCraft);
 		initialize();
 	}
 	
@@ -154,6 +158,22 @@ public class MainFrame {
 		       	PanelCraft.setRun(false);
 		    }
 		});
+	}
+	
+	private void miseAjourAutresJeux (String uuid, Boolean howob, Boolean farmvillage, Boolean boomcraft){
+	JSONObject jsonObject = new JSONObject();
+	HttpClient httpClient = new HttpClient();
+	try {
+		jsonObject.put("uuid", uuid);
+		jsonObject.put("howob", howob);
+		jsonObject.put("farmvillage", farmvillage);
+		jsonObject.put("boomcraft", boomcraft);
+		httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/bonus/notifier", jsonObject);
+
+	} catch (JSONException e) {
+		e.printStackTrace();
+	}
+	
 	}
 	
 	public static JTabbedPane getTabbedPane() {
