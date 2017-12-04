@@ -87,12 +87,11 @@ public class MainFrame {
 		frame = new JFrame();
 	    frame.setTitle("Jeu");
 	    
-	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft(), new PanelDemandes(Color.BLUE)};
+	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft()};
 
 	    onglet = new JTabbedPane();
 	    onglet.add("Jeu", tPan[0]);
 	    onglet.add("Craft", tPan[1]);
-	    onglet.add("Demandes", tPan[2]);
 
 	    frame.getContentPane().add(onglet);
 
