@@ -97,10 +97,8 @@ public final class Utils {
 		}
 		
 		
-		//JSONObject jsonRetour = httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/existingAutreJeu", jsonEnvoi);
-		System.out.println("MIPA OGHOH");
-		JSONObject jsonRetour = httpClient.getHttpsRequest("https://veggiecrush.masi-henallux.be/rest_server/api/account/existingAutreJeu");
-
+		JSONObject jsonRetour = httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/existingAutreJeu", jsonEnvoi);
+		
 		try {
 			if (!jsonRetour.get("existing").equals("null")){
 				nomAppli = jsonRetour.getString("existing");

@@ -7,25 +7,19 @@ import com.utils.HttpClient;
 
 
 public  class JsonReaderExample {
-	private static final String TEST_HTTP = "http://artshared.fr/andev1/distribue/android/get_game.php?uid=UNIQUEID1";
-	private static final String TEST_HOWOB = "http://howob.masi-henallux.be/api/auth/signin/";
+	private static final String TEST_HOWOB = "http://veggiecrush.masi-henallux.be/rest_server/api/account/existing";
 
 	
 	public static void main(String[] args) {
 		
 		HttpClient httpClient = new HttpClient();
-		JSONObject jRetour = httpClient.getHttpRequest(TEST_HTTP);
-		
-		
-		System.out.println(jRetour);
-		jRetour = null;
-		
+		JSONObject jRetour = new JSONObject();
 		System.out.println("###############");
 		
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("username", "test");
-			jsonObject.put("password", "test");
+			jsonObject.put("username", "michel");
+			jsonObject.put("email", "parism@3il.fr");
 			
 			jRetour = httpClient.postRequestWithJsonParam(TEST_HOWOB, jsonObject);
 			
