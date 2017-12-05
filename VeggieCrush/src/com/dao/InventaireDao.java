@@ -22,7 +22,7 @@ import com.entitie.Objet;
 public class InventaireDao {
 	
 	private final static String QUERY_FIND_ALL = "SELECT * FROM INVENTAIRE";
-	private final static String QUERY_FIND_BY_ID = "SELECT * FROM INVENTAIRE WHERE id_global = ?";
+	private final static String QUERY_FIND_BY_ID = "SELECT * FROM INVENTAIRE WHERE id_global = ? and qte > 0";
 	private final static String QUERY_FIND_BY_ID_ACCOUNT_AND_BY_ID_OBJET = 	"SELECT * FROM INVENTAIRE WHERE id_global = ? AND id_objet = ?";
 	private final static String QUERY_INSERT = "INSERT INTO INVENTAIRE (id_objet, id_global, qte) values (?, ?, ?)";
 	private final static String QUERY_UPDATE = "UPDATE INVENTAIRE SET qte = ? WHERE id_global = ? AND id_objet = ?";
