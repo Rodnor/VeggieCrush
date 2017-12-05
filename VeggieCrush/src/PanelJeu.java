@@ -99,8 +99,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 
-		System.out.println("TEST POUR TLS : "+applicationProperties.getString("test.pour.montrer.a.tristan"));
-
 
 		setLayout(new MigLayout("", "[][][grow][][][][grow]", "[][][grow][grow][grow][grow][grow][]"));
 

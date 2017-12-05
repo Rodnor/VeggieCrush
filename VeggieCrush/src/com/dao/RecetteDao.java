@@ -89,7 +89,6 @@ public class RecetteDao {
 			stmt.setInt(2, qte2);
 			stmt.setInt(3, qte3);
 			stmt.setInt(4, qte4);
-			System.out.println(stmt.toString());
 			final ResultSet rset = stmt.executeQuery();
 			while (rset.next()) {
 				resultat = rset.getInt("id_objet");

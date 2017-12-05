@@ -90,9 +90,9 @@ public class CreationCompteFrame implements ActionListener {
 		contentPane.add(panel, "cell 1 3,growx,aligny center");
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		rdbtnFaction = new JRadioButton("Lumiere");
+		rdbtnFaction = new JRadioButton("Lumière");
 		rdbtnFaction.addActionListener(this);
-		rdbtnFaction.setActionCommand("Lumiere");
+		rdbtnFaction.setActionCommand("lumiere");
 		panel.add(rdbtnFaction);
 
 		rdbtnFaction_1 = new JRadioButton("Ombre");
@@ -217,7 +217,6 @@ public class CreationCompteFrame implements ActionListener {
 						stringBuilder.append("- Les 2 mots de passe ne sont pas identiques");
 					}
 
-					System.out.println(stringBuilder.toString());
 					JOptionPane.showMessageDialog(null, stringBuilder.toString(), "Erreur",
 							JOptionPane.ERROR_MESSAGE, null);
 
@@ -229,9 +228,9 @@ public class CreationCompteFrame implements ActionListener {
 			JRadioButton btn = (JRadioButton) e.getSource();
 
 			if (btn.getActionCommand().equals("Ombre")) {
-				faction = "Ombre";
+				faction = "lumiere";
 			} else {
-				faction = "Lumière";
+				faction = "lumiere";
 			}
 		}
 	}

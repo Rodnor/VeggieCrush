@@ -151,8 +151,9 @@ public class BonusFrame implements ActionListener {
 		Thread t = new Thread() {
 			public void run() {
 				while(run) {
-					//listeBonus = gestionBonus.recupererBonus(getUUID());
-					listeBonus = gestionBonus.recupererBonus("UUID-tmp");
+					System.out.println(getUUID());
+					listeBonus = gestionBonus.recupererBonus(getUUID());
+					//listeBonus = gestionBonus.recupererBonus("UUID-tmp");
 
 					for (Bonus bonus : listeBonus) {
 						if(bonus.getPossedeBonus()) {

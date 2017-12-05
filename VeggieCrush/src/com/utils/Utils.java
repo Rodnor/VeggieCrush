@@ -190,12 +190,10 @@ public final class Utils {
 			e.printStackTrace();
 		}
 		
-		System.out.println(jsonEnvoi.toString());
-
 		HttpClient httpClient = new HttpClient();
 		
 		jsonRetour = httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/signin", jsonEnvoi);
-		System.out.println(jsonRetour.toString());
+
 		try {
 			if (jsonRetour.isNull("error") && !jsonRetour.isNull("user") && !jsonRetour.getJSONObject("user").isNull("globalId")){
 				
