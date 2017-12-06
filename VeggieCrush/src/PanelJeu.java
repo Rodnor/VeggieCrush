@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -54,7 +55,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int nombreCoups=25;
 	private int nombreCoupsBonus=0;
 	private int tempsBonus=0;
-	private int tempsBase=30;
+	private int tempsBase=3;
 	private int tempsTotal;
 	private int scoreBonus=0;
 	private int herbe1Bonus=0;
@@ -83,9 +84,14 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("jeu");
 	private BufferedImage imgFond=null;
 	private JButton btnRgles;
+	private Checkbox boomCraft=new Checkbox("BoomCraft");
+	private Checkbox farmVillage=new Checkbox("FarmVillage");
+	private Checkbox howob=new Checkbox("HOWOB");
+	private GestionBonus gestionBonus = new GestionBonus();
+	private ArrayList<Bonus> listeBonus;
 
 	public PanelJeu(){
-		
+
 		System.out.println(MainFrame.getUUID());
 
 		attribuerBonus();
@@ -102,7 +108,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		System.out.println("TEST POUR TLS : "+applicationProperties.getString("test.pour.montrer.a.tristan"));
 
 
-		setLayout(new MigLayout("", "[][][grow][][][][grow]", "[][][grow][grow][grow][grow][grow][]"));
+		setLayout(new MigLayout("", "[][][grow][][][]", "[][][grow][grow][grow][grow][grow][]"));
 
 		lblTimer = new JLabel("Temps restant : "+String.valueOf(tempsTotal));
 		lblTimer.setFont(new Font("Lucida Grande", Font.BOLD, 20));
@@ -110,7 +116,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		lblScore = new JLabel("Score : "+String.valueOf(0+scoreBonus));
 		lblScore.setFont(new Font("Lucida Grande", Font.BOLD, 20));
-		add(lblScore, "cell 6 0");
+		add(lblScore, "cell 5 0");
 
 		nbCoupsRestants = new JLabel("Nombre de coups restants : "+String.valueOf(nombreCoups+nombreCoupsBonus));
 		nbCoupsRestants.setFont(new Font("Lucida Grande", Font.BOLD, 20));
@@ -133,6 +139,12 @@ public class PanelJeu extends JPanel implements ActionListener {
 		thumb.setIcon(icon);
 		add(thumb, "cell 3 3,alignx center,aligny center");
 
+		try {
+			icon = new ImageIcon(ImageIO.read(new File("images/herbe2.jpg")));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} 
+
 		JLabel lblX = new JLabel("x");
 		lblX.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(lblX, "cell 4 3");
@@ -140,15 +152,15 @@ public class PanelJeu extends JPanel implements ActionListener {
 		nbHerbe1 = new JLabel(String.valueOf(0+herbe1Bonus));
 		nbHerbe1.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(nbHerbe1, "cell 5 3");
-
-		try {
-			icon = new ImageIcon(ImageIO.read(new File("images/herbe2.jpg")));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		} 
 		thumb = new JLabel();
 		thumb.setIcon(icon);
 		add(thumb, "cell 3 4,alignx center,aligny center");
+
+		try {
+			icon = new ImageIcon(ImageIO.read(new File("images/herbe3.jpg")));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} 
 
 		JLabel lblNewLabel = new JLabel("x");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.BOLD, 20));
@@ -157,15 +169,15 @@ public class PanelJeu extends JPanel implements ActionListener {
 		nbHerbe2 = new JLabel(String.valueOf(0+herbe2Bonus));
 		nbHerbe2.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(nbHerbe2, "cell 5 4");
-
-		try {
-			icon = new ImageIcon(ImageIO.read(new File("images/herbe3.jpg")));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		} 
 		thumb = new JLabel();
 		thumb.setIcon(icon);
 		add(thumb, "cell 3 5,alignx center,aligny center");
+
+		try {
+			icon = new ImageIcon(ImageIO.read(new File("images/herbe4.jpg")));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} 
 
 		JLabel lblNewLabel_1 = new JLabel("x");
 		lblNewLabel_1.setFont(new Font("Lucida Grande", Font.BOLD, 20));
@@ -174,15 +186,12 @@ public class PanelJeu extends JPanel implements ActionListener {
 		nbHerbe3= new JLabel(String.valueOf(0+herbe3Bonus));
 		nbHerbe3.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(nbHerbe3, "cell 5 5");
-
-		try {
-			icon = new ImageIcon(ImageIO.read(new File("images/herbe4.jpg")));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		} 
 		thumb = new JLabel();
 		thumb.setIcon(icon);
 		add(thumb, "cell 3 6,alignx center,aligny center");
+
+		btnJouer = new JButton("Jouer !");
+		btnJouer.addActionListener(this);	
 
 		JLabel lblNewLabel_2 = new JLabel("x");
 		lblNewLabel_2.setFont(new Font("Lucida Grande", Font.BOLD, 20));
@@ -191,9 +200,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 		nbHerbe4 = new JLabel(String.valueOf(0+herbe4Bonus));
 		nbHerbe4.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		add(nbHerbe4, "cell 5 6");
-
-		btnJouer = new JButton("Jouer !");
-		btnJouer.addActionListener(this);	
 		btnJouer.setActionCommand("jouer");
 		add(btnJouer, "cell 1 7,alignx center,aligny bottom");
 
@@ -213,18 +219,18 @@ public class PanelJeu extends JPanel implements ActionListener {
 			}
 		});
 		add(tglbtnMuteSound, "cell 0 7,alignx left,aligny bottom");
-		
+
 		btnRgles = new JButton("Règles");
 		btnRgles.addActionListener(this);
 		btnRgles.setActionCommand("regles");
-		add(btnRgles, "cell 6 7,alignx right,aligny bottom");
+		add(btnRgles, "cell 5 7,alignx right,aligny bottom");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {	
 		if(e.getSource() instanceof JButton) {
 			JButton btn = (JButton) e.getSource();
-			
+
 			if(btn.getActionCommand().equals("regles")) {
 				ReglesFrame.getInstance();
 			} else if(btn.getActionCommand().equals("jouer")) {
@@ -438,7 +444,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 			multiplicateurBonus4=2;
 		}
 
-		scoreTotal = herbe1.size()*pointDeBase*multiplicateurBonus1+herbe2.size()*pointDeBase*multiplicateurBonus2+herbe3.size()*pointDeBase*multiplicateurBonus3+herbe4.size()*pointDeBase*multiplicateurBonus4;
+		scoreTotal = scoreBonus + herbe1.size()*pointDeBase*multiplicateurBonus1+herbe2.size()*pointDeBase*multiplicateurBonus2+herbe3.size()*pointDeBase*multiplicateurBonus3+herbe4.size()*pointDeBase*multiplicateurBonus4;
 
 		lblScore.setText("Score : "+scoreTotal);
 
@@ -450,12 +456,9 @@ public class PanelJeu extends JPanel implements ActionListener {
 		int option = JOptionPane.showConfirmDialog(null, "Voulez-vous rejouer ?", "Fin de partie !", JOptionPane.YES_NO_OPTION);
 
 		if(option == JOptionPane.YES_OPTION){
+			genererPopupBonus();
 			resetElements();
 		}
-
-		/*if(option == JOptionPane.NO_OPTION){
-			System.exit(0);
-		}*/
 	}
 
 	public void explorer(JButton graphe[][], JButton bouton, int rowCurrentButton, int colCurrentButton, ArrayList<JButton> liste) {
@@ -475,15 +478,15 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void resetElements() {
-		tempsTotal = 3;
-		nombreCoups = 25;
+		tempsTotal = tempsBase+tempsBonus;
+		nombreCoups = 25+nombreCoupsBonus;
 
 		canvas.removeAll();
 		revalidate();
 		repaint();
 
 		lblScore.setText("Score : "+(0+scoreBonus));
-		nbCoupsRestants.setText("Nombre de coups restants : "+String.valueOf(nombreCoups+nombreCoupsBonus));
+		nbCoupsRestants.setText("Nombre de coups restants : "+String.valueOf(25+nombreCoupsBonus));
 		nbHerbe1.setText(String.valueOf(0+herbe1Bonus));
 		nbHerbe2.setText(String.valueOf(0+herbe2Bonus));
 		nbHerbe3.setText(String.valueOf(0+herbe3Bonus));
@@ -498,7 +501,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 		fillEmptyCanvas();
 
 		btnJouer.setVisible(true);
-		//btnJouer.doClick();
 	}
 
 	public void sendDatasToDatabase() {
@@ -571,14 +573,75 @@ public class PanelJeu extends JPanel implements ActionListener {
 	public void attribuerBonus() {
 		if(MainFrame.getBonusHowob()) {
 			tempsBonus = 15;
+			MainFrame.setBonusHowob(false);
 		}
 
 		if(MainFrame.getBonusFarmVillage()) {
 			scoreBonus = 500;
+			MainFrame.setBonusFarmVillage(false);
 		}
 
 		if(MainFrame.getBonusBoomCraft()) {
 			nombreCoupsBonus = 10;
+			MainFrame.setBonusBoomCraft(false);
+		}
+	}
+	
+	public void genererPopupBonus() {
+		JPanel panel=new JPanel();
+		panel.add(boomCraft);
+		panel.add(farmVillage);
+		panel.add(howob);
+		int option = JOptionPane.showConfirmDialog(null, panel, "Voulez-vous utiliser un bonus ?", JOptionPane.YES_NO_OPTION);
+		
+		listeBonus = gestionBonus.recupererBonus(MainFrame.getUUID());
+		 
+		for (Bonus bonus : listeBonus) {
+			System.out.println(bonus.getNomJeu() + " : " + bonus.getPossedeBonus());
+			if(bonus.getPossedeBonus()) {
+				switch(bonus.getNomJeu()) {
+				case "howob" : 
+					howob.setEnabled(true);
+					break;
+				case "farmvillage" : 
+					farmVillage.setEnabled(true);
+					break;
+				case "boomcraft" : 
+					boomCraft.setEnabled(true);
+					break;
+				}
+			} else {
+				switch(bonus.getNomJeu()) {
+				case "howob" : 
+					howob.setEnabled(false);
+					break;
+				case "farmvillage" : 
+					farmVillage.setEnabled(false);
+					break;
+				case "boomcraft" : 
+					boomCraft.setEnabled(false);
+					break;
+				}
+			}
+		}
+
+		if(option == JOptionPane.YES_OPTION){
+			
+			if(howob.getState() && howob.isEnabled()) {
+				MainFrame.setBonusHowob(true);
+				howob.setState(false);
+			}
+			if(farmVillage.getState() && farmVillage.isEnabled()) {
+				MainFrame.setBonusFarmVillage(true);
+				farmVillage.setState(false);
+			}
+			if(boomCraft.getState() && boomCraft.isEnabled()) {
+				MainFrame.setBonusBoomCraft(true);
+				boomCraft.setState(false);
+			}
+			
+			listeBonus.clear();	
+			attribuerBonus();
 		}
 	}
 

@@ -70,7 +70,7 @@ public class BonusFrame implements ActionListener {
 	}
 	
 	public void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Bonus disponibles");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 300);
 
@@ -151,8 +151,7 @@ public class BonusFrame implements ActionListener {
 		Thread t = new Thread() {
 			public void run() {
 				while(run) {
-					//listeBonus = gestionBonus.recupererBonus(getUUID());
-					listeBonus = gestionBonus.recupererBonus("UUID-tmp");
+					listeBonus = gestionBonus.recupererBonus(getUUID());
 
 					for (Bonus bonus : listeBonus) {
 						if(bonus.getPossedeBonus()) {

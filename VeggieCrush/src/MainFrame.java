@@ -32,7 +32,7 @@ import javax.swing.JLabel;
 
 public class MainFrame {
 
-	private JFrame frame;
+	private static JFrame frame;
 	private static JTabbedPane onglet;
 	private final static Logger logger = Logger.getLogger(MainFrame.class.getName());
 	private static String UUID;
@@ -156,6 +156,10 @@ public class MainFrame {
 		});
 	}
 	
+	public static JFrame getFrame() {
+		return frame;
+	}
+	
 	public static JTabbedPane getTabbedPane() {
 		return onglet;
 	}
@@ -174,5 +178,17 @@ public class MainFrame {
 	
 	public static boolean getBonusHowob() {
 		return bonusHowob;
+	}
+
+	public static void setBonusHowob(boolean b) {
+		bonusHowob = b;
+	}
+
+	public static void setBonusFarmVillage(boolean b) {
+		bonusFarmVillage = b;
+	}
+
+	public static void setBonusBoomCraft(boolean b) {
+		bonusBoomcraft = b;
 	}
 }
