@@ -87,7 +87,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private Checkbox boomCraft=new Checkbox("BoomCraft");
 	private Checkbox farmVillage=new Checkbox("FarmVillage");
 	private Checkbox howob=new Checkbox("HOWOB");
-	private GestionBonus gestionBonus = new GestionBonus();
 	private ArrayList<Bonus> listeBonus;
 
 	public PanelJeu(){
@@ -570,7 +569,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 	public void attribuerBonus() {
 		
-		gestionBonus.notifierRecupererBonus(MainFrame.getBonusHowob(), MainFrame.getBonusFarmVillage(), MainFrame.getBonusBoomCraft());
+		GestionBonus.notifierRecupererBonus(MainFrame.getUUID(), MainFrame.getBonusHowob(), MainFrame.getBonusFarmVillage(), MainFrame.getBonusBoomCraft());
 
 		if(MainFrame.getBonusHowob()) {
 			tempsBonus = 15;
@@ -594,7 +593,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		panel.add(farmVillage);
 		panel.add(howob);
 		
-		listeBonus = gestionBonus.recupererBonus(MainFrame.getUUID());
+		listeBonus = GestionBonus.recupererBonus(MainFrame.getUUID());
 		 
 		for (Bonus bonus : listeBonus) {
 			System.out.println(bonus.getNomJeu() + " : " + bonus.getPossedeBonus());

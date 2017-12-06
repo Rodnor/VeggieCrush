@@ -28,7 +28,7 @@ public class GestionBonus {
 	 * @param uuid
 	 * @return ArrayList<Bonus>
 	 */
-	public ArrayList<Bonus> recupererBonus(String uuid) {
+	public static ArrayList<Bonus> recupererBonus(String uuid) {
 		ArrayList<Bonus> listeBonus = new ArrayList<Bonus>();
 		HttpClient httpClient = new HttpClient();
 		JSONObject jsonObject = new JSONObject();
@@ -73,21 +73,20 @@ public class GestionBonus {
 		return listeBonus;
 	}
 	
-	public void notifierRecupererBonus(Boolean bonusHowob, Boolean bonusFarmvillage, Boolean bonusBoomcraft) {
+	public static void notifierRecupererBonus(String uuid, Boolean bonusHowob, Boolean bonusFarmvillage, Boolean bonusBoomcraft) {
+		JSONObject jsonObject = new JSONObject();
 		HttpClient httpClient = new HttpClient();
-		JSONObject jsonEnvoi = new JSONObject();
-		
 		try {
-			jsonEnvoi.put("howob", bonusHowob);
-			jsonEnvoi.put("farmvillage", bonusFarmvillage);
-			jsonEnvoi.put("boomcraft", bonusBoomcraft);
+			jsonObject.put("uuid", uuid);
+			jsonObject.put("howob", bonusHowob);
+			jsonObject.put("farmvillage", bonusFarmvillage);
+			jsonObject.put("boomcraft", bonusBoomcraft);
+			httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/bonus/notifier", jsonObject);
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
-		httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/bonus/notifier", jsonEnvoi);
-		
 	}
-
-
+		
 }
+

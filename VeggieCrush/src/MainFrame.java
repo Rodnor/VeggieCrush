@@ -23,8 +23,10 @@ import com.entitie.Account;
 import com.entitie.Inventaire;
 import com.entitie.Objet;
 import com.test.Test;
+import com.utils.GestionBonus;
 import com.utils.HttpClient;
 import com.utils.MusicPlayer;
+import com.utils.Utils;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -69,7 +71,6 @@ public class MainFrame {
 		this.bonusBoomcraft = bonusBoomCraft;
 		this.bonusFarmVillage = bonusFarmVillage;
 		this.bonusHowob = bonusHowob;
-		miseAjourAutresJeux(UUID, bonusHowob, bonusFarmVillage, bonusBoomCraft);
 		initialize();
 	}
 
@@ -160,20 +161,7 @@ public class MainFrame {
 		});
 	}
 
-	private void miseAjourAutresJeux (String uuid, Boolean howob, Boolean farmvillage, Boolean boomcraft){
-		JSONObject jsonObject = new JSONObject();
-		HttpClient httpClient = new HttpClient();
-		try {
-			jsonObject.put("uuid", uuid);
-			jsonObject.put("howob", howob);
-			jsonObject.put("farmvillage", farmvillage);
-			jsonObject.put("boomcraft", boomcraft);
-			httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/bonus/notifier", jsonObject);
 
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static JTabbedPane getTabbedPane() {
 		return onglet;
