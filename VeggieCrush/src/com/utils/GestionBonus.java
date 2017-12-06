@@ -73,7 +73,7 @@ public class GestionBonus {
 		return listeBonus;
 	}
 	
-	public void notifierRecupererBonu(Boolean bonusHowob, Boolean bonusFarmvillage, Boolean bonusBoomcraft) {
+	public void notifierRecupererBonus(Boolean bonusHowob, Boolean bonusFarmvillage, Boolean bonusBoomcraft) {
 		HttpClient httpClient = new HttpClient();
 		JSONObject jsonEnvoi = new JSONObject();
 		
@@ -85,7 +85,7 @@ public class GestionBonus {
 			e.printStackTrace();
 		}
 
-		httpClient.postRequestWithJsonParam("http://veggiecrush.masi-henallux.be/rest_server/api/bonus/notifier", jsonEnvoi);
+		httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/bonus/notifier", jsonEnvoi);
 		
 	}
 

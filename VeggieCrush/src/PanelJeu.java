@@ -569,6 +569,9 @@ public class PanelJeu extends JPanel implements ActionListener {
 	}
 
 	public void attribuerBonus() {
+		
+		gestionBonus.notifierRecupererBonus(MainFrame.getBonusHowob(), MainFrame.getBonusFarmVillage(), MainFrame.getBonusBoomCraft());
+
 		if(MainFrame.getBonusHowob()) {
 			tempsBonus = 15;
 			MainFrame.setBonusHowob(false);
@@ -590,7 +593,6 @@ public class PanelJeu extends JPanel implements ActionListener {
 		panel.add(boomCraft);
 		panel.add(farmVillage);
 		panel.add(howob);
-		int option = JOptionPane.showConfirmDialog(null, panel, "Voulez-vous utiliser un bonus ?", JOptionPane.YES_NO_OPTION);
 		
 		listeBonus = gestionBonus.recupererBonus(MainFrame.getUUID());
 		 
@@ -622,6 +624,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 				}
 			}
 		}
+		
+		int option = JOptionPane.showConfirmDialog(null, panel, "Voulez-vous utiliser un bonus ?", JOptionPane.YES_NO_OPTION);
 
 		if(option == JOptionPane.YES_OPTION){
 			
