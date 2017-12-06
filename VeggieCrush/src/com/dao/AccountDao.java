@@ -30,7 +30,6 @@ public class AccountDao {
 	private final static String QUERY_INSERT = "INSERT INTO ACCOUNT (id_global, faction, username, password, email, created_at, updated_at, deleted_at) values (?, ?, ?, ?, ?, ?, ?, ?)";
 	private final static String QUERY_UPDATE_PASSWORD_BY_ID = "UPDATE ACCOUNT SET password = ?, updated_at = ?  WHERE id = ?";
 	private final static String QUERY_UPDATE_MOT_DE_PASSE_BY_ID = "UPDATE NOUVEAU_MDP SET FLAG = ? WHERE ID = ?";
-	private final static String INSERT_MOT_DE_PASSE_BY_ID = "INSERT INTO NOUVEAU_MDP (ID, FLAG) values (?, ?)";
 	private final static String QUERY_FIND_BY_USERNAME = "SELECT * FROM ACCOUNT WHERE USERNAME = ?";
 	private final static String QUERY_FIND_BY_UID = "SELECT * FROM ACCOUNT WHERE id_global = ?";
 
@@ -163,52 +162,7 @@ public class AccountDao {
 		return account;
 	}
 	
-	/**
-	 * Permet de mettre un jour le mot de passe en fonction de l'id du compte
-	 * @param id
-	 * @param password
-	 * @return <code>true</code> si tout est ok et <code>false</code> en cas d'erreur
-	 */
-	public Boolean updatePasswordById(int id, String password) {
-		Connection con = null;
-		PreparedStatement stmt = null;
-		Boolean errorUpdate = false;
-		try {
-			con = Connecteur.getConnexion();
-			stmt = con.prepareStatement(QUERY_UPDATE_PASSWORD_BY_ID);
-			Calendar calendar = Calendar.getInstance();
-
-			Date modifiedDate = new java.sql.Date(calendar.getTime().getTime());
-
-			stmt.setString(1, password);
-			stmt.setDate(2,modifiedDate);
-			stmt.setInt(3, id);
-
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			errorUpdate = true;
-			e.printStackTrace();
-			
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return errorUpdate;
-	}
+	
 	
 	
 	/**
@@ -261,7 +215,7 @@ public class AccountDao {
 	 * @param flag
 	 * @return <code>true</code> si tout est ok et <code>false</code> en cas d'erreur
 	 */
-	public Boolean createFlag(int id, String flag) {
+	/*public Boolean createFlag(int id, String flag) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		Boolean errorUpdate = false;
@@ -296,7 +250,7 @@ public class AccountDao {
 		
 		return errorUpdate;
 	}
-
+*/
 	/**
 	 * Permet de mapper un objet java et les resulats d'une requete SQL
 	 * @param rset
@@ -350,7 +304,7 @@ public class AccountDao {
 			stmt.execute();
 			
 			Account accountInsere = getAccountByMail(account.getEmail());
-			createFlag(accountInsere.getId(), "N");
+			//createFlag(accountInsere.getId(), "N");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

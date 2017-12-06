@@ -13,6 +13,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import com.dao.AccountDao;
 import com.dao.InventaireDao;
@@ -21,6 +23,7 @@ import com.entitie.Account;
 import com.entitie.Inventaire;
 import com.entitie.Objet;
 import com.test.Test;
+import com.utils.HttpClient;
 import com.utils.MusicPlayer;
 
 import java.awt.BorderLayout;
@@ -66,9 +69,10 @@ public class MainFrame {
 		this.bonusBoomcraft = bonusBoomCraft;
 		this.bonusFarmVillage = bonusFarmVillage;
 		this.bonusHowob = bonusHowob;
+		miseAjourAutresJeux(UUID, bonusHowob, bonusFarmVillage, bonusBoomCraft);
 		initialize();
 	}
-	
+
 	public MainFrame() {
 		initialize();
 	}
@@ -78,12 +82,12 @@ public class MainFrame {
 	 */
 	private void initialize() {
 		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
 		} catch (UnsupportedLookAndFeelException e) {} 
 		catch (ClassNotFoundException e) {} 
 		catch (InstantiationException e) {} 
@@ -91,23 +95,23 @@ public class MainFrame {
 
 
 		frame = new JFrame();
-	    frame.setTitle("Jeu");
-	    
-	    JPanel[] tPan = {   new PanelJeu(), new PanelCraft()};
+		frame.setTitle("Jeu");
 
-	    onglet = new JTabbedPane();
-	    onglet.add("Jeu", tPan[0]);
-	    onglet.add("Craft", tPan[1]);
+		JPanel[] tPan = {   new PanelJeu(), new PanelCraft()};
 
-	    frame.getContentPane().add(onglet);
+		onglet = new JTabbedPane();
+		onglet.add("Jeu", tPan[0]);
+		onglet.add("Craft", tPan[1]);
 
-	    frame.setVisible(true);
-	    frame.setResizable(false);
+		frame.getContentPane().add(onglet);
+
+		frame.setVisible(true);
+		frame.setResizable(false);
 		frame.setBounds(100, 100, 900, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setLocationRelativeTo(null);
-	    	    
-	    Thread t = new Thread() {
+		frame.setLocationRelativeTo(null);
+
+		Thread t = new Thread() {
 			public void run() {
 				while(true) {
 					if(MusicPlayer.gameMusicIsMute) {
@@ -133,7 +137,7 @@ public class MainFrame {
 							craftMusicIsOn = false;
 							gameMusicIsOn = true;
 						}
-						
+
 						if(gameMusicIsOn && !MusicPlayer.gameMusicIsMute) {
 							MusicPlayer.playGameMusic();
 						}
@@ -147,35 +151,46 @@ public class MainFrame {
 			}
 		};
 		t.start();
-		
+
 		frame.addWindowListener(new WindowAdapter() {
-		    @Override
-		    public void windowClosing(WindowEvent e) {
-		       	PanelCraft.setRun(false);
-		    }
+			@Override
+			public void windowClosing(WindowEvent e) {
+				PanelCraft.setRun(false);
+			}
 		});
 	}
-	
-	public static JFrame getFrame() {
-		return frame;
+
+	private void miseAjourAutresJeux (String uuid, Boolean howob, Boolean farmvillage, Boolean boomcraft){
+		JSONObject jsonObject = new JSONObject();
+		HttpClient httpClient = new HttpClient();
+		try {
+			jsonObject.put("uuid", uuid);
+			jsonObject.put("howob", howob);
+			jsonObject.put("farmvillage", farmvillage);
+			jsonObject.put("boomcraft", boomcraft);
+			httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/bonus/notifier", jsonObject);
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public static JTabbedPane getTabbedPane() {
 		return onglet;
 	}
-	
+
 	public static String getUUID() {
 		return UUID;
 	}
-	
+
 	public static boolean getBonusBoomCraft() {
 		return bonusBoomcraft;
 	}
-	
+
 	public static boolean getBonusFarmVillage() {
 		return bonusFarmVillage;
 	}
-	
+
 	public static boolean getBonusHowob() {
 		return bonusHowob;
 	}

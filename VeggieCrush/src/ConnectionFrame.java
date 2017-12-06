@@ -139,19 +139,24 @@ public class ConnectionFrame implements ActionListener {
 				AccountDao adao = new AccountDao();
 
 				if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
-
-					String securePass = Utils.get_SHA_512_SecurePassword(String.valueOf(passwordField.getPassword()));
-					Account account = adao.getAccountByUsername(tf_pseudo.getText());
+					//Account account = adao.getAccountByUsername(tf_pseudo.getText());
 
 					// test utilisateur présent dans la BD ou celle des autres
 					// TODO verfifier mot de passe dans une autre API
-					System.out.println("account Trouvé"+account);
-					if((account != null || Utils.signinDansUneAutreAppli(tf_pseudo.getText(), String.valueOf(passwordField.getPassword())) != null) && tf_pseudo.getText().equals(account.getUsername()) && securePass.equals(account.getPassword())) {
-						
+					String uuidTrouveAutre = Utils.signinDansUneAutreAppli(tf_pseudo.getText(), String.valueOf(passwordField.getPassword()));
+					String uuidTrouve = Utils.signinVeggie(tf_pseudo.getText(), String.valueOf(passwordField.getPassword()));
+							
+
+					if(uuidTrouveAutre != null ||  uuidTrouve!= null) {
 						flag = adao.motDePasseAChanger(tf_pseudo.getText());
 						
-						if(!flag) {		
-							new BonusFrame(account.getId_global());
+						if(!flag) {
+							if (uuidTrouveAutre != null) {
+								new BonusFrame(uuidTrouveAutre);
+
+							} else {
+								new BonusFrame(uuidTrouve);
+							}
 							this.frame.dispose();
 						} else {
 							new NouveauMotDePasseFrame(tf_pseudo.getText());

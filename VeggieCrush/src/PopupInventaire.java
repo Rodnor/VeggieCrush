@@ -25,7 +25,9 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.dao.InventaireDao;
+import com.dao.ObjetDao;
 import com.entitie.Inventaire;
+import com.entitie.Objet;
 
 public class PopupInventaire extends JFrame implements ActionListener{
 
@@ -40,7 +42,9 @@ public class PopupInventaire extends JFrame implements ActionListener{
 	BufferedImage iconVide=null;
 	JScrollPane jscroll;
 	JPanel btnPnl1;
-
+	boolean affichagefenetre=true;
+	ObjetDao objetdao = new ObjetDao();
+	Objet objet;
 	/**
 	 * Create the frame.
 	 */
@@ -79,6 +83,7 @@ public class PopupInventaire extends JFrame implements ActionListener{
 		t = new Thread() {
 			public void run() {
 				while(run) {
+					objet=null;
 					btnPnl1 = new JPanel();
 					getContentPane().removeAll();
 					
@@ -126,6 +131,12 @@ public class PopupInventaire extends JFrame implements ActionListener{
 				        	}
 				            buttons[i].setVerticalTextPosition(JLabel.BOTTOM);
 				            buttons[i].setHorizontalTextPosition(JLabel.CENTER);
+				            /*System.out.println(String.valueOf(inv.get(i).getId_objet()));
+				            objet=objetdao.getObjetById(inv.get(i).getId_objet());
+				            if(i<inv.size()) {
+					            System.out.println(objet.toString());
+					            buttons[i].setToolTipText(objet.getNom_objet());
+				            }*/
 				            btnPnl1.add(buttons[i]);
 			
 				        }
@@ -137,8 +148,10 @@ public class PopupInventaire extends JFrame implements ActionListener{
 				    
 				    getContentPane().add(jscroll, BorderLayout.CENTER);
 				    
-				    setVisible(true);
-							    					
+				    if(affichagefenetre) {
+				    	setVisible(true);
+				    	affichagefenetre=false;
+				    }   					
 			        
 					try {
 						Thread.sleep(500);
