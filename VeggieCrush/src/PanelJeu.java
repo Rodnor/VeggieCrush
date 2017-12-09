@@ -456,11 +456,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		if(option == JOptionPane.YES_OPTION){
 			genererPopupBonus();
-			//resetElements();
 		}
-		if(option == JOptionPane.NO_OPTION){
-			
-		}
+	
 		btnJouer.setVisible(true);
 	}
 
