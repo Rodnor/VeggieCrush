@@ -231,6 +231,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 			if(btn.getActionCommand().equals("regles")) {
 				ReglesFrame.getInstance();
 			} else if(btn.getActionCommand().equals("jouer")) {
+				resetElements();
+				
 				// On remplis le canevas
 				fillCanvas();
 
@@ -454,8 +456,9 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		if(option == JOptionPane.YES_OPTION){
 			genererPopupBonus();
-			resetElements();
 		}
+	
+		btnJouer.setVisible(true);
 	}
 
 	public void explorer(JButton graphe[][], JButton bouton, int rowCurrentButton, int colCurrentButton, ArrayList<JButton> liste) {
