@@ -88,6 +88,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private Checkbox farmVillage=new Checkbox("FarmVillage");
 	private Checkbox howob=new Checkbox("HOWOB");
 	private ArrayList<Bonus> listeBonus;
+	private boolean premierJeu = true;
 
 	public PanelJeu(){
 
@@ -231,6 +232,12 @@ public class PanelJeu extends JPanel implements ActionListener {
 			if(btn.getActionCommand().equals("regles")) {
 				ReglesFrame.getInstance();
 			} else if(btn.getActionCommand().equals("jouer")) {
+				if(!premierJeu) {
+					genererPopupBonus();
+				} else {
+					premierJeu = false;
+				}
+				
 				resetElements();
 				
 				// On remplis le canevas
@@ -452,12 +459,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 		MainFrame.getTabbedPane().setEnabledAt(1, true);
 
 		// on reset les éléments du jeu
-		int option = JOptionPane.showConfirmDialog(null, "Voulez-vous rejouer ?", "Fin de partie !", JOptionPane.YES_NO_OPTION);
-
-		if(option == JOptionPane.YES_OPTION){
-			genererPopupBonus();
-		}
-	
+		JOptionPane.showMessageDialog(null, "Fin de partie !");
+		
 		btnJouer.setVisible(true);
 	}
 
