@@ -34,7 +34,7 @@ public class ConnectionFrame implements ActionListener {
 	private JTextField tf_pseudo;
 	private JPasswordField passwordField;
 	private JButton btnCrerMonCompte;
-	private boolean flag=false;
+	private boolean flag = false;
 
 	/**
 	 * Launch the application.
@@ -43,8 +43,14 @@ public class ConnectionFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ConnectionFrame window = new ConnectionFrame();
-					window.frame.setVisible(true);
+					if (Utils.canConnectApi()) {
+						ConnectionFrame window = new ConnectionFrame();
+						window.frame.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Les serveurs du jeu sont innaccesibles. Veuillez verifier votre connexion internet.",
+								"Echec de connexion", JOptionPane.ERROR_MESSAGE, null);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -66,7 +72,7 @@ public class ConnectionFrame implements ActionListener {
 		contentPane.setLayout(new MigLayout("", "[grow,center][grow,center]", "[30px][30px][30px][30px][30px][grow]"));
 
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 450, 300);		
+		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 
@@ -99,11 +105,11 @@ public class ConnectionFrame implements ActionListener {
 		lblMDPOublie.addMouseListener(new MouseListener() {
 
 			@Override
-			public void mouseReleased(MouseEvent e) {				
+			public void mouseReleased(MouseEvent e) {
 			}
 
 			@Override
-			public void mousePressed(MouseEvent e) {				
+			public void mousePressed(MouseEvent e) {
 			}
 
 			@Override
@@ -131,11 +137,11 @@ public class ConnectionFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() instanceof JButton) {
+		if (e.getSource() instanceof JButton) {
 			JButton btn = (JButton) e.getSource();
 
-			if(btn.getActionCommand().equals("connexion")) {
-				
+			if (btn.getActionCommand().equals("connexion")) {
+
 				AccountDao adao = new AccountDao();
 
 				if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
@@ -143,10 +149,10 @@ public class ConnectionFrame implements ActionListener {
 					String uuidTrouveAutre = Utils.signinDansUneAutreAppli(tf_pseudo.getText(), String.valueOf(passwordField.getPassword()));
 					String uuidTrouve = Utils.signinVeggie(tf_pseudo.getText(), String.valueOf(passwordField.getPassword()));
 
-					if(uuidTrouveAutre != null ||  uuidTrouve!= null) {
+					if (uuidTrouveAutre != null || uuidTrouve != null) {
 						flag = adao.motDePasseAChanger(tf_pseudo.getText());
-						
-						if(!flag) {
+
+						if (!flag) {
 							if (uuidTrouveAutre != null) {
 								new BonusFrame(uuidTrouveAutre);
 
@@ -158,10 +164,13 @@ public class ConnectionFrame implements ActionListener {
 							new NouveauMotDePasseFrame(tf_pseudo.getText());
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, "Votre nom d'utilisateur et/ou votre mot de passe sont invalides", "Identifiants invalides", JOptionPane.ERROR_MESSAGE, null);							
+						JOptionPane.showMessageDialog(null,
+								"Votre nom d'utilisateur et/ou votre mot de passe sont invalides",
+								"Identifiants invalides", JOptionPane.ERROR_MESSAGE, null);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Les champs doivent être remplis", "Champs manquants", JOptionPane.WARNING_MESSAGE, null);
+					JOptionPane.showMessageDialog(null, "Les champs doivent être remplis", "Champs manquants",
+							JOptionPane.WARNING_MESSAGE, null);
 				}
 			} else if (btn.getActionCommand().equals("creer")) {
 				new CreationCompteFrame();
