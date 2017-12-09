@@ -55,7 +55,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private int nombreCoups=25;
 	private int nombreCoupsBonus=0;
 	private int tempsBonus=0;
-	private int tempsBase=3;
+	private int tempsBase=30;
 	private int tempsTotal;
 	private int scoreBonus=0;
 	private int herbe1Bonus=0;
@@ -530,41 +530,18 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		InventaireDao inventaireDao = new InventaireDao();
 
-		Inventaire inventaireAInserer = new Inventaire("1", 1, nb1);
+		Inventaire inventaireAInserer = new Inventaire(MainFrame.getUUID(), 1, nb1);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
-		ArrayList<Inventaire> inventaires = inventaireDao.getInventaireByUuidAndByIdObjet("1", 1);
-
-		for (Inventaire inventaire : inventaires) {
-			System.out.println("user 1, objet 1 : "+inventaire.toString());
-		}
-
-		inventaireAInserer = new Inventaire("1", 2, nb2);
+		inventaireAInserer = new Inventaire(MainFrame.getUUID(), 2, nb2);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
-		inventaires = inventaireDao.getInventaireByUuidAndByIdObjet("1", 2);
-
-		for (Inventaire inventaire : inventaires) {
-			System.out.println("user 1, objet 2 : "+inventaire.toString());
-		}
-
-		inventaireAInserer = new Inventaire("1", 3, nb3);
+		inventaireAInserer = new Inventaire(MainFrame.getUUID(), 3, nb3);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
-		inventaires = inventaireDao.getInventaireByUuidAndByIdObjet("1", 3);
-
-		for (Inventaire inventaire : inventaires) {
-			System.out.println("user 1, objet 3 : "+inventaire.toString());
-		}
-
-		inventaireAInserer = new Inventaire("1", 4, nb4);
+		inventaireAInserer = new Inventaire(MainFrame.getUUID(), 4, nb4);
 		inventaireDao.insertNewInventaire(inventaireAInserer);
 
-		inventaires = inventaireDao.getInventaireByUuidAndByIdObjet("1", 4);
-
-		for (Inventaire inventaire : inventaires) {
-			System.out.println("user 1, objet 4 : "+inventaire.toString());
-		}
 	}
 
 	public void attribuerBonus() {
