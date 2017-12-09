@@ -139,13 +139,9 @@ public class ConnectionFrame implements ActionListener {
 				AccountDao adao = new AccountDao();
 
 				if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
-					//Account account = adao.getAccountByUsername(tf_pseudo.getText());
-
-					// test utilisateur présent dans la BD ou celle des autres
-					// TODO verfifier mot de passe dans une autre API
+					
 					String uuidTrouveAutre = Utils.signinDansUneAutreAppli(tf_pseudo.getText(), String.valueOf(passwordField.getPassword()));
 					String uuidTrouve = Utils.signinVeggie(tf_pseudo.getText(), String.valueOf(passwordField.getPassword()));
-							
 
 					if(uuidTrouveAutre != null ||  uuidTrouve!= null) {
 						flag = adao.motDePasseAChanger(tf_pseudo.getText());
