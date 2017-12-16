@@ -1,37 +1,27 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.Graphics;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
-import org.omg.CORBA.INITIALIZE;
-
-import java.awt.GridLayout;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
+/**
+ * Classe permettant l'affichage de la fenêtre des règles du jeu.
+ * @author Tristan
+ *
+ */
 public class ReglesFrame {
 
+	// Variables de classe
 	private static JFrame frame=null;
 	private static JPanel contentPane;
 
 	/**
-	 * Launch the application.
+	 * Lanceur de l'application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -47,26 +37,23 @@ public class ReglesFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Constructeur de la frame.
 	 */
 	public ReglesFrame() {
 		initialize();
 	}
 	
+	/**
+	 * Méthode créant les composants graphiques de la frame et permettant de les disposer.
+	 */
 	public static void initialize() {
-		
-		
-		
-	  	
-		
+		// Paramétrages de la fenêtre
 		frame = new JFrame("Règles du jeu");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100, 100, 819, 774);
 		
-		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
 		
 		frame.setLocationRelativeTo(null);
 		
@@ -82,9 +69,10 @@ public class ReglesFrame {
 		JLabel lblFentreDeJeu = new JLabel("Fenêtre de jeu");
 		panel.add(lblFentreDeJeu, "cell 0 0");
 		
-		JTextPane txtpnLoremIpsumDolor = new JTextPane();
+		// Ajout du texte des règles du jeu
+		JTextPane regles = new JTextPane();
 		try {
-			StyledDocument document = (StyledDocument)txtpnLoremIpsumDolor.getDocument();
+			StyledDocument document = (StyledDocument)regles.getDocument();
 	        document.insertString(document.getLength(), "Le principe du jeu est simple. Il vous faudra récolter le plus de plantes possibles. Pour cela, il faut créer des chemins de cases adjacentes pour des plantes de même couleur. Les cases doivent se toucher par la droite, la gauche, le haut ou le bas pour être comptabilisées dans le chemin de chaque couleur. Vous pouvez récolter 4 types de ressources et les chemins doivent obligatoirement démarrer d'un des coins de la grille. Pour que les plantes se touchent, votre seule possibilité est d'échanger la position des plantes souhaitées en cliquant sur l'une puis sur l'autre.\n\nA chaque partie, une grille de 9x9 cases est générée aléatoirement. Chaque coin de la grille sera cependant toujours de la même couleur. En haut à gauche,", null);
 	        document.insertString(document.getLength(), " ce sera le point de départ pour récolter des plantes vertes. En haut à droite,", null);
 	        document.insertString(document.getLength(), " ce sera le point de départ pour récolter des plantes rouge. En bas à droite,", null);
@@ -98,8 +86,8 @@ public class ReglesFrame {
             e.printStackTrace();
         }
 		
-		panel.add(txtpnLoremIpsumDolor, "cell 1 2,grow");
-		txtpnLoremIpsumDolor.setEditable(false);
+		panel.add(regles, "cell 1 2,grow");
+		regles.setEditable(false);
 		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, "cell 0 1,grow");
@@ -113,6 +101,10 @@ public class ReglesFrame {
 		
 	}
 	
+	/**
+	 * Méthode permettant de récupérer une unique instance de la frame.
+	 * @return JFrame contenant l'instance de la frame.
+	 */
 	public static JFrame getInstance() {
 		if (frame == null) { 	
 			initialize();

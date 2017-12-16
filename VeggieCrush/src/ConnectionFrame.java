@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -6,13 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.xml.bind.annotation.XmlElement.DEFAULT;
 
 import com.dao.AccountDao;
-import com.entitie.Account;
 import com.utils.Utils;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -27,8 +23,14 @@ import java.awt.Font;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JPasswordField;
 
+/**
+ * Classe responsable de la création de la fenêtre permettant de se connecter au jeu.
+ * @author Tristan
+ *
+ */
 public class ConnectionFrame implements ActionListener {
 
+	// Variables de classe
 	private JFrame frame;
 	private JPanel contentPane;
 	private JTextField tf_pseudo;
@@ -37,15 +39,17 @@ public class ConnectionFrame implements ActionListener {
 	private boolean flag = false;
 
 	/**
-	 * Launch the application.
+	 * Lanceur de l'application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					// On cherche à savoir si le serveur est joignable. Si oui, la fenêtre est instanciée
 					if (Utils.canConnectApi()) {
 						ConnectionFrame window = new ConnectionFrame();
 						window.frame.setVisible(true);
+					// Si le serveur n'est pas joignable, un message d'erreur est affiché
 					} else {
 						JOptionPane.showMessageDialog(null,
 								"Les serveurs du jeu sont innaccesibles. Veuillez verifier votre connexion internet.",
@@ -58,11 +62,18 @@ public class ConnectionFrame implements ActionListener {
 		});
 	}
 
+	/**
+	 * Constructeur de la frame.
+	 */
 	public ConnectionFrame() {
 		initialize();
 	}
 
+	/**
+	 * Méthode créant les composants graphiques de la frame et permettant de les disposer.
+	 */
 	private void initialize() {
+		// Paramétrages de la fenêtre
 		frame = new JFrame();
 		frame.setTitle("Connexion");
 		contentPane = new JPanel();
@@ -102,6 +113,7 @@ public class ConnectionFrame implements ActionListener {
 		JLabel lblMDPOublie = new JLabel("Mot de passe oublié ?");
 		lblMDPOublie.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		lblMDPOublie.setHorizontalAlignment(SwingConstants.CENTER);
+		// Ajout d'un MouseListener qui permet de changer l'image du curseur au survol du label "Mot de passe oublié ?"
 		lblMDPOublie.addMouseListener(new MouseListener() {
 
 			@Override
@@ -135,47 +147,58 @@ public class ConnectionFrame implements ActionListener {
 		contentPane.add(btnCrerMonCompte, "cell 0 5");
 	}
 
+	/**
+	 * Méthode lancée lors de l'activation d'un composant muni d'un listener.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// Si le composant est un JButton
 		if (e.getSource() instanceof JButton) {
 			JButton btn = (JButton) e.getSource();
 
+			// Si le bouton est le bouton "connexion"
 			if (btn.getActionCommand().equals("connexion")) {
-
+				// Création du DAO permettant d'intéragir avec la table Account
 				AccountDao adao = new AccountDao();
 
+				// Si le pseudo et le mot de passe ne sont pas vides
 				if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
-					
+					// On cherche dans notre base et dans la base des autres groupes si le compte de l'utilisateur existe
 					String uuidTrouveAutre = Utils.signinDansUneAutreAppli(tf_pseudo.getText(), String.valueOf(passwordField.getPassword()));
 					String uuidTrouve = Utils.signinVeggie(tf_pseudo.getText(), String.valueOf(passwordField.getPassword()));
 
+					// Si le compte existe, on cherche si le compte est en demande de mot de passe perdu ou non
 					if (uuidTrouveAutre != null || uuidTrouve != null) {
 						flag = adao.motDePasseAChanger(tf_pseudo.getText());
 
+						// S'il n'y a pas de problème de mot de passe
 						if (!flag) {
+							// On lance la fenêtre de bonus avec le bon identifiant utilisateur en fonction d'où le compte se situe puis on ferme la fenêtre courante
 							if (uuidTrouveAutre != null) {
 								new BonusFrame(uuidTrouveAutre);
-
 							} else {
 								new BonusFrame(uuidTrouve);
 							}
 							this.frame.dispose();
+						// Si une demande de mot de passe perdu a été formulée, on oriente le joueur sur la page pour choisir le nouveau mot de passe
 						} else {
 							new NouveauMotDePasseFrame(tf_pseudo.getText());
 						}
+					// Si le compte utilisateur n'existe chez personne, message d'erreur
 					} else {
 						JOptionPane.showMessageDialog(null,
 								"Votre nom d'utilisateur et/ou votre mot de passe sont invalides",
 								"Identifiants invalides", JOptionPane.ERROR_MESSAGE, null);
 					}
+				// Si le pseudo est le mot de passe sont vides, message d'erreur
 				} else {
 					JOptionPane.showMessageDialog(null, "Les champs doivent être remplis", "Champs manquants",
 							JOptionPane.WARNING_MESSAGE, null);
 				}
+			// Si le bouton "créer" est cliqué, on lance la fenêtre de création de compte
 			} else if (btn.getActionCommand().equals("creer")) {
 				new CreationCompteFrame();
 			}
 		}
 	}
-
 }

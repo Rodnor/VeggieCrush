@@ -1,6 +1,4 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,19 +11,22 @@ import org.codehaus.jettison.json.JSONObject;
 
 import com.dao.AccountDao;
 import com.entitie.Account;
-import com.sun.xml.bind.v2.runtime.output.UTF8XmlOutput;
 import com.utils.HttpClient;
-import com.utils.Utils;
 
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import javax.mail.internet.NewsAddress;
 import javax.swing.JButton;
 
+/**
+ * Classe responsable de la création de la fenêtre permettant de changer le mot de passe d'un utilisateur.
+ * @author Tristan
+ *
+ */
 public class NouveauMotDePasseFrame implements ActionListener {
 
+	// Variables de classe
 	private JPanel contentPane;
 	private JFrame frame;
 	private JPasswordField passwordField;
@@ -33,7 +34,7 @@ public class NouveauMotDePasseFrame implements ActionListener {
 	private String utilisateur;
 
 	/**
-	 * Launch the application.
+	 * Lanceur de l'application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -48,16 +49,27 @@ public class NouveauMotDePasseFrame implements ActionListener {
 		});
 	}
 	
+	/**
+	 * Constructeur de la frame.
+	 */
 	public NouveauMotDePasseFrame() {
 		initialize();
 	}
 
+	/**
+	 * Méthode créant les composants graphiques de la frame et permettant de les disposer.
+	 * @param utilisateur String contenant l'identifiant de l'utilisateur instanciant la fenêtre.
+	 */
 	public NouveauMotDePasseFrame(String utilisateur) {
 		this.utilisateur = utilisateur;
 		initialize();
 	}
 	
+	/**
+	 * Méthode créant les composants graphiques de la frame et permettant de les disposer.
+	 */
 	public void initialize() {
+		// Paramétrages de la fenêtre
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 250);
 		contentPane = new JPanel();
@@ -89,19 +101,29 @@ public class NouveauMotDePasseFrame implements ActionListener {
 		frame.setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Méthode lancée lors de l'activation d'un composant muni d'un listener.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// Si le composant est un JButton
 		if(e.getSource() instanceof JButton) {
 			JButton btn = (JButton) e.getSource();
 
+			// Si le bouton est le bouton "valider"
 			if(btn.getActionCommand().equals("valider")) {
+				// Si les champs mot de passe 1 et 2 ne sont pas vides et s'ils correspondent
 				if(!String.valueOf(passwordField.getPassword()).equals("") && !String.valueOf(passwordField_1.getPassword()).equals("")) {
 					if(String.valueOf(passwordField.getPassword()).equals(String.valueOf(passwordField_1.getPassword()))) {
 
+						// On créé un DAO permettant d'intéragir avec la table Account
 						AccountDao accountDao = new AccountDao();
 						Account account = new Account();
+						// On cherche le compte de l'utilisateur courant
 						account = accountDao.getAccountByUsername(utilisateur);
 						//accountDao.updatePasswordById(account.getId(), );
+						
+						// On construit la requête vers l'API qui se charge d'envoyer les paramètres de modification
 						HttpClient httpClient = new HttpClient();
 						JSONObject jsonEnvoi = new JSONObject();
 						try {
@@ -112,14 +134,18 @@ public class NouveauMotDePasseFrame implements ActionListener {
 							error.printStackTrace();
 						}
 						
+						// On envoie la requête
 						httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/updatePassword", jsonEnvoi);
 						
+						// On indique dans la base que le compte de cet utilisateur n'est plus à modifier, on lance la fenêtre suivante et on ferme la fenêtre courante
 						accountDao.updateFlag(account.getId(), "N");
 						new BonusFrame(account.getId_global());
 						this.frame.dispose();
+					// Si les 2 mots de passe ne correspondent pas, message d'erreur
 					} else {
 						JOptionPane.showMessageDialog(null, "Les 2 mots de passe ne sont pas identiques", "Erreur de correspondance", JOptionPane.ERROR_MESSAGE, null);
 					}
+				// Si l'un des 2 champs est vide, message d'erreur
 				} else {
 					JOptionPane.showMessageDialog(null, "Vous devez remplir les 2 champs de mot de passe", "Champs manquant", JOptionPane.WARNING_MESSAGE, null);
 				}

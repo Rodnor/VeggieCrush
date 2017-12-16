@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,12 +21,17 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JList;
 import java.awt.FlowLayout;
 import javax.swing.JRadioButton;
 
+/**
+ * Classe responsable de la création de la fenêtre permettant à un utilisateur de créer son compte.
+ * @author Tristan
+ *
+ */
 public class CreationCompteFrame implements ActionListener {
 
+	// Variables de classe
 	private JFrame frame;
 	private JPanel contentPane;
 	private JTextField pseudo;
@@ -42,7 +46,7 @@ public class CreationCompteFrame implements ActionListener {
 	private String faction;
 
 	/**
-	 * Launch the application.
+	 * Lanceur de l'application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -57,11 +61,18 @@ public class CreationCompteFrame implements ActionListener {
 		});
 	}
 
+	/**
+	 * Constructeur de la frame.
+	 */
 	public CreationCompteFrame() {
 		initialize();
 	}
 
+	/**
+	 * Méthode créant les composants graphiques de la frame et permettant de les disposer.
+	 */
 	private void initialize() {
+		// Paramétrages de la fenêtre
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 450, 400);
@@ -129,29 +140,40 @@ public class CreationCompteFrame implements ActionListener {
 		contentPane.add(btnCrerUnCompte, "cell 1 10");
 	}
 
+	/**
+	 * Méthode lancée lors de l'activation d'un composant muni d'un listener.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		StringBuilder stringBuilder = new StringBuilder();
+		
+		// Si le composant est un JButton
 		if (e.getSource() instanceof JButton) {
 			JButton btn = (JButton) e.getSource();
 
+			// Si le bouton est le bouton "créer"
 			if (btn.getActionCommand().equals("creer")) {
+				// Si aucun champ n'est vide
 				if (!pseudo.getText().equals("") && !mail.getText().equals("") && Utils.validate(mail.getText())
 						&& !String.valueOf(mdp.getPassword()).equals("")
 						&& !String.valueOf(mdp_confirm.getPassword()).equals("")
 						&& String.valueOf(mdp_confirm.getPassword()).equals(String.valueOf(mdp.getPassword()))) {
 					// TODO, controle sur la faction
+					
+					// Création de 2 objets Account
 					Account account = new Account();
 					Account accountmail = new Account();
 
+					// On remplit les 2 objets en allant chercher dans la base si un compte avec cette adresse ou ce pseudo existe déjà
 					accountmail = adao.getAccountByMail(mail.getText());
 					account = adao.getAccountByUsername(pseudo.getText());
 
-					if (account == null && accountmail == null) {// n'existe pas chez nous
+					// Si aucun compte n'existe chez nous, on regarde s'il existe dans la base d'un des autres groupes
+					if (account == null && accountmail == null) {
+						if (Utils.creditsExistDansUneAutreAppli(pseudo.getText(), mail.getText()) == null) {
 
-						if (Utils.creditsExistDansUneAutreAppli(pseudo.getText(), mail.getText()) == null) { // n'existe pas ailleurs
-
+							// On génère un identifiant universel unique et on insère les informations du nouveau compte dans notre base de données
 							String uuidString = Utils.generateUuid().toString();
 							account = new Account(0, uuidString, pseudo.getText(), mail.getText(), String.valueOf(mdp.getPassword()), faction, null, null, null);
 							HttpClient httpClient = new HttpClient();
@@ -165,27 +187,29 @@ public class CreationCompteFrame implements ActionListener {
 								error.printStackTrace();
 							}
 							
+							// Si tout s'est bien passé, on lance la fenpetre de connexion et on ferme celle-ci
 							System.out.println("errorinsert"+errorInsert);
 							if(errorInsert == false){
 								new ConnectionFrame();
 							}
 
 							this.frame.dispose();
+						// Le compte existe déja ailleurs, message d'erreur
 						} else {
-							// Compte existe déja ailleurs
 							JOptionPane.showMessageDialog(null,
 									"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre1",
 									"Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 						}
+					// Le compte existe déjà chez nous, message d'erreur
 					} else {
-						// Compte deja existant chez nous
+						
 						JOptionPane.showMessageDialog(null,
 								"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre2",
 								"Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 					}
+				// Suivant le champ qui est vide, un messade d'erreur customisé est affiché
 				} else {
 					if (pseudo.getText().equals("")) {
-
 						stringBuilder.append("- Vous devez choisir un nom d'utilisateur");
 					}
 					
@@ -219,16 +243,17 @@ public class CreationCompteFrame implements ActionListener {
 
 					JOptionPane.showMessageDialog(null, stringBuilder.toString(), "Erreur",
 							JOptionPane.ERROR_MESSAGE, null);
-
 				}
 			}
 		}
 
+		// Si le composant est un JRadioButton
 		if (e.getSource() instanceof JRadioButton) {
 			JRadioButton btn = (JRadioButton) e.getSource();
 
+			// Suivant le radio button sélectionné, le joueur est affecté à la faction ombre ou lumière
 			if (btn.getActionCommand().equals("Ombre")) {
-				faction = "lumiere";
+				faction = "ombre";
 			} else {
 				faction = "lumiere";
 			}

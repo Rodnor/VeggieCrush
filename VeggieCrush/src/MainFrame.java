@@ -1,11 +1,8 @@
 import java.awt.EventQueue;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
@@ -13,28 +10,16 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 
-import com.dao.AccountDao;
-import com.dao.InventaireDao;
-import com.dao.ObjetDao;
-import com.entitie.Account;
-import com.entitie.Inventaire;
-import com.entitie.Objet;
-import com.test.Test;
-import com.utils.GestionBonus;
-import com.utils.HttpClient;
 import com.utils.MusicPlayer;
-import com.utils.Utils;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
 
 import javax.swing.JPanel;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
 
+/**
+* Classe responsable de la création de la fenêtre principale du jeu.
+* @authors Tristan & Kévin
+*
+*/
 public class MainFrame {
 
 	private static JFrame frame;
@@ -48,7 +33,7 @@ public class MainFrame {
 	private static boolean bonusHowob;
 
 	/**
-	 * Launch the application.
+	 * Lanceur de l'application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -64,7 +49,11 @@ public class MainFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * Constructeur surchargé de la frame.
+	 * @param UUID String contenant l'identifiant universel du joueur.
+	 * @param bonusBoomCraft Boolean indiquant la présence ou non d'un bonus en provenance de BoomCraft.
+	 * @param bonusFarmVillage Boolean indiquant la présence ou non d'un bonus en provenance de FarmVillage.
+	 * @param bonusHowob Boolean indiquant la présence ou non d'un bonus en provenance de HOWOB.
 	 */
 	public MainFrame(String UUID, boolean bonusBoomCraft, boolean bonusFarmVillage, boolean bonusHowob) {
 		this.UUID = UUID;
@@ -74,14 +63,18 @@ public class MainFrame {
 		initialize();
 	}
 
+	/**
+	 * Constructeur de la frame.
+	 */
 	public MainFrame() {
 		initialize();
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Méthode créant les composants graphiques de la frame et permettant de les disposer.
 	 */
 	private void initialize() {
+		// Changement du Look and Feel original pour le Nimbus
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
@@ -94,12 +87,14 @@ public class MainFrame {
 		catch (InstantiationException e) {} 
 		catch (IllegalAccessException e) {}
 
-
+		// Paramétrages de la fenêtre
 		frame = new JFrame();
 		frame.setTitle("Jeu");
 
-		JPanel[] tPan = {   new PanelJeu(), new PanelCraft()};
+		// Tableau de JPanel pour différencier les onglets
+		JPanel[] tPan = {new PanelJeu(), new PanelCraft()};
 
+		// On créé les onglets et on leur assignes les JPanel appropriés
 		onglet = new JTabbedPane();
 		onglet.add("Jeu", tPan[0]);
 		onglet.add("Craft", tPan[1]);
@@ -112,6 +107,7 @@ public class MainFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 
+		// Création d'un Thread permettant de détecter dans quel onglet le joueur se situe pour adapter la musique en fonction
 		Thread t = new Thread() {
 			public void run() {
 				while(true) {
@@ -153,6 +149,7 @@ public class MainFrame {
 		};
 		t.start();
 
+		// Ajout d'un WindowListener pour fermer le Thread du panel de Craft lorsque la fenêtre principale se ferme
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -161,36 +158,66 @@ public class MainFrame {
 		});
 	}
 
-
-
+	/**
+	 * Getter des onglets de la fenêtre.
+	 * @return JTabbedPane.
+	 */
 	public static JTabbedPane getTabbedPane() {
 		return onglet;
 	}
 
+	/**
+	 * Getter de l'identifiant universel du joueur.
+	 * @return String.
+	 */
 	public static String getUUID() {
 		return UUID;
 	}
 
+	/**
+	 * Getter permettant de savoir si le joueur possède un bonus en provenance de BoomCraft.
+	 * @return Boolean.
+	 */
 	public static boolean getBonusBoomCraft() {
 		return bonusBoomcraft;
 	}
 
+	/**
+	 * Getter permettant de savoir si le joueur possède un bonus en provenance de FarmVillage.
+	 * @return Boolean.
+	 */
 	public static boolean getBonusFarmVillage() {
 		return bonusFarmVillage;
 	}
 
+	/**
+	 * Getter permettant de savoir si le joueur possède un bonus en provenance de HOWOB.
+	 * @return Boolean.
+	 */
 	public static boolean getBonusHowob() {
 		return bonusHowob;
 	}
 
+	/**
+	 * Setter de bonus pour HOWOB.
+	 * @param b Boolean.
+	 */
 	public static void setBonusHowob(boolean b) {
 		bonusHowob = b;
 	}
 
+	/**
+	 * Setter de bonus pour FarmVillage.
+	 * @param b Boolean.
+	 */
 	public static void setBonusFarmVillage(boolean b) {
 		bonusFarmVillage = b;
 	}
 
+	/**
+	 * Setter de bonus pour BoomCraft.
+	 * @param b Boolean.
+	 */
 	public static void setBonusBoomCraft(boolean b) {
 		bonusBoomcraft = b;
 	}
