@@ -5,23 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import org.apache.log4j.Logger;
 
 import com.bd.Connecteur;
-import com.entitie.Account;
-import com.entitie.Objet;
 import com.entitie.Recette;
-import com.entitie.TypeObjet;
 
 /**
  * Classe permettant la gestion des RECETTES
  */
 public class RecetteDao {
-	//requetes
+	// requetes
 	private final static String QUERY_INSERT = "INSERT INTO RECETTE  (id_objet, nom_recette, type, description, qte_plante1, qte_plante2, qte_plante3, qte_plante4) values (?, ?, ?, ?, ?, ?, ?, ?)";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM RECETTE WHERE id_recette = ?";
 	private final static String QUERY_FIND_ALL = "SELECT * FROM RECETTE";
@@ -41,6 +36,7 @@ public class RecetteDao {
 		Recette recette = new Recette();
 
 		try {
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_ID);
 			stmt.setInt(1, idRecette);
@@ -49,6 +45,7 @@ public class RecetteDao {
 			while (rset.next()) {
 				recette = mappingRecette(rset);
 			}
+			// erreur
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -59,7 +56,6 @@ public class RecetteDao {
 					e.printStackTrace();
 				}
 			}
-
 			if (con != null) {
 				try {
 					con.close();
@@ -70,7 +66,7 @@ public class RecetteDao {
 		}
 		return recette;
 	}
-	
+
 	/**
 	 * Permet de recherche une recette en fonction de son id
 	 * 
@@ -80,8 +76,9 @@ public class RecetteDao {
 	public int getIdRecetteByComposants(int qte1, int qte2, int qte3, int qte4) {
 		Connection con = null;
 		PreparedStatement stmt = null;
-		int resultat=0;		
+		int resultat = 0;
 		try {
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_ID_RECETTE_BY_COMPO);
 			stmt.setInt(1, qte1);
@@ -89,9 +86,11 @@ public class RecetteDao {
 			stmt.setInt(3, qte3);
 			stmt.setInt(4, qte4);
 			final ResultSet rset = stmt.executeQuery();
+			// resultat
 			while (rset.next()) {
 				resultat = rset.getInt("id_objet");
 			}
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -126,13 +125,16 @@ public class RecetteDao {
 		ArrayList<Recette> recettes = new ArrayList<Recette>();
 
 		try {
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.createStatement();
 			final ResultSet rset = stmt.executeQuery(QUERY_FIND_ALL);
+			// resultats
 			while (rset.next()) {
 				recette = mappingRecette(rset);
 				recettes.add(recette);
 			}
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -192,6 +194,7 @@ public class RecetteDao {
 		Boolean errorInsert = false;
 
 		try {
+			// connexion
 			con = Connecteur.getConnexion();
 
 			stmt = con.prepareStatement(QUERY_INSERT);
@@ -203,8 +206,9 @@ public class RecetteDao {
 			stmt.setInt(6, recette.getQte2());
 			stmt.setInt(7, recette.getQte3());
 			stmt.setInt(8, recette.getQte4());
-
+			// preparation
 			stmt.execute();
+			// erreur
 		} catch (SQLException e) {
 			e.printStackTrace();
 			errorInsert = true;

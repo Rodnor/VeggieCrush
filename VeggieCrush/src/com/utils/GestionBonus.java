@@ -7,7 +7,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 /**
- * Classe permettant la gestion des bonus externes
+ * Classe permettant la gestion des bonus externes à l'application
  */
 public class GestionBonus {
 
@@ -37,10 +37,11 @@ public class GestionBonus {
 		HttpClient httpClient = new HttpClient();
 		JSONObject jsonObject = new JSONObject();
 		Bonus bonus = new Bonus();
-		
+
 		// on récupére les bonus via notre API pour FARMVILLAGE
-		jsonObject = httpClient
-				.getHttpRequestWithToken(applicationProperties.getString("api.url.bonus") + FARMVILLAGE + "/" + uuid, applicationProperties.getString("api.token.secure"));
+		jsonObject = httpClient.getHttpRequestWithToken(
+				applicationProperties.getString("api.url.bonus") + FARMVILLAGE + "/" + uuid,
+				applicationProperties.getString("api.token.secure"));
 
 		if (!jsonObject.isNull(FARMVILLAGE)) {
 			try {
@@ -53,8 +54,9 @@ public class GestionBonus {
 
 		// on récupére les bonus via notre API pour HOWOB
 
-		jsonObject = httpClient
-				.getHttpRequestWithToken(applicationProperties.getString("api.url.bonus") + HOWOB + "/" + uuid, applicationProperties.getString("api.token.secure"));
+		jsonObject = httpClient.getHttpRequestWithToken(
+				applicationProperties.getString("api.url.bonus") + HOWOB + "/" + uuid,
+				applicationProperties.getString("api.token.secure"));
 
 		if (!jsonObject.isNull(HOWOB)) {
 			try {
@@ -67,8 +69,9 @@ public class GestionBonus {
 
 		// on récupére les bonus via notre API pour BOOMCRAFT
 
-		jsonObject = httpClient
-				.getHttpRequestWithToken(applicationProperties.getString("api.url.bonus") + BOOMCRAFT + "/" + uuid, applicationProperties.getString("api.token.secure"));
+		jsonObject = httpClient.getHttpRequestWithToken(
+				applicationProperties.getString("api.url.bonus") + BOOMCRAFT + "/" + uuid,
+				applicationProperties.getString("api.token.secure"));
 
 		if (!jsonObject.isNull(BOOMCRAFT)) {
 			try {
@@ -81,15 +84,17 @@ public class GestionBonus {
 
 		return listeBonus;
 	}
-	
+
 	/**
 	 * Permet d'indiquer les bonus consommés chez les autres via notre API
+	 * 
 	 * @param uuid
 	 * @param bonusHowob
 	 * @param bonusFarmvillage
 	 * @param bonusBoomcraft
 	 */
-	public static void notifierRecupererBonus(String uuid, Boolean bonusHowob, Boolean bonusFarmvillage, Boolean bonusBoomcraft) {
+	public static void notifierRecupererBonus(String uuid, Boolean bonusHowob, Boolean bonusFarmvillage,
+			Boolean bonusBoomcraft) {
 		JSONObject jsonObject = new JSONObject();
 		HttpClient httpClient = new HttpClient();
 		try {
@@ -98,12 +103,12 @@ public class GestionBonus {
 			jsonObject.put("howob", bonusHowob);
 			jsonObject.put("farmvillage", bonusFarmvillage);
 			jsonObject.put("boomcraft", bonusBoomcraft);
-			httpClient.postRequestWithJsonParamAndToken(applicationProperties.getString("api.url.bonus.notifier"), jsonObject, applicationProperties.getString("api.token.secure"));
+			httpClient.postRequestWithJsonParamAndToken(applicationProperties.getString("api.url.bonus.notifier"),
+					jsonObject, applicationProperties.getString("api.token.secure"));
 
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
-		
-}
 
+}

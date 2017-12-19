@@ -1,21 +1,14 @@
 package com.utils;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.MessagingException;
-import javax.swing.JEditorPane;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -65,7 +58,8 @@ public final class Utils {
 
 		// appel de notre API
 		JSONObject jsonRetour = httpClient.postRequestWithJsonParamAndToken(
-				applicationProperties.getString("api.url.signin.autre"), jsonEnvoi, applicationProperties.getString("api.token.secure"));
+				applicationProperties.getString("api.url.signin.autre"), jsonEnvoi,
+				applicationProperties.getString("api.token.secure"));
 
 		try {
 			// traitement
@@ -81,7 +75,8 @@ public final class Utils {
 	}
 
 	/**
-	 * permet de verifier si les informations existent dans un autre jeu 
+	 * permet de verifier si les informations existent dans un autre jeu
+	 * 
 	 * @param username
 	 * @param mail
 	 * @return nom d'appli ou <code> null </code> si inexistant
@@ -100,7 +95,8 @@ public final class Utils {
 
 		// appel de notre API
 		JSONObject jsonRetour = httpClient.postRequestWithJsonParamAndToken(
-				applicationProperties.getString("api.url.existing.autre"), jsonEnvoi, applicationProperties.getString("api.token.secure"));
+				applicationProperties.getString("api.url.existing.autre"), jsonEnvoi,
+				applicationProperties.getString("api.token.secure"));
 
 		// traitement du retour
 		try {
@@ -181,10 +177,12 @@ public final class Utils {
 			error.printStackTrace();
 		}
 
-		// envoi du mot de passe et de l'id (local) pour modification du mot de passe via notre API
-		httpClient.postRequestWithJsonParamAndToken(
-				applicationProperties.getString("api.url.update.password"), jsonEnvoi,applicationProperties.getString("api.token.secure"));
-		// mise à jour de Flag pour demander la saisie d'un nouveau mot de passe lors de la prochaine connexion
+		// envoi du mot de passe et de l'id (local) pour modification du mot de
+		// passe via notre API
+		httpClient.postRequestWithJsonParamAndToken(applicationProperties.getString("api.url.update.password"),
+				jsonEnvoi, applicationProperties.getString("api.token.secure"));
+		// mise à jour de Flag pour demander la saisie d'un nouveau mot de passe
+		// lors de la prochaine connexion
 		accountDao.updateFlag(account.getId(), "O");
 
 		// corps du mail envoyé
@@ -211,15 +209,16 @@ public final class Utils {
 
 	/**
 	 * Permet de se connecter sur notre base de données via l'API
+	 * 
 	 * @param username
 	 * @param pass
-	 * @return l'id_Global si trouvé ou <code>null</code> sinon 
+	 * @return l'id_Global si trouvé ou <code>null</code> sinon
 	 */
 	public static String signinVeggie(String username, String pass) {
 		JSONObject jsonRetour = new JSONObject();
 		JSONObject jsonEnvoi = new JSONObject();
 
-		//preparation
+		// preparation
 		try {
 			jsonEnvoi.put("password", pass);
 			jsonEnvoi.put("username", username);
@@ -230,8 +229,8 @@ public final class Utils {
 		HttpClient httpClient = new HttpClient();
 
 		// appel de notre API
-		jsonRetour = httpClient.postRequestWithJsonParam(
-				applicationProperties.getString("api.url.signin.veggie"), jsonEnvoi);
+		jsonRetour = httpClient.postRequestWithJsonParam(applicationProperties.getString("api.url.signin.veggie"),
+				jsonEnvoi);
 
 		try {
 			// traitement du retour
@@ -248,7 +247,9 @@ public final class Utils {
 	}
 
 	/**
-	 * permet de verifier la disponibilité de nos services (et connexion internet)
+	 * permet de verifier la disponibilité de nos services (et connexion
+	 * internet)
+	 * 
 	 * @return <code>true</code> si accessible et <code>false</code> sinon
 	 */
 	public static Boolean canConnectApi() {

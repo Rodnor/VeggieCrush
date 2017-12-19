@@ -1,30 +1,31 @@
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import com.dao.AccountDao;
-import com.utils.Utils;
-
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import java.awt.Font;
-import net.miginfocom.swing.MigLayout;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import com.dao.AccountDao;
+import com.utils.Utils;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
- * Classe responsable de la création de la fenêtre permettant de se connecter au jeu.
+ * Classe responsable de la création de la fenêtre permettant de se connecter au
+ * jeu.
+ * 
  * @author Tristan
  *
  */
@@ -45,11 +46,13 @@ public class ConnectionFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					// On cherche à savoir si le serveur est joignable. Si oui, la fenêtre est instanciée
+					// On cherche à savoir si le serveur est joignable. Si oui,
+					// la fenêtre est instanciée
 					if (Utils.canConnectApi()) {
 						ConnectionFrame window = new ConnectionFrame();
 						window.frame.setVisible(true);
-					// Si le serveur n'est pas joignable, un message d'erreur est affiché
+						// Si le serveur n'est pas joignable, un message
+						// d'erreur est affiché
 					} else {
 						JOptionPane.showMessageDialog(null,
 								"Les serveurs du jeu sont innaccesibles. Veuillez verifier votre connexion internet.",
@@ -70,7 +73,8 @@ public class ConnectionFrame implements ActionListener {
 	}
 
 	/**
-	 * Méthode créant les composants graphiques de la frame et permettant de les disposer.
+	 * Méthode créant les composants graphiques de la frame et permettant de les
+	 * disposer.
 	 */
 	private void initialize() {
 		// Paramétrages de la fenêtre
@@ -113,7 +117,8 @@ public class ConnectionFrame implements ActionListener {
 		JLabel lblMDPOublie = new JLabel("Mot de passe oublié ?");
 		lblMDPOublie.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		lblMDPOublie.setHorizontalAlignment(SwingConstants.CENTER);
-		// Ajout d'un MouseListener qui permet de changer l'image du curseur au survol du label "Mot de passe oublié ?"
+		// Ajout d'un MouseListener qui permet de changer l'image du curseur au
+		// survol du label "Mot de passe oublié ?"
 		lblMDPOublie.addMouseListener(new MouseListener() {
 
 			@Override
@@ -162,40 +167,51 @@ public class ConnectionFrame implements ActionListener {
 				AccountDao adao = new AccountDao();
 
 				// Si le pseudo et le mot de passe ne sont pas vides
-				if(!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
-					// On cherche dans notre base et dans la base des autres groupes si le compte de l'utilisateur existe
-					String uuidTrouveAutre = Utils.signinDansUneAutreAppli(tf_pseudo.getText(), String.valueOf(passwordField.getPassword()));
-					String uuidTrouve = Utils.signinVeggie(tf_pseudo.getText(), String.valueOf(passwordField.getPassword()));
+				if (!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
+					// On cherche dans notre base et dans la base des autres
+					// groupes si le compte de l'utilisateur existe
+					String uuidTrouveAutre = Utils.signinDansUneAutreAppli(tf_pseudo.getText(),
+							String.valueOf(passwordField.getPassword()));
+					String uuidTrouve = Utils.signinVeggie(tf_pseudo.getText(),
+							String.valueOf(passwordField.getPassword()));
 
-					// Si le compte existe, on cherche si le compte est en demande de mot de passe perdu ou non
+					// Si le compte existe, on cherche si le compte est en
+					// demande de mot de passe perdu ou non
 					if (uuidTrouveAutre != null || uuidTrouve != null) {
 						flag = adao.motDePasseAChanger(tf_pseudo.getText());
 
 						// S'il n'y a pas de problème de mot de passe
 						if (!flag) {
-							// On lance la fenêtre de bonus avec le bon identifiant utilisateur en fonction d'où le compte se situe puis on ferme la fenêtre courante
+							// On lance la fenêtre de bonus avec le bon
+							// identifiant utilisateur en fonction d'où le
+							// compte se situe puis on ferme la fenêtre courante
 							if (uuidTrouveAutre != null) {
 								new BonusFrame(uuidTrouveAutre);
 							} else {
 								new BonusFrame(uuidTrouve);
 							}
 							this.frame.dispose();
-						// Si une demande de mot de passe perdu a été formulée, on oriente le joueur sur la page pour choisir le nouveau mot de passe
+							// Si une demande de mot de passe perdu a été
+							// formulée, on oriente le joueur sur la page pour
+							// choisir le nouveau mot de passe
 						} else {
 							new NouveauMotDePasseFrame(tf_pseudo.getText());
 						}
-					// Si le compte utilisateur n'existe chez personne, message d'erreur
+						// Si le compte utilisateur n'existe chez personne,
+						// message d'erreur
 					} else {
 						JOptionPane.showMessageDialog(null,
 								"Votre nom d'utilisateur et/ou votre mot de passe sont invalides",
 								"Identifiants invalides", JOptionPane.ERROR_MESSAGE, null);
 					}
-				// Si le pseudo est le mot de passe sont vides, message d'erreur
+					// Si le pseudo est le mot de passe sont vides, message
+					// d'erreur
 				} else {
 					JOptionPane.showMessageDialog(null, "Les champs doivent être remplis", "Champs manquants",
 							JOptionPane.WARNING_MESSAGE, null);
 				}
-			// Si le bouton "créer" est cliqué, on lance la fenêtre de création de compte
+				// Si le bouton "créer" est cliqué, on lance la fenêtre de
+				// création de compte
 			} else if (btn.getActionCommand().equals("creer")) {
 				new CreationCompteFrame();
 			}

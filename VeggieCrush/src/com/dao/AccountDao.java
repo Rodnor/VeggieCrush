@@ -1,20 +1,17 @@
 package com.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import org.apache.log4j.Logger;
+
 import com.bd.Connecteur;
 import com.entitie.Account;
-import com.utils.Utils;
 
 /**
  * Classe permettant la gestion des ACCOUNTS
@@ -28,7 +25,6 @@ public class AccountDao {
 	private final static String QUERY_FIND_IN_NOUVEAU_MDP = "SELECT FLAG FROM NOUVEAU_MDP INNER JOIN ACCOUNT ON ACCOUNT.id = NOUVEAU_MDP.id WHERE username = ?";
 	private final static String QUERY_FIND_BY_MAIL = "SELECT * FROM ACCOUNT WHERE email = ?";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM ACCOUNT WHERE ID = ?";
-	private final static String QUERY_INSERT = "INSERT INTO ACCOUNT (id_global, faction, username, password, email, created_at, updated_at, deleted_at) values (?, ?, ?, ?, ?, ?, ?, ?)";
 	private final static String QUERY_UPDATE_MOT_DE_PASSE_BY_ID = "UPDATE NOUVEAU_MDP SET FLAG = ? WHERE ID = ?";
 	private final static String QUERY_FIND_BY_USERNAME = "SELECT * FROM ACCOUNT WHERE USERNAME = ?";
 	private final static String QUERY_FIND_BY_UID = "SELECT * FROM ACCOUNT WHERE id_global = ?";
@@ -44,17 +40,17 @@ public class AccountDao {
 
 		ArrayList<Account> accounts = new ArrayList<Account>();
 		try {
-			//connexion
+			// connexion
 			connexion = Connecteur.getConnexion();
 			stmt = connexion.createStatement();
 			final ResultSet rset = stmt.executeQuery(QUERY_FIND_ALL);
 			Account account = new Account();
-			//resulats
+			// resulats
 			while (rset.next()) {
 				account = mappingAccount(rset);
 				accounts.add(account);
 			}
-			//erreurs
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -89,17 +85,17 @@ public class AccountDao {
 
 		Account account = new Account();
 		try {
-			//connexion
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_ID);
 			stmt.setInt(1, id);
 
 			final ResultSet rset = stmt.executeQuery();
-			//resultats
+			// resultats
 			while (rset.next()) {
 				account = mappingAccount(rset);
 			}
-			//erreurs
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -139,17 +135,17 @@ public class AccountDao {
 
 		Account account = new Account();
 		try {
-			//connexion
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_MAIL);
 			stmt.setString(1, mail);
 
 			final ResultSet rset = stmt.executeQuery();
-			//resultats
+			// resultats
 			while (rset.next()) {
 				account = mappingAccount(rset);
 			}
-			//erreurs
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -182,7 +178,7 @@ public class AccountDao {
 	 * 
 	 * @param id
 	 * @param flag
-	 * @return <code>true</code> si tout est ok et <code>false</code> en cas
+	 * @return <code>false</code> si tout est ok et <code>true</code> en cas
 	 *         d'erreur
 	 */
 	public Boolean updateFlag(int id, String flag) {
@@ -191,16 +187,16 @@ public class AccountDao {
 		PreparedStatement stmt = null;
 		Boolean errorUpdate = false;
 		try {
-			//connexion
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_UPDATE_MOT_DE_PASSE_BY_ID);
 
 			stmt.setString(1, flag);
 			stmt.setInt(2, id);
-			//execution
+			// execution
 			stmt.executeUpdate();
-			
-			//erreurs
+
+			// erreurs
 		} catch (SQLException e) {
 			errorUpdate = true;
 			e.printStackTrace();
@@ -250,59 +246,6 @@ public class AccountDao {
 	}
 
 	/**
-	 * Permet d'insérer une nouvelle ligne dans la table ACCOUNT
-	 * 
-	 * @param account
-	 * @return <code>true</code> si tout est ok et <code>false</code> en cas
-	 *         d'erreur
-	 */
-	public Boolean insertNewAccount(Account account) {
-		Connection con = null;
-		PreparedStatement stmt = null;
-		Boolean errorInsert = false;
-
-		try {
-			//connexion
-			con = Connecteur.getConnexion();
-			Calendar calendar = Calendar.getInstance();
-			Date startDate = new java.sql.Date(calendar.getTime().getTime());
-			//parametres
-			stmt = con.prepareStatement(QUERY_INSERT);
-			stmt.setString(1, account.getId_global());
-			stmt.setString(2, account.getFaction());
-			stmt.setString(3, account.getUsername());
-			stmt.setString(4, account.getPassword());
-			stmt.setString(5, account.getEmail());
-			stmt.setDate(6, startDate);
-			stmt.setDate(7, null);
-			stmt.setDate(8, null);
-			stmt.execute();
-			//erreurs
-		} catch (SQLException e) {
-			e.printStackTrace();
-			errorInsert = true;
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return errorInsert;
-	}
-
-	/**
 	 * Recherche le compte en fonction de son uuid. Retourne <code>null</code>
 	 * si pas de résultat
 	 * 
@@ -315,17 +258,17 @@ public class AccountDao {
 
 		Account account = new Account();
 		try {
-			//connexion
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_UID);
 			stmt.setString(1, uid);
 
 			final ResultSet rset = stmt.executeQuery();
-			//resultats
+			// resultats
 			while (rset.next()) {
 				account = mappingAccount(rset);
 			}
-			//erreurs
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -364,17 +307,17 @@ public class AccountDao {
 
 		Account account = new Account();
 		try {
-			//connexion
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_USERNAME);
 			stmt.setString(1, username.toLowerCase());
 
 			final ResultSet rset = stmt.executeQuery();
-			//resultats
+			// resultats
 			while (rset.next()) {
 				account = mappingAccount(rset);
 			}
-			//erreurs
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -415,17 +358,17 @@ public class AccountDao {
 
 		Boolean flag = false;
 		try {
-			//connexion
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_IN_NOUVEAU_MDP);
 			stmt.setString(1, username);
-			//resultats
+			// resultats
 			final ResultSet rset = stmt.executeQuery();
 			while (rset.next()) {
 				String flagRetourne = rset.getString("FLAG");
 				flag = flagRetourne.equals("N") ? false : true;
 			}
-			//erreurs
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

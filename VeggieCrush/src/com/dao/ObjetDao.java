@@ -5,14 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import org.apache.log4j.Logger;
 
 import com.bd.Connecteur;
-import com.entitie.Inventaire;
 import com.entitie.Objet;
 import com.entitie.TypeObjet;
 
@@ -20,7 +17,7 @@ import com.entitie.TypeObjet;
  * Classe permettant la gestion des OBJETS
  */
 public class ObjetDao {
-	//requetes
+	// requetes
 	private final static String QUERY_FIND_ALL = "SELECT * FROM OBJET";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM OBJET WHERE id_objet = ?";
 	private final static String QUERY_FIND_BY_ID_ACCOUNT = "SELECT * FROM ACCOUNT INNER JOIN INVENTAIRE ON ACCOUNT.id = INVENTAIRE.id_global INNER JOIN OBJET ON INVENTAIRE.id_objet = OBJET.id_objet "
@@ -43,14 +40,17 @@ public class ObjetDao {
 
 		ArrayList<Objet> objets = new ArrayList<Objet>();
 		try {
+			// connexion
 			connexion = Connecteur.getConnexion();
 			stmt = connexion.createStatement();
 			final ResultSet rset = stmt.executeQuery(QUERY_FIND_ALL);
 			Objet objet = new Objet();
+			// resultats
 			while (rset.next()) {
 				objet = mappingObjet(rset);
 				objets.add(objet);
 			}
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -84,13 +84,16 @@ public class ObjetDao {
 
 		Objet objet = new Objet();
 		try {
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_ID);
 			stmt.setInt(1, id);
 			final ResultSet rset = stmt.executeQuery();
+			// resultats
 			while (rset.next()) {
 				objet = mappingObjet(rset);
 			}
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -125,6 +128,7 @@ public class ObjetDao {
 
 		ArrayList<Objet> objets = new ArrayList<Objet>();
 		try {
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_FIND_BY_ID_ACCOUNT);
 			stmt.setString(1, uuid);
@@ -132,10 +136,12 @@ public class ObjetDao {
 			Objet objet = new Objet();
 
 			final ResultSet rset = stmt.executeQuery();
+			// resultats
 			while (rset.next()) {
 				objet = mappingObjet(rset);
 				objets.add(objet);
 			}
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -179,7 +185,7 @@ public class ObjetDao {
 	 * Permet d'insérer une nouvelle ligne dans la table OBJET
 	 * 
 	 * @param objet
-	 * @return <code>true</code> si tout est ok et <code>false</code> en cas
+	 * @return <code>false</code> si tout est ok et <code>true</code> en cas
 	 *         d'erreur
 	 */
 	public Boolean insertNewObjet(Objet objet) {
@@ -188,6 +194,7 @@ public class ObjetDao {
 		Boolean errorInsert = false;
 
 		try {
+			// connexion
 			con = Connecteur.getConnexion();
 
 			stmt = con.prepareStatement(QUERY_INSERT);
@@ -195,8 +202,9 @@ public class ObjetDao {
 			stmt.setString(2, objet.getNom_objet());
 			stmt.setString(3, objet.getType_objet().getNom());
 			stmt.setInt(3, objet.getPuissance_objet());
-
+			// preparation
 			stmt.execute();
+			// erreurs
 		} catch (SQLException e) {
 			errorInsert = true;
 			e.printStackTrace();
@@ -234,15 +242,18 @@ public class ObjetDao {
 		int nombre = 0;
 
 		try {
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_COUNT_BY_ID_ACCOUNT_AND_BY_ID_OBJET);
 			stmt.setString(1, uuid);
 			stmt.setInt(2, idObjet);
 
+			// resultats
 			final ResultSet rset = stmt.executeQuery();
 			while (rset.next()) {
 				nombre = rset.getInt("qte");
 			}
+			// erreurs
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -279,15 +290,18 @@ public class ObjetDao {
 		int nombre = 0;
 
 		try {
+			// connexion
 			con = Connecteur.getConnexion();
 			stmt = con.prepareStatement(QUERY_PRESENT_BY_ID_ACCOUNT_AND_BY_ID_OBJET);
 			stmt.setString(1, idAccount);
 			stmt.setInt(2, idObjet);
 
 			final ResultSet rset = stmt.executeQuery();
+			// resultats
 			while (rset.next()) {
 				nombre = rset.getInt("nb");
 			}
+			// erreur
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -314,7 +328,7 @@ public class ObjetDao {
 	 * Permet de supprimer un objet en base selon son identifiant
 	 * 
 	 * @param id_objet
-	 * @return <code>true</code> si tout est ok et <code>false</code> en cas
+	 * @return <code>false</code> si tout est ok et <code>true</code> en cas
 	 *         d'erreur
 	 */
 	public Boolean deleteObjetByIdObjet(int id_objet) {
@@ -323,12 +337,14 @@ public class ObjetDao {
 		Boolean errorInsert = false;
 
 		try {
+			// connexion
 			con = Connecteur.getConnexion();
 
 			stmt = con.prepareStatement(QUERY_DELETE_BY_ID);
 			stmt.setInt(1, id_objet);
-
+			// resultat
 			stmt.execute();
+			// erreur
 		} catch (SQLException e) {
 			errorInsert = true;
 			e.printStackTrace();

@@ -5,12 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.cert.Certificate;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLPeerUnverifiedException;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONException;
@@ -61,14 +56,13 @@ public final class HttpClient {
 		}
 		return jsonRetour;
 	}
-	
-	
 
 	/**
 	 * Permet de créer une requête HTTP POST avec des paramètres JSON dans le
 	 * body
 	 * 
 	 * @param url
+	 * @param json
 	 * @return JSONObject
 	 */
 	public JSONObject postRequestWithJsonParam(String url, JSONObject jsonEnvoi) {
@@ -114,23 +108,24 @@ public final class HttpClient {
 		}
 		return jsonRetour;
 	}
-	
+
 	/**
 	 * Permet de créer une requête HTTP GET avec un TOKEN dans l'en-tête
 	 * 
 	 * @param url
+	 * @param token
 	 * @return JSONObject
 	 */
 	public JSONObject getHttpRequestWithToken(String url, String token) {
 		JSONObject jsonRetour = new JSONObject();
 
 		try {
-			//connexion
+			// connexion
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
-			con.setRequestProperty ("Authorization", token);
-			
+			con.setRequestProperty("Authorization", token);
+
 			// traitement en fonction de la réponse
 			int responseCode = con.getResponseCode();
 			if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -153,14 +148,14 @@ public final class HttpClient {
 		}
 		return jsonRetour;
 	}
-	
-	
 
 	/**
 	 * Permet de créer une requête HTTP POST avec des paramètre JSON dans le
-	 * body et un token dans l'en-tête 
+	 * body et un token dans l'en-tête
 	 * 
 	 * @param url
+	 * @param json
+	 * @param token
 	 * @return JSONObject
 	 */
 	public JSONObject postRequestWithJsonParamAndToken(String url, JSONObject jsonEnvoi, String token) {
@@ -168,7 +163,7 @@ public final class HttpClient {
 		JSONObject jsonRetour = new JSONObject();
 
 		try {
-			//connexion
+			// connexion
 			HttpURLConnection con;
 
 			URL url_call = new URL(url);
@@ -176,7 +171,7 @@ public final class HttpClient {
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 			con.setRequestProperty("Content-Type", "application/json");
-			con.setRequestProperty ("Authorization", token);
+			con.setRequestProperty("Authorization", token);
 
 			con.setDoOutput(true);
 
@@ -186,7 +181,7 @@ public final class HttpClient {
 			wr.close();
 
 			int responseCode = con.getResponseCode();
-			// traitmeent en fonction de la réponse
+			// traitement en fonction de la réponse
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 				String output;

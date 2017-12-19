@@ -13,22 +13,23 @@ public class MusicPlayer {
 	public static Clip loopPanelGame = null;
 	public static Clip loopPanelCraft = null;
 	public static Clip cutSound = null;
-	private static int compteur1=0;
-	private static int compteur2=0;
-	public static boolean gameMusicIsMute=false;
-	public static boolean craftMusicIsMute=false;
+	private static int compteur1 = 0;
+	private static int compteur2 = 0;
+	public static boolean gameMusicIsMute = false;
+	public static boolean craftMusicIsMute = false;
 
-	public MusicPlayer () {}
+	public MusicPlayer() {
+	}
 
 	public static void playGameMusic() {
-		if(compteur1 == 0) {
+		if (compteur1 == 0) {
 			try {
 				loopPanelGame = null;
 				try {
 					loopPanelGame = AudioSystem.getClip();
 				} catch (LineUnavailableException e) {
 					e.printStackTrace();
-				} 
+				}
 				try {
 					loopPanelGame.open(AudioSystem.getAudioInputStream(new File("sounds/game.wav")));
 					loopPanelGame.loop(Clip.LOOP_CONTINUOUSLY);
@@ -47,14 +48,14 @@ public class MusicPlayer {
 	}
 
 	public static void playCraftMusic() {
-		if(compteur2 == 0) {
+		if (compteur2 == 0) {
 			try {
 				loopPanelCraft = null;
 				try {
 					loopPanelCraft = AudioSystem.getClip();
 				} catch (LineUnavailableException e) {
 					e.printStackTrace();
-				} 
+				}
 				try {
 					loopPanelCraft.open(AudioSystem.getAudioInputStream(new File("sounds/craft.wav")));
 					loopPanelCraft.loop(Clip.LOOP_CONTINUOUSLY);
@@ -80,7 +81,7 @@ public class MusicPlayer {
 				cutSound = AudioSystem.getClip();
 			} catch (LineUnavailableException e) {
 				e.printStackTrace();
-			} 
+			}
 			try {
 				cutSound.open(AudioSystem.getAudioInputStream(new File("sounds/cut.wav")));
 				cutSound.start();
@@ -97,14 +98,14 @@ public class MusicPlayer {
 	}
 
 	public static void stopGameMusic() {
-		if(compteur1 == 1) {
+		if (compteur1 == 1) {
 			compteur1--;
 		}
 		loopPanelGame.stop();
 	}
 
 	public static void stopCraftMusic() {
-		if(compteur2 == 1) {
+		if (compteur2 == 1) {
 			compteur2--;
 		}
 		loopPanelCraft.stop();

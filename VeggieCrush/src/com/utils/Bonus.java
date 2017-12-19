@@ -1,7 +1,7 @@
 package com.utils;
 
 /**
- * Classe permettant de  les bonus externes à l'application
+ * Classe des bonus externes à l'application
  */
 public class Bonus {
 

@@ -1,9 +1,17 @@
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import org.codehaus.jettison.json.JSONException;
@@ -15,17 +23,11 @@ import com.utils.HttpClient;
 import com.utils.Utils;
 
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import java.awt.FlowLayout;
-import javax.swing.JRadioButton;
 
 /**
- * Classe responsable de la création de la fenêtre permettant à un utilisateur de créer son compte.
+ * Classe responsable de la création de la fenêtre permettant à un utilisateur
+ * de créer son compte.
+ * 
  * @author Tristan
  *
  */
@@ -69,7 +71,8 @@ public class CreationCompteFrame implements ActionListener {
 	}
 
 	/**
-	 * Méthode créant les composants graphiques de la frame et permettant de les disposer.
+	 * Méthode créant les composants graphiques de la frame et permettant de les
+	 * disposer.
 	 */
 	private void initialize() {
 		// Paramétrages de la fenêtre
@@ -147,7 +150,7 @@ public class CreationCompteFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		StringBuilder stringBuilder = new StringBuilder();
-		
+
 		// Si le composant est un JButton
 		if (e.getSource() instanceof JButton) {
 			JButton btn = (JButton) e.getSource();
@@ -160,66 +163,75 @@ public class CreationCompteFrame implements ActionListener {
 						&& !String.valueOf(mdp_confirm.getPassword()).equals("")
 						&& String.valueOf(mdp_confirm.getPassword()).equals(String.valueOf(mdp.getPassword()))) {
 					// TODO, controle sur la faction
-					
+
 					// Création de 2 objets Account
 					Account account = new Account();
 					Account accountmail = new Account();
 
-					// On remplit les 2 objets en allant chercher dans la base si un compte avec cette adresse ou ce pseudo existe déjà
+					// On remplit les 2 objets en allant chercher dans la base
+					// si un compte avec cette adresse ou ce pseudo existe déjà
 					accountmail = adao.getAccountByMail(mail.getText());
 					account = adao.getAccountByUsername(pseudo.getText());
 
-					// Si aucun compte n'existe chez nous, on regarde s'il existe dans la base d'un des autres groupes
+					// Si aucun compte n'existe chez nous, on regarde s'il
+					// existe dans la base d'un des autres groupes
 					if (account == null && accountmail == null) {
 						if (Utils.creditsExistDansUneAutreAppli(pseudo.getText(), mail.getText()) == null) {
 
-							// On génère un identifiant universel unique et on insère les informations du nouveau compte dans notre base de données
+							// On génère un identifiant universel unique et on
+							// insère les informations du nouveau compte dans
+							// notre base de données
 							String uuidString = Utils.generateUuid().toString();
-							account = new Account(0, uuidString, pseudo.getText(), mail.getText(), String.valueOf(mdp.getPassword()), faction, null, null, null);
+							account = new Account(0, uuidString, pseudo.getText(), mail.getText(),
+									String.valueOf(mdp.getPassword()), faction, null, null, null);
 							HttpClient httpClient = new HttpClient();
-							JSONObject jsonObject = httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/account/insert", account.getJson());
+							JSONObject jsonObject = httpClient.postRequestWithJsonParam(
+									"https://veggiecrush.masi-henallux.be/rest_server/api/account/insert",
+									account.getJson());
 							Boolean errorInsert = false;
 							try {
-								if (!jsonObject.isNull("error_insert")){
+								if (!jsonObject.isNull("error_insert")) {
 									errorInsert = (Boolean) jsonObject.get("error_insert");
 								}
 							} catch (JSONException error) {
 								error.printStackTrace();
 							}
-							
-							// Si tout s'est bien passé, on lance la fenpetre de connexion et on ferme celle-ci
-							System.out.println("errorinsert"+errorInsert);
-							if(errorInsert == false){
+
+							// Si tout s'est bien passé, on lance la fenpetre de
+							// connexion et on ferme celle-ci
+							System.out.println("errorinsert" + errorInsert);
+							if (errorInsert == false) {
 								new ConnectionFrame();
 							}
 
 							this.frame.dispose();
-						// Le compte existe déja ailleurs, message d'erreur
+							// Le compte existe déja ailleurs, message d'erreur
 						} else {
 							JOptionPane.showMessageDialog(null,
 									"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre1",
 									"Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 						}
-					// Le compte existe déjà chez nous, message d'erreur
+						// Le compte existe déjà chez nous, message d'erreur
 					} else {
-						
+
 						JOptionPane.showMessageDialog(null,
 								"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre2",
 								"Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 					}
-				// Suivant le champ qui est vide, un messade d'erreur customisé est affiché
+					// Suivant le champ qui est vide, un messade d'erreur
+					// customisé est affiché
 				} else {
 					if (pseudo.getText().equals("")) {
 						stringBuilder.append("- Vous devez choisir un nom d'utilisateur");
 					}
-					
+
 					if (faction == null) {
 						if (stringBuilder.length() != 0) {
 							stringBuilder.append("\n");
 						}
 						stringBuilder.append("- Vous devez selectionner une faction !");
 					}
-					
+
 					if (mail.getText().equals("")) {
 						if (stringBuilder.length() != 0) {
 							stringBuilder.append("\n");
@@ -241,8 +253,8 @@ public class CreationCompteFrame implements ActionListener {
 						stringBuilder.append("- Les 2 mots de passe ne sont pas identiques");
 					}
 
-					JOptionPane.showMessageDialog(null, stringBuilder.toString(), "Erreur",
-							JOptionPane.ERROR_MESSAGE, null);
+					JOptionPane.showMessageDialog(null, stringBuilder.toString(), "Erreur", JOptionPane.ERROR_MESSAGE,
+							null);
 				}
 			}
 		}
@@ -251,7 +263,8 @@ public class CreationCompteFrame implements ActionListener {
 		if (e.getSource() instanceof JRadioButton) {
 			JRadioButton btn = (JRadioButton) e.getSource();
 
-			// Suivant le radio button sélectionné, le joueur est affecté à la faction ombre ou lumière
+			// Suivant le radio button sélectionné, le joueur est affecté à la
+			// faction ombre ou lumière
 			if (btn.getActionCommand().equals("Ombre")) {
 				faction = "ombre";
 			} else {

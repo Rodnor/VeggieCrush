@@ -25,7 +25,7 @@ public final class Connecteur {
 			e.printStackTrace();
 		}
 
-		//connexion
+		// connexion
 		final Connection con = DriverManager.getConnection(applicationProperties.getString("bd.connect.url"),
 				applicationProperties.getString("bd.connect.user"), applicationProperties.getString("bd.connect.pass"));
 		return con;
