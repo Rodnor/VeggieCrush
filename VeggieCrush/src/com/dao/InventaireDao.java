@@ -21,6 +21,7 @@ import com.entitie.Objet;
  */
 public class InventaireDao {
 	
+	//requetes
 	private final static String QUERY_FIND_ALL = "SELECT * FROM INVENTAIRE";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM INVENTAIRE WHERE id_global = ? and qte > 0";
 	private final static String QUERY_FIND_BY_ID_ACCOUNT_AND_BY_ID_OBJET = 	"SELECT * FROM INVENTAIRE WHERE id_global = ? AND id_objet = ?";

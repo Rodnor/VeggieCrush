@@ -28,7 +28,7 @@ public class SendMail {
 	 * @throws MessagingException
 	 */
 	public static void sendEmailSSL(String to, String subject, String content) throws AddressException, MessagingException {		
-		
+		// configuration du mail avec les propriétés externalisées
 		Properties props = new Properties();
 		props.put("mail.smtp.host", applicationProperties.getString("mail.smtp.host"));
 		props.put("mail.smtp.socketFactory.port", applicationProperties.getString("mail.smtp.socketFactory.port"));
@@ -44,6 +44,7 @@ public class SendMail {
 			}
 		);
 
+		// mail
 		Message message = new MimeMessage(session);
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 		message.setSubject(subject);

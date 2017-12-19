@@ -21,9 +21,8 @@ import com.entitie.TypeObjet;
  * Classe permettant la gestion des RECETTES
  */
 public class RecetteDao {
-
+	//requetes
 	private final static String QUERY_INSERT = "INSERT INTO RECETTE  (id_objet, nom_recette, type, description, qte_plante1, qte_plante2, qte_plante3, qte_plante4) values (?, ?, ?, ?, ?, ?, ?, ?)";
-	private final static String QUERY_DELETE_BY_ID = "DELETE FROM RECETTE WHERE id_recette = ?";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM RECETTE WHERE id_recette = ?";
 	private final static String QUERY_FIND_ALL = "SELECT * FROM RECETTE";
 	private final static String QUERY_FIND_ID_RECETTE_BY_COMPO = "SELECT id_objet FROM RECETTE where qte_plante1=? and qte_plante2=? and qte_plante3=? and qte_plante4=?";

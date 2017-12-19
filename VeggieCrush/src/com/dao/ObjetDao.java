@@ -20,6 +20,7 @@ import com.entitie.TypeObjet;
  * Classe permettant la gestion des OBJETS
  */
 public class ObjetDao {
+	//requetes
 	private final static String QUERY_FIND_ALL = "SELECT * FROM OBJET";
 	private final static String QUERY_FIND_BY_ID = "SELECT * FROM OBJET WHERE id_objet = ?";
 	private final static String QUERY_FIND_BY_ID_ACCOUNT = "SELECT * FROM ACCOUNT INNER JOIN INVENTAIRE ON ACCOUNT.id = INVENTAIRE.id_global INNER JOIN OBJET ON INVENTAIRE.id_objet = OBJET.id_objet "

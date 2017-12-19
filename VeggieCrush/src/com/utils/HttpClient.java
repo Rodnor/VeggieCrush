@@ -33,10 +33,12 @@ public final class HttpClient {
 		JSONObject jsonRetour = new JSONObject();
 
 		try {
+			// connexion
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
 
+			// traitement en fonction de la réponse
 			int responseCode = con.getResponseCode();
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -48,6 +50,7 @@ public final class HttpClient {
 				}
 				in.close();
 
+				// permet de renvoyer un JSON
 				jsonRetour = new JSONObject(response.toString());
 
 			}
@@ -62,7 +65,7 @@ public final class HttpClient {
 	
 
 	/**
-	 * Permet de créer une requête HTTP POST avec des paramètre JSON dans le
+	 * Permet de créer une requête HTTP POST avec des paramètres JSON dans le
 	 * body
 	 * 
 	 * @param url
@@ -73,8 +76,8 @@ public final class HttpClient {
 		JSONObject jsonRetour = new JSONObject();
 
 		try {
+			// connexion
 			HttpURLConnection con;
-
 			URL url_call = new URL(url);
 			con = (HttpURLConnection) url_call.openConnection();
 			con.setRequestMethod("POST");
@@ -82,14 +85,14 @@ public final class HttpClient {
 			con.setRequestProperty("Content-Type", "application/json");
 
 			con.setDoOutput(true);
-
+			// on écrit le body
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(jsonEnvoi.toString());
 			wr.flush();
 			wr.close();
 
 			int responseCode = con.getResponseCode();
-
+			// traitement en fonction de la réponse
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 				String output;
@@ -103,6 +106,7 @@ public final class HttpClient {
 				jsonRetour = new JSONObject(response.toString());
 				System.out.println(jsonRetour);
 			}
+			// erreurs
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
@@ -112,7 +116,7 @@ public final class HttpClient {
 	}
 	
 	/**
-	 * Permet de créer une requête HTTP GET
+	 * Permet de créer une requête HTTP GET avec un TOKEN dans l'en-tête
 	 * 
 	 * @param url
 	 * @return JSONObject
@@ -121,11 +125,13 @@ public final class HttpClient {
 		JSONObject jsonRetour = new JSONObject();
 
 		try {
+			//connexion
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty ("Authorization", token);
 			
+			// traitement en fonction de la réponse
 			int responseCode = con.getResponseCode();
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -152,7 +158,7 @@ public final class HttpClient {
 
 	/**
 	 * Permet de créer une requête HTTP POST avec des paramètre JSON dans le
-	 * body
+	 * body et un token dans l'en-tête 
 	 * 
 	 * @param url
 	 * @return JSONObject
@@ -162,6 +168,7 @@ public final class HttpClient {
 		JSONObject jsonRetour = new JSONObject();
 
 		try {
+			//connexion
 			HttpURLConnection con;
 
 			URL url_call = new URL(url);
@@ -179,7 +186,7 @@ public final class HttpClient {
 			wr.close();
 
 			int responseCode = con.getResponseCode();
-
+			// traitmeent en fonction de la réponse
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 				String output;

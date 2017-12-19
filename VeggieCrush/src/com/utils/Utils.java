@@ -63,10 +63,12 @@ public final class Utils {
 			e.printStackTrace();
 		}
 
+		// appel de notre API
 		JSONObject jsonRetour = httpClient.postRequestWithJsonParamAndToken(
 				applicationProperties.getString("api.url.signin.autre"), jsonEnvoi, applicationProperties.getString("api.token.secure"));
 
 		try {
+			// traitement
 			if (!jsonRetour.isNull("signin") && jsonRetour.get("signin").equals(true)
 					&& !jsonRetour.isNull("uuid_ailleurs")) {
 				uuidTrouve = jsonRetour.getString("uuid_ailleurs");
@@ -78,6 +80,12 @@ public final class Utils {
 		return uuidTrouve;
 	}
 
+	/**
+	 * permet de verifier si les informations existent dans un autre jeu 
+	 * @param username
+	 * @param mail
+	 * @return nom d'appli ou <code> null </code> si inexistant
+	 */
 	public static String creditsExistDansUneAutreAppli(String username, String mail) {
 		String nomAppli = null;
 
@@ -90,9 +98,11 @@ public final class Utils {
 			e.printStackTrace();
 		}
 
+		// appel de notre API
 		JSONObject jsonRetour = httpClient.postRequestWithJsonParamAndToken(
 				applicationProperties.getString("api.url.existing.autre"), jsonEnvoi, applicationProperties.getString("api.token.secure"));
 
+		// traitement du retour
 		try {
 			if (!jsonRetour.get("existing").equals("null")) {
 				nomAppli = jsonRetour.getString("existing");
@@ -135,6 +145,7 @@ public final class Utils {
 		String chars = "abcdefghijklmnopqrstuvwxyz!():-_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 		String pass = "";
 
+		// mdp aléatoire
 		for (int x = 0; x < taille; x++) {
 			int i = (int) Math.floor(Math.random() * 68);
 			pass += chars.charAt(i);
@@ -170,10 +181,13 @@ public final class Utils {
 			error.printStackTrace();
 		}
 
+		// envoi du mot de passe et de l'id (local) pour modification du mot de passe via notre API
 		httpClient.postRequestWithJsonParamAndToken(
 				applicationProperties.getString("api.url.update.password"), jsonEnvoi,applicationProperties.getString("api.token.secure"));
+		// mise à jour de Flag pour demander la saisie d'un nouveau mot de passe lors de la prochaine connexion
 		accountDao.updateFlag(account.getId(), "O");
 
+		// corps du mail envoyé
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Bonjour ");
 		stringBuilder.append(account.getUsername());
@@ -185,22 +199,27 @@ public final class Utils {
 		stringBuilder.append(
 				"</br></br>Ceci est mail généré automatiquement par l'application VeggieCrush. Merci de ne pas y répondre !");
 
-		System.out.println(stringBuilder.toString());
-
 		try {
+			// envoi du mail
 			SendMail.sendEmailSSL(adresseMail, "Nouveau mot de passe sur VeggieCrush", stringBuilder.toString());
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return true;
 	}
 
+	/**
+	 * Permet de se connecter sur notre base de données via l'API
+	 * @param username
+	 * @param pass
+	 * @return l'id_Global si trouvé ou <code>null</code> sinon 
+	 */
 	public static String signinVeggie(String username, String pass) {
 		JSONObject jsonRetour = new JSONObject();
 		JSONObject jsonEnvoi = new JSONObject();
 
+		//preparation
 		try {
 			jsonEnvoi.put("password", pass);
 			jsonEnvoi.put("username", username);
@@ -210,23 +229,28 @@ public final class Utils {
 
 		HttpClient httpClient = new HttpClient();
 
+		// appel de notre API
 		jsonRetour = httpClient.postRequestWithJsonParam(
 				applicationProperties.getString("api.url.signin.veggie"), jsonEnvoi);
 
 		try {
+			// traitement du retour
 			if (jsonRetour.isNull("error") && !jsonRetour.isNull("user")
 					&& !jsonRetour.getJSONObject("user").isNull("globalId")) {
 
 				return (String) jsonRetour.getJSONObject("user").get("globalId");
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return null;
 	}
 
+	/**
+	 * permet de verifier la disponibilité de nos services (et connexion internet)
+	 * @return <code>true</code> si accessible et <code>false</code> sinon
+	 */
 	public static Boolean canConnectApi() {
 		String addr = applicationProperties.getString("api.host.ping");
 		int openPort = 443;

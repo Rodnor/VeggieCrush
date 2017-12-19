@@ -1,4 +1,4 @@
-package com.test;
+package com.asupprimer;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
