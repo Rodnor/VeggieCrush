@@ -228,7 +228,7 @@ public final class Utils {
 	public static Boolean canConnectApi() {
 		String addr = "veggiecrush.masi-henallux.be";
 		int openPort = 443;
-		int timeOutMillis = 1000;
+		int timeOutMillis = 5000;
 
 		try {
 			try (Socket soc = new Socket()) {
