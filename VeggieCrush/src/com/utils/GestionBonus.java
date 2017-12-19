@@ -1,6 +1,7 @@
 package com.utils;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -16,6 +17,8 @@ public class GestionBonus {
 	public GestionBonus() {
 
 	}
+
+	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("application");
 
 	// Nom des 3 autres jeux
 	public static String HOWOB = "howob";
@@ -34,8 +37,8 @@ public class GestionBonus {
 		JSONObject jsonObject = new JSONObject();
 		Bonus bonus = new Bonus();
 
-		jsonObject = httpClient.getHttpRequest(
-				"https://veggiecrush.masi-henallux.be/rest_server/api/bonus/" + FARMVILLAGE + "/" + uuid);
+		jsonObject = httpClient
+				.getHttpRequestWithToken(applicationProperties.getString("api.url.bonus") + FARMVILLAGE + "/" + uuid, applicationProperties.getString("api.token.secure"));
 
 		if (!jsonObject.isNull(FARMVILLAGE)) {
 			try {
@@ -47,7 +50,7 @@ public class GestionBonus {
 		}
 
 		jsonObject = httpClient
-				.getHttpRequest("https://veggiecrush.masi-henallux.be/rest_server/api/bonus/" + HOWOB + "/" + uuid);
+				.getHttpRequestWithToken(applicationProperties.getString("api.url.bonus") + HOWOB + "/" + uuid, applicationProperties.getString("api.token.secure"));
 
 		if (!jsonObject.isNull(HOWOB)) {
 			try {
@@ -59,7 +62,7 @@ public class GestionBonus {
 		}
 
 		jsonObject = httpClient
-				.getHttpRequest("https://veggiecrush.masi-henallux.be/rest_server/api/bonus/" + BOOMCRAFT + "/" + uuid);
+				.getHttpRequestWithToken(applicationProperties.getString("api.url.bonus") + BOOMCRAFT + "/" + uuid, applicationProperties.getString("api.token.secure"));
 
 		if (!jsonObject.isNull(BOOMCRAFT)) {
 			try {
@@ -81,7 +84,7 @@ public class GestionBonus {
 			jsonObject.put("howob", bonusHowob);
 			jsonObject.put("farmvillage", bonusFarmvillage);
 			jsonObject.put("boomcraft", bonusBoomcraft);
-			httpClient.postRequestWithJsonParam("https://veggiecrush.masi-henallux.be/rest_server/api/bonus/notifier", jsonObject);
+			httpClient.postRequestWithJsonParamAndToken(applicationProperties.getString("api.url.bonus.notifier"), jsonObject, applicationProperties.getString("api.token.secure"));
 
 		} catch (JSONException e) {
 			e.printStackTrace();

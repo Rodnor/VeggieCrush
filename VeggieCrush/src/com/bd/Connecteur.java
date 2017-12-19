@@ -10,11 +10,8 @@ import org.apache.log4j.Logger;
 
 public final class Connecteur {
 	
-    //private final static String URL = "jdbc:mysql://127.0.0.1:3306/alchimist";
-    //private final static String URL = "jdbc:mysql://veggiecrush.masi-henallux.be:3306/alchimist?zeroDateTimeBehavior=convertToNull";
     private static ResourceBundle applicationProperties = ResourceBundle.getBundle("application");
-	//private final static String LOGIN = "api";
-    //private final static String PASSWORD = "api";
+
 	final static Logger logger = Logger.getLogger(Connecteur.class.getName());
 
     public static Connection getConnexion() throws SQLException {

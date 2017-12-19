@@ -28,6 +28,8 @@ import com.entitie.Account;
  */
 public final class Utils {
 
+	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("application");
+
 	private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern
 			.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -61,8 +63,8 @@ public final class Utils {
 			e.printStackTrace();
 		}
 
-		JSONObject jsonRetour = httpClient.postRequestWithJsonParam(
-				"https://veggiecrush.masi-henallux.be/rest_server/api/account/signinAutreJeu", jsonEnvoi);
+		JSONObject jsonRetour = httpClient.postRequestWithJsonParamAndToken(
+				applicationProperties.getString("api.url.signin.autre"), jsonEnvoi, applicationProperties.getString("api.token.secure"));
 
 		try {
 			if (!jsonRetour.isNull("signin") && jsonRetour.get("signin").equals(true)
@@ -88,8 +90,8 @@ public final class Utils {
 			e.printStackTrace();
 		}
 
-		JSONObject jsonRetour = httpClient.postRequestWithJsonParam(
-				"https://veggiecrush.masi-henallux.be/rest_server/api/account/existingAutreJeu", jsonEnvoi);
+		JSONObject jsonRetour = httpClient.postRequestWithJsonParamAndToken(
+				applicationProperties.getString("api.url.existing.autre"), jsonEnvoi, applicationProperties.getString("api.token.secure"));
 
 		try {
 			if (!jsonRetour.get("existing").equals("null")) {
@@ -168,8 +170,8 @@ public final class Utils {
 			error.printStackTrace();
 		}
 
-		httpClient.postRequestWithJsonParam(
-				"https://veggiecrush.masi-henallux.be/rest_server/api/account/updatePassword", jsonEnvoi);
+		httpClient.postRequestWithJsonParamAndToken(
+				applicationProperties.getString("api.url.update.password"), jsonEnvoi,applicationProperties.getString("api.token.secure"));
 		accountDao.updateFlag(account.getId(), "O");
 
 		StringBuilder stringBuilder = new StringBuilder();
@@ -209,7 +211,7 @@ public final class Utils {
 		HttpClient httpClient = new HttpClient();
 
 		jsonRetour = httpClient.postRequestWithJsonParam(
-				"https://veggiecrush.masi-henallux.be/rest_server/api/account/signin", jsonEnvoi);
+				applicationProperties.getString("api.url.signin.veggie"), jsonEnvoi);
 
 		try {
 			if (jsonRetour.isNull("error") && !jsonRetour.isNull("user")
@@ -226,7 +228,7 @@ public final class Utils {
 	}
 
 	public static Boolean canConnectApi() {
-		String addr = "veggiecrush.masi-henallux.be";
+		String addr = applicationProperties.getString("api.host.ping");
 		int openPort = 443;
 		int timeOutMillis = 5000;
 
