@@ -287,7 +287,7 @@ public class ObjetDao {
 		Connection con = null;
 		PreparedStatement stmt = null;
 
-		int nombre = 0;
+		int nombre = -1;
 
 		try {
 			// connexion
@@ -321,6 +321,8 @@ public class ObjetDao {
 				}
 			}
 		}
+		
+		System.out.println("nbRen"+nombre);
 		return nombre;
 	}
 

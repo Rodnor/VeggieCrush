@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -34,6 +35,7 @@ public class NouveauMotDePasseFrame implements ActionListener {
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 	private String utilisateur;
+	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("application");
 
 	/**
 	 * Lanceur de l'application.
@@ -147,9 +149,9 @@ public class NouveauMotDePasseFrame implements ActionListener {
 						}
 
 						// On envoie la requête
-						httpClient.postRequestWithJsonParam(
-								"https://veggiecrush.masi-henallux.be/rest_server/api/account/updatePassword",
-								jsonEnvoi);
+						httpClient.postRequestWithJsonParamAndToken(
+								applicationProperties.getString("api.url.account.insert.update.password"), jsonEnvoi,
+								applicationProperties.getString("api.token.secure"));
 
 						// On indique dans la base que le compte de cet
 						// utilisateur n'est plus à modifier, on lance la

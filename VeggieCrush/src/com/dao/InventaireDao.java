@@ -147,11 +147,11 @@ public class InventaireDao {
 
 			ObjetDao objetDao = new ObjetDao();
 
-			int dejaPresentEnbase = objetDao.countObjectInInventaireForUuid(inventaire.getId_user(),
+			int dejaUneLigne = objetDao.countObjectInInventaireForUuid(inventaire.getId_user(),
 					inventaire.getId_objet());
 
 			// si déjà présent en base, on modifie la quantité
-			if (dejaPresentEnbase == 1) {
+			if (dejaUneLigne == 1) {
 				stmt = con.prepareStatement(QUERY_UPDATE);
 				int nbObjetDejaPresent = objetDao.getNbObjetByUuidAndByIdObjet(inventaire.getId_user(),
 						inventaire.getId_objet());
@@ -264,14 +264,12 @@ public class InventaireDao {
 
 			ObjetDao objetDao = new ObjetDao();
 
-			int dejaPresentEnbase = objetDao.countObjectInInventaireForUuid(uuid, idObjetCrafte);
+			int dejaUneLigne = objetDao.countObjectInInventaireForUuid(uuid, idObjetCrafte);
 
 			// si déjà présent en base, on modifie la quantité
-			if (dejaPresentEnbase == 1) {
+			if (dejaUneLigne == 1) {
 				stmt = con.prepareStatement(QUERY_UPDATE);
 				int nbObjetDejaPresent = objetDao.getNbObjetByUuidAndByIdObjet(uuid, idObjetCrafte);
-				logger.info("nb" + nbObjetDejaPresent);
-
 				stmt.setInt(1, nbObjetDejaPresent + 1);
 				stmt.setString(2, uuid);
 				stmt.setInt(3, idObjetCrafte);

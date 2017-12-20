@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -46,6 +47,9 @@ public class CreationCompteFrame implements ActionListener {
 	private JRadioButton rdbtnFaction;
 	private JRadioButton rdbtnFaction_1;
 	private String faction;
+	
+	private static ResourceBundle applicationProperties = ResourceBundle.getBundle("application");
+
 
 	/**
 	 * Lanceur de l'application.
@@ -185,9 +189,9 @@ public class CreationCompteFrame implements ActionListener {
 							account = new Account(0, uuidString, pseudo.getText(), mail.getText(),
 									String.valueOf(mdp.getPassword()), faction, null, null, null);
 							HttpClient httpClient = new HttpClient();
-							JSONObject jsonObject = httpClient.postRequestWithJsonParam(
-									"https://veggiecrush.masi-henallux.be/rest_server/api/account/insert",
-									account.getJson());
+							JSONObject jsonObject = httpClient.postRequestWithJsonParamAndToken(
+									applicationProperties.getString("api.url.account.insert"),
+									account.getJson(), applicationProperties.getString("api.token.secure"));
 							Boolean errorInsert = false;
 							try {
 								if (!jsonObject.isNull("error_insert")) {

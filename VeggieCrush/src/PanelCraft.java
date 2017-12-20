@@ -633,4 +633,3 @@ public class PanelCraft extends JPanel implements ActionListener {
 		}
 	}
 }
-// MIPA BAS
