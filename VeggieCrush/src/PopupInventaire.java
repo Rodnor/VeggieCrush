@@ -29,22 +29,23 @@ public class PopupInventaire extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	private Thread t;
 	private boolean run = true;
-	ArrayList<Inventaire> inv;
-	ArrayList<String> projectNameList;
-	JLabel[] buttons;
-	String[] projectNames;
-	BufferedImage iconPlante = null;
-	BufferedImage iconVide = null;
-	JScrollPane jscroll;
-	JPanel btnPnl1;
-	boolean affichagefenetre = true;
-	ObjetDao objetdao = new ObjetDao();
-	Objet objet;
+	private ArrayList<Inventaire> inv;
+	private ArrayList<String> listeobjetsinv;
+	private JLabel[] matrice_jlabel_objets;
+	private String[] string_listeobjets;
+	private BufferedImage iconPlante = null;
+	private BufferedImage iconVide = null;
+	private JScrollPane jscroll;
+	private JPanel btnPnl1;
+	private boolean affichagefenetre = true;
+	private ObjetDao objetdao = new ObjetDao();
+	private Objet objet;
 
 	/**
 	 * Create the frame.
 	 */
 	public PopupInventaire() {
+		// on définie la taille de la fenetre...etc
 		setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 500);
 		setTitle("Inventaire");
@@ -64,6 +65,7 @@ public class PopupInventaire extends JFrame implements ActionListener {
 		setSize(500, 500);
 		setResizable(false);
 
+		//initialisation de l'image vide
 		try {
 			iconVide = ImageIO.read(new File("images/vide.png"));
 
@@ -73,16 +75,20 @@ public class PopupInventaire extends JFrame implements ActionListener {
 
 		InventaireDao invdao = new InventaireDao();
 
+		//création d'un thread pour pouvoir refresh l'inventaire toutes les  500ms
 		t = new Thread() {
 			public void run() {
 				while (run) {
+					//on reset tout
 					objet = null;
 					btnPnl1 = new JPanel();
 					getContentPane().removeAll();
 
 					inv = new ArrayList<Inventaire>();
+					//on récupère tous les objets obtenus par le joueur
 					inv = invdao.getInventaireByUuid(MainFrame.getUUID());
 					int cpt = 0;
+					//on calcule le nombre de ligne de 6 elements qui seont nécessaire pour l'affichage total de tous les objets
 					for (int i = 0; i < inv.size(); i++) {
 						if (i % 6 == 0) {
 							cpt++;
@@ -92,55 +98,56 @@ public class PopupInventaire extends JFrame implements ActionListener {
 					btnPnl1.setLayout(new GridLayout(cpt, 10, 25, 25));
 					btnPnl1.setSize(new Dimension(500, 500));
 
-					projectNameList = new ArrayList<String>();
+					listeobjetsinv = new ArrayList<String>();
 
+					// on initialise le texte de toutes les cases a vide
 					for (int index = 0; index < 6 * cpt; index++) {
-						projectNameList.add("");
+						listeobjetsinv.add("");
 					}
 
+					// pour le nombre d'objet dispo dans l'inventaire on remplace le texte vide par la quantité réelle de l'objet contenu sur la case
 					for (int index = 0; index < inv.size(); index++) {
-						projectNameList.set(index, "Qte : " + inv.get(index).getQte());
+						listeobjetsinv.set(index, "Qte : " + inv.get(index).getQte());
 					}
 
-					projectNames = projectNameList.toArray(new String[0]);
+					// on créé un tableau de string avec les différentes quantités
+					string_listeobjets = listeobjetsinv.toArray(new String[0]);
 
-					buttons = new JLabel[projectNameList.size()];
+					//on créé une matrice de jlabel
+					matrice_jlabel_objets = new JLabel[listeobjetsinv.size()];
 
 					try {
-						for (int i = 0; i < projectNames.length; i++) {
-							buttons[i] = new JLabel(projectNames[i]);
+						
+						for (int i = 0; i < string_listeobjets.length; i++) {
+							matrice_jlabel_objets[i] = new JLabel(string_listeobjets[i]);
 							if (i < inv.size()) {
+								//on parcours la liste seulement pour le nombre d'éelemnts dans l'inventaire (les autres elements garderont l'image d'emplacement vide)
 								if (i < 4) {
+									// on affiche en premier les 4 images pour les 4 plantes
 									iconPlante = ImageIO
 											.read(new File("images/herbe" + String.valueOf(i + 1) + ".jpg"));
-									buttons[i].setIcon(new ImageIcon(iconPlante));
+									matrice_jlabel_objets[i].setIcon(new ImageIcon(iconPlante));
 								} else {
+									//ensuite on va récuperer les images pour les autres objets
 									iconPlante = ImageIO.read(new File(
 											"images/recette" + String.valueOf(inv.get(i).getId_objet() - 4) + ".png"));
-									buttons[i].setIcon(new ImageIcon(iconPlante));
+									matrice_jlabel_objets[i].setIcon(new ImageIcon(iconPlante));
 								}
 
 							} else {
-								buttons[i].setIcon(new ImageIcon(iconVide));
+								//image vide par défaut pour le surplus de cases
+								matrice_jlabel_objets[i].setIcon(new ImageIcon(iconVide));
 							}
-							buttons[i].setVerticalTextPosition(JLabel.BOTTOM);
-							buttons[i].setHorizontalTextPosition(JLabel.CENTER);
-							/*
-							 * System.out.println(String.valueOf(inv.get(i).
-							 * getId_objet()));
-							 * objet=objetdao.getObjetById(inv.get(i).
-							 * getId_objet()); if(i<inv.size()) {
-							 * System.out.println(objet.toString());
-							 * buttons[i].setToolTipText(objet.getNom_objet());
-							 * }
-							 */
-							btnPnl1.add(buttons[i]);
+							matrice_jlabel_objets[i].setVerticalTextPosition(JLabel.BOTTOM);
+							matrice_jlabel_objets[i].setHorizontalTextPosition(JLabel.CENTER);
+							btnPnl1.add(matrice_jlabel_objets[i]);
 
 						}
 					} catch (Exception e2) {
 						JOptionPane.showMessageDialog(null, e2);
 					}
 
+					// ajout du tout dans un jscrollpane pour permettre le scroll vers le bas quand trop d'élements a afficher
 					jscroll = new JScrollPane(btnPnl1);
 
 					getContentPane().add(jscroll, BorderLayout.CENTER);
