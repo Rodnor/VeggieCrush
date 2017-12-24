@@ -156,10 +156,10 @@ public class PopupInventaire extends JFrame implements ActionListener {
 						e.printStackTrace();
 					}
 				}
-				if (!run) {
+				/*if (!run) {
 
 					t.interrupt();
-				}
+				}*/
 			}
 		};
 		t.start();
