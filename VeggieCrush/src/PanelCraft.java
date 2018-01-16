@@ -133,7 +133,7 @@ public class PanelCraft extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 
-		// récupération de toutes les recettes dans la base
+		// rï¿½cupï¿½ration de toutes les recettes dans la base
 		listeAllRecette = recettedao.getRecettes();
 
 		//tri des recettes pour les placer dans la bonne liste
@@ -260,7 +260,7 @@ public class PanelCraft extends JPanel implements ActionListener {
 		panelComposantRecette.add(panel_2);
 
 		
-		JLabel listecomporecette = new JLabel("Composants nécessaires");
+		JLabel listecomporecette = new JLabel("Composants nÃ©cessaires");
 		listecomporecette.setVerticalAlignment(SwingConstants.TOP);
 		listecomporecette.setHorizontalTextPosition(SwingConstants.CENTER);
 		listecomporecette.setHorizontalAlignment(SwingConstants.CENTER);
@@ -278,7 +278,7 @@ public class PanelCraft extends JPanel implements ActionListener {
 		panelListeCompo.setLayout(new GridLayout(2, 2, 25, 25));
 		
 		
-		//initialisation des composants nécessaire pour les recettes
+		//initialisation des composants nï¿½cessaire pour les recettes
 		lblPlante1Recette = new JLabel("");
 		lblPlante1Recette.setVerticalTextPosition(JLabel.BOTTOM);
 		lblPlante1Recette.setHorizontalTextPosition(JLabel.CENTER);
@@ -347,13 +347,13 @@ public class PanelCraft extends JPanel implements ActionListener {
 		inv_plante3.setName("3");
 		inv_plante4.setName("4");
 
-		// récupération de la quantité des composants disponibles pour le joueur pour chaque plante
+		// rï¿½cupï¿½ration de la quantitï¿½ des composants disponibles pour le joueur pour chaque plante
 		qteplante1 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 1);
 		qteplante2 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 2);
 		qteplante3 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 3);
 		qteplante4 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 4);
 
-		// ajout des quantités dans les labels
+		// ajout des quantitï¿½s dans les labels
 		inv_plante1.setText(qteplante1 + " Dispo");
 		inv_plante1.setVerticalTextPosition(JLabel.BOTTOM);
 		inv_plante1.setHorizontalTextPosition(JLabel.CENTER);
@@ -371,7 +371,7 @@ public class PanelCraft extends JPanel implements ActionListener {
 		inv_plante3.setIcon(new ImageIcon(iconPlante3));
 		inv_plante4.setIcon(new ImageIcon(iconPlante4));
 
-		// création des spinner avec NBMAX = quantité de plante du joueur (récupéré ci au-dessus)
+		// crï¿½ation des spinner avec NBMAX = quantitï¿½ de plante du joueur (rï¿½cupï¿½rï¿½ ci au-dessus)
 		spinner = new JSpinner(new SpinnerNumberModel(0, 0, qteplante1, 1));
 		spinner_1 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante2, 1));
 		spinner_2 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante3, 1));
@@ -391,11 +391,23 @@ public class PanelCraft extends JPanel implements ActionListener {
 
 		panel_listeRessources.add(spinner_3);
 
-		//thread pour refresh la quantité des plantes disponibles
+		//thread pour refresh la quantitï¿½ des plantes disponibles
 		t = new Thread() {
 			public void run() {
 				while (run) {
+					
+					qteplante1 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 1);
+					qteplante2 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 2);
+					qteplante3 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 3);
+					qteplante4 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 4);
+					
 
+					//on refresh les valeurs sur tous les spinners
+					spinner = new JSpinner(new SpinnerNumberModel(0, 0, qteplante1, 1));
+					spinner_1 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante2, 1));
+					spinner_2 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante3, 1));
+					spinner_3 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante4, 1));
+					
 					inv_plante1.setText(qteplante1 + " Dispo");
 					inv_plante1.setVerticalTextPosition(JLabel.BOTTOM);
 					inv_plante1.setHorizontalTextPosition(JLabel.CENTER);
@@ -457,22 +469,23 @@ public class PanelCraft extends JPanel implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PopupInventaire inventaire = new PopupInventaire();
-				inventaire.setVisible(true);
+				PopupInventaire.getInstance();
 			}
 		});
 
-		// bouton pour lancer le craft désiré
+		// bouton pour lancer le craft dï¿½sirï¿½
 		JButton btnCraft = new JButton(new ImageIcon(iconCraft));
 		btnCraft.setBorderPainted(false);
 		btnCraft.setFocusPainted(false);
 		btnCraft.setContentAreaFilled(false);
 
+		
 		btnCraft.addActionListener(new ActionListener() {
-			//lorsqu'on clique sur le boutton de craft, on "commit" les valeurs des différents spinners pour les "figer" et pouvoir les récuperer
+			//lorsqu'on clique sur le boutton de craft, on "commit" les valeurs des diffï¿½rents spinners pour les "figer" et pouvoir les rï¿½cuperer
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int idobj = 0;
+				System.out.println("DEBUT RECHERCHE");
 				try {
 					spinner.commitEdit();
 				} catch (ParseException e1) {
@@ -494,7 +507,7 @@ public class PanelCraft extends JPanel implements ActionListener {
 					e1.printStackTrace();
 				}
 
-				// on recherche si une recette existe avec les quantités selectionnées
+				// on recherche si une recette existe avec les quantitï¿½s selectionnï¿½es
 				idobj = recettedao.getIdRecetteByComposants((Integer) spinner.getValue(),
 						(Integer) spinner_1.getValue(), (Integer) spinner_2.getValue(), (Integer) spinner_3.getValue());
 				
@@ -503,12 +516,12 @@ public class PanelCraft extends JPanel implements ActionListener {
 					inventairedao.craftNewItem(MainFrame.getUUID(), idobj, (Integer) spinner.getValue(),
 							(Integer) spinner_1.getValue(), (Integer) spinner_2.getValue(),
 							(Integer) spinner_3.getValue());
-					// on refresh la quantité de compo disponible pour le joueur
+
+					// on refresh la quantitï¿½ de compo disponible pour le joueur
 					qteplante1 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 1);
 					qteplante2 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 2);
 					qteplante3 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 3);
 					qteplante4 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 4);
-					System.out.println("qte4 :" + String.valueOf(qteplante4));
 
 					panel_listeRessources.removeAll();
 					repaint();
@@ -535,6 +548,9 @@ public class PanelCraft extends JPanel implements ActionListener {
 					panel_listeRessources.add(inv_plante4);
 
 					panel_listeRessources.add(spinner_3);
+					
+					System.out.println("FIN RECHERCHE");
+
 
 				}
 			}
