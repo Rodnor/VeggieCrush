@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.Logger;
@@ -107,8 +109,20 @@ public class MainFrame {
 		onglet = new JTabbedPane();
 		onglet.add("Jeu", tPan[0]);
 		onglet.add("Craft", tPan[1]);
+		
+		onglet.addChangeListener(new ChangeListener() {	
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				 if (onglet.getSelectedIndex() == 1 && PanelJeu.isFinDePartie()) {
+					 	PanelCraft.setChanged(true);
+				 } else {
+					PanelCraft.setChanged(false);
+				 }
+			}
+		});
 
 		frame.getContentPane().add(onglet);
+		
 
 		frame.setVisible(true);
 		frame.setResizable(false);
@@ -150,7 +164,7 @@ public class MainFrame {
 						}
 					}
 					try {
-						Thread.sleep(100);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

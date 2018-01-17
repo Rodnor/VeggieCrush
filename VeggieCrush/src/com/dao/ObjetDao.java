@@ -322,7 +322,6 @@ public class ObjetDao {
 			}
 		}
 		
-		System.out.println("nbRen"+nombre);
 		return nombre;
 	}
 

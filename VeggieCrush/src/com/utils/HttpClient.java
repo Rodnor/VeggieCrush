@@ -98,7 +98,6 @@ public final class HttpClient {
 				in.close();
 
 				jsonRetour = new JSONObject(response.toString());
-				System.out.println(jsonRetour);
 			}
 			// erreurs
 		} catch (IOException e) {
@@ -193,7 +192,6 @@ public final class HttpClient {
 				in.close();
 
 				jsonRetour = new JSONObject(response.toString());
-				System.out.println(jsonRetour);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

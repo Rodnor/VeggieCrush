@@ -86,13 +86,27 @@ public class PanelJeu extends JPanel implements ActionListener {
 	private Checkbox howob = new Checkbox("HOWOB");
 	private ArrayList<Bonus> listeBonus;
 	private boolean premierJeu = true;
+	private static boolean finDePartie = false;
+
+	/**
+	 * @return the finDePartie
+	 */
+	public static boolean isFinDePartie() {
+		return finDePartie;
+	}
+
+	/**
+	 * @param finDePartie the finDePartie to set
+	 */
+	public static void setFinDePartie(boolean finDePartie) {
+		PanelJeu.finDePartie = finDePartie;
+	}
 
 	/**
 	 * Constructeur du panel.
 	 */
 	public PanelJeu() {
 
-		System.out.println(MainFrame.getUUID());
 
 		// En fonction des bonus reçus en provenance de la fenêtre des bonus, on attribue les bonus au jour pour la partie suivante
 		attribuerBonus();
@@ -551,6 +565,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 
 		// On indique à l'utilisateur que la partie est terminée
 		JOptionPane.showMessageDialog(null, "Fin de partie !");
+		
+		finDePartie = true;
 
 		// On remet visible le bouton de jeu s'il veut relancer une partie
 		btnJouer.setVisible(true);
@@ -598,6 +614,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		// On remet à leur valeur d'origine le temps et le nombre de coups
 		tempsTotal = tempsBase + tempsBonus;
 		nombreCoups = 25 + nombreCoupsBonus;
+		finDePartie = false;
 
 		// On supprime les boutons de la grille
 		canvas.removeAll();
@@ -725,9 +742,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		listeBonus = GestionBonus.recupererBonus(MainFrame.getUUID());
 
 		// Pour chaque bonus de la liste
-		for (Bonus bonus : listeBonus) {
-			System.out.println(bonus.getNomJeu() + " : " + bonus.getPossedeBonus());
-			
+		for (Bonus bonus : listeBonus) {			
 			// S'il existe un bonus
 			if (bonus.getPossedeBonus()) {
 				// Suivant le nom du jeu, on active la chackbox correspondante au bonus existant

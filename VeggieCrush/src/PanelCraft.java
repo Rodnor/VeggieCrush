@@ -21,6 +21,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -72,7 +73,27 @@ public class PanelCraft extends JPanel implements ActionListener {
 	private int qteplante2 = 0;
 	private int qteplante3 = 0;
 	private int qteplante4 = 0;
+	static private boolean isChanged = false;
+	private JFrame inventaireFrame = null;
+	
 
+	/**
+	 * @return the isChanged
+	 */
+	public static boolean isChanged() {
+		return isChanged;
+	}
+
+	/**
+	 * @param isChanged the isChanged to set
+	 */
+	public static void setChanged(boolean isChanged) {
+		PanelCraft.isChanged = isChanged;
+	}
+	
+	public static void updateAffichage() {
+
+	}
 	
 
 	protected JComponent makeTextPanel(int size) {
@@ -400,35 +421,53 @@ public class PanelCraft extends JPanel implements ActionListener {
 					qteplante2 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 2);
 					qteplante3 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 3);
 					qteplante4 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 4);
-					
 
-					//on refresh les valeurs sur tous les spinners
-					spinner = new JSpinner(new SpinnerNumberModel(0, 0, qteplante1, 1));
-					spinner_1 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante2, 1));
-					spinner_2 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante3, 1));
-					spinner_3 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante4, 1));
-					
-					inv_plante1.setText(qteplante1 + " Dispo");
-					inv_plante1.setVerticalTextPosition(JLabel.BOTTOM);
-					inv_plante1.setHorizontalTextPosition(JLabel.CENTER);
-					inv_plante2.setText(qteplante2 + " Dispo");
-					inv_plante2.setVerticalTextPosition(JLabel.BOTTOM);
-					inv_plante2.setHorizontalTextPosition(JLabel.CENTER);
-					inv_plante3.setText(qteplante3 + " Dispo");
-					inv_plante3.setVerticalTextPosition(JLabel.BOTTOM);
-					inv_plante3.setHorizontalTextPosition(JLabel.CENTER);
-					inv_plante4.setText(qteplante4 + " Dispo");
-					inv_plante4.setVerticalTextPosition(JLabel.BOTTOM);
-					inv_plante4.setHorizontalTextPosition(JLabel.CENTER);
+					if (isChanged) {
+						panel_listeRessources.removeAll();
+			
+						spinner = new JSpinner(new SpinnerNumberModel(0, 0, qteplante1, 1));
+						spinner_1 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante2, 1));
+						spinner_2 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante3, 1));
+						spinner_3 = new JSpinner(new SpinnerNumberModel(0, 0, qteplante4, 1));
+
+						inv_plante1.setText(qteplante1 + " Dispo");
+						inv_plante1.setVerticalTextPosition(JLabel.BOTTOM);
+						inv_plante1.setHorizontalTextPosition(JLabel.CENTER);
+						inv_plante2.setText(qteplante2 + " Dispo");
+						inv_plante2.setVerticalTextPosition(JLabel.BOTTOM);
+						inv_plante2.setHorizontalTextPosition(JLabel.CENTER);
+						inv_plante3.setText(qteplante3 + " Dispo");
+						inv_plante3.setVerticalTextPosition(JLabel.BOTTOM);
+						inv_plante3.setHorizontalTextPosition(JLabel.CENTER);
+						inv_plante4.setText(qteplante4 + " Dispo");
+						inv_plante4.setVerticalTextPosition(JLabel.BOTTOM);
+						inv_plante4.setHorizontalTextPosition(JLabel.CENTER);
+						
+						panel_listeRessources.add(inv_plante1);
+						panel_listeRessources.add(spinner);
+						
+						panel_listeRessources.add(inv_plante2);
+						panel_listeRessources.add(spinner_1);
+						
+						panel_listeRessources.add(inv_plante3);
+						panel_listeRessources.add(spinner_2);
+						
+						panel_listeRessources.add(inv_plante4);
+						panel_listeRessources.add(spinner_3);
+						
+						repaint();
+
+						PopupInventaire.setReloadData(true);
+						isChanged = false;
+					}
 
 					try {
-						Thread.sleep(100);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
 				if (!run) {
-
 					t.interrupt();
 				}
 			}
@@ -469,9 +508,29 @@ public class PanelCraft extends JPanel implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PopupInventaire.getInstance();
+				inventaireFrame = PopupInventaire.getInstance();
 			}
 		});
+		
+		
+		/* Thread t2 = new Thread() {
+			public void run() {
+				while (true){
+					
+					if (inventaireFrame != null && !inventaireFrame.hasFocus()){
+						inventaireFrame.setVisible(false);
+					}
+	
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+
+			}
+		};
+		t2.start(); */
 
 		// bouton pour lancer le craft d�sir�
 		JButton btnCraft = new JButton(new ImageIcon(iconCraft));
@@ -479,13 +538,11 @@ public class PanelCraft extends JPanel implements ActionListener {
 		btnCraft.setFocusPainted(false);
 		btnCraft.setContentAreaFilled(false);
 
-		
 		btnCraft.addActionListener(new ActionListener() {
 			//lorsqu'on clique sur le boutton de craft, on "commit" les valeurs des diff�rents spinners pour les "figer" et pouvoir les r�cuperer
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int idobj = 0;
-				System.out.println("DEBUT RECHERCHE");
 				try {
 					spinner.commitEdit();
 				} catch (ParseException e1) {
@@ -516,13 +573,14 @@ public class PanelCraft extends JPanel implements ActionListener {
 					inventairedao.craftNewItem(MainFrame.getUUID(), idobj, (Integer) spinner.getValue(),
 							(Integer) spinner_1.getValue(), (Integer) spinner_2.getValue(),
 							(Integer) spinner_3.getValue());
-
 					// on refresh la quantit� de compo disponible pour le joueur
 					qteplante1 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 1);
 					qteplante2 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 2);
 					qteplante3 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 3);
 					qteplante4 = objetDao.getNbObjetByUuidAndByIdObjet(MainFrame.getUUID(), 4);
-
+					
+					isChanged = true;
+/*
 					panel_listeRessources.removeAll();
 					repaint();
 					//on refresh les valeurs sur tous les spinners
@@ -547,11 +605,11 @@ public class PanelCraft extends JPanel implements ActionListener {
 					panel_listeRessources.add(spinner_2);
 					panel_listeRessources.add(inv_plante4);
 
-					panel_listeRessources.add(spinner_3);
-					
-					System.out.println("FIN RECHERCHE");
+					panel_listeRessources.add(spinner_3); */
 
-
+				} else {
+					// On indique à l'utilisateur qu'aucune recette de correspond
+					JOptionPane.showMessageDialog(null, "Aucune recette correspondante !");
 				}
 			}
 		});
@@ -586,48 +644,75 @@ public class PanelCraft extends JPanel implements ActionListener {
 				ReglesFrame.getInstance();
 			} else {
 				String nombtn = btn.getName();
+				int[] tabSpinner = new int[4];
 				String[] str = nombtn.split("-");
 				if (str[0].equals("HOWOB")) {
-					titre_recette
-							.setText(String.valueOf(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getNomRecette()));
-					description_recette
-							.setText(String.valueOf(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getDescription()));
-					lblPlante1Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte1() + " requis");
-					lblPlante2Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte2() + " requis");
-					lblPlante3Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte3() + " requis");
-					lblPlante4Recette.setText(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte4() + " requis");
+					titre_recette.setText(String.valueOf(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getNomRecette()));
+					description_recette.setText(String.valueOf(listeRecetteHOWOB.get(Integer.valueOf(str[1])).getDescription()));
+					
+					tabSpinner[0] = listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte1();
+					tabSpinner[1] = listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte2();
+					tabSpinner[2] = listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte3();
+					tabSpinner[3] = listeRecetteHOWOB.get(Integer.valueOf(str[1])).getQte4();
+					affichagePanelGauche(tabSpinner);
+					
 				} else {
 					if (str[0].equals("FARMVILLAGE")) {
-						titre_recette.setText(
-								String.valueOf(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getNomRecette()));
-						description_recette.setText(
-								String.valueOf(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getDescription()));
-						lblPlante1Recette
-								.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte1() + " requis");
-
-						lblPlante2Recette
-								.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte2() + " requis");
-						lblPlante3Recette
-								.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte3() + " requis");
-						lblPlante4Recette
-								.setText(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte4() + " requis");
+						titre_recette.setText(String.valueOf(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getNomRecette()));
+						description_recette.setText(String.valueOf(listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getDescription()));
+						
+						tabSpinner[0] = listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte1();
+						tabSpinner[1] = listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte2();
+						tabSpinner[2] = listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte3();
+						tabSpinner[3] = listeRecetteFARMVILLAGE.get(Integer.valueOf(str[1])).getQte4();
+						
+						affichagePanelGauche(tabSpinner);
+						
 					} else {
 						// str[0]=="BOOMCRAFT"
-						titre_recette.setText(
-								String.valueOf(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getNomRecette()));
-						description_recette.setText(
-								String.valueOf(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getDescription()));
-						lblPlante1Recette
-								.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte1() + " requis");
-						lblPlante2Recette
-								.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte2() + " requis");
-						lblPlante3Recette
-								.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte3() + " requis");
-						lblPlante4Recette
-								.setText(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte4() + " requis");
+						titre_recette.setText(String.valueOf(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getNomRecette()));
+						description_recette.setText(String.valueOf(listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getDescription()));
+						
+						tabSpinner[0] = listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte1();
+						tabSpinner[1] = listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte2();
+						tabSpinner[2] = listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte3();
+						tabSpinner[3] = listeRecetteBOOMCRAFT.get(Integer.valueOf(str[1])).getQte4();
+						
+						affichagePanelGauche(tabSpinner);
 					}
 				}
 			}
+		}
+	}
+	
+	public void affichagePanelGauche(int[] tab){
+		lblPlante1Recette.setText(tab[0] + " requis");
+		lblPlante2Recette.setText(tab[1] + " requis");
+		lblPlante3Recette.setText(tab[2] + " requis");
+		lblPlante4Recette.setText(tab[3] + " requis");
+		
+		if (qteplante1 >= tab[0]){
+			spinner.setValue(tab[0]);
+		} else {
+			spinner.setValue(0);
+		}
+		
+		if (qteplante2 >= tab[1]){
+			spinner_1.setValue(tab[1]);
+		} else {
+			spinner_1.setValue(0);
+		}
+		
+		if (qteplante3 >= tab[2]){
+			spinner_2.setValue(tab[2]);
+		} else {
+			spinner_2.setValue(0);
+		}
+		
+		if (qteplante4 >= tab[3]){
+			spinner_3.setValue(tab[3]);	
+		} else {
+			spinner_3.setValue(0);
 		}
 	}
 }
