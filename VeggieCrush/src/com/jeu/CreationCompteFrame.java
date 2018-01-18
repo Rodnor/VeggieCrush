@@ -212,14 +212,14 @@ public class CreationCompteFrame implements ActionListener {
 							// Le compte existe déja ailleurs, message d'erreur
 						} else {
 							JOptionPane.showMessageDialog(null,
-									"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre1",
+									"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre",
 									"Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 						}
 						// Le compte existe déjà chez nous, message d'erreur
 					} else {
 
 						JOptionPane.showMessageDialog(null,
-								"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre2",
+								"Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en utiliser un autre",
 								"Utilisateur invalide", JOptionPane.ERROR_MESSAGE, null);
 					}
 					// Suivant le champ qui est vide, un messade d'erreur
