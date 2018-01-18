@@ -166,8 +166,8 @@ public class CreationCompteFrame implements ActionListener {
 				if (!pseudo.getText().equals("") && !mail.getText().equals("") && Utils.validate(mail.getText())
 						&& !String.valueOf(mdp.getPassword()).equals("")
 						&& !String.valueOf(mdp_confirm.getPassword()).equals("")
-						&& String.valueOf(mdp_confirm.getPassword()).equals(String.valueOf(mdp.getPassword()))) {
-					// TODO, controle sur la faction
+						&& String.valueOf(mdp_confirm.getPassword()).equals(String.valueOf(mdp.getPassword()))
+						&& faction != null && !faction.equals("")) {
 
 					// Création de 2 objets Account
 					Account account = new Account();
