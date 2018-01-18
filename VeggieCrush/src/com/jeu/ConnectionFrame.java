@@ -1,3 +1,4 @@
+package com.jeu;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -166,8 +167,8 @@ public class ConnectionFrame implements ActionListener {
 				// Création du DAO permettant d'intéragir avec la table Account
 				AccountDao adao = new AccountDao();
 
-				tf_pseudo.setText("testeur");
-				passwordField.setText("testeur");
+				//tf_pseudo.setText("testeur");
+				//passwordField.setText("testeur");
 				// Si le pseudo et le mot de passe ne sont pas vides
 				if (!tf_pseudo.getText().equals("") && !String.valueOf(passwordField.getPassword()).equals("")) {
 					// On cherche dans notre base et dans la base des autres
