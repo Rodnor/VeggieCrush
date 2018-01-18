@@ -268,7 +268,8 @@ public class PanelJeu extends JPanel implements ActionListener {
 				} else {
 					premierJeu = false;
 				}
-
+					
+				finDePartie = false;
 				// On lance la méthode qui permet de remettre à zéro les éléments de l'interface (grille de jeu, HUD)
 				resetElements();
 

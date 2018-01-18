@@ -19,7 +19,7 @@ public class InventaireDao {
 
 	// requetes
 	private final static String QUERY_FIND_ALL = "SELECT * FROM INVENTAIRE";
-	private final static String QUERY_FIND_BY_ID = "SELECT * FROM INVENTAIRE WHERE id_global = ? and qte > 0";
+	private final static String QUERY_FIND_BY_ID = "SELECT * FROM INVENTAIRE WHERE id_global = ?";
 	private final static String QUERY_FIND_BY_ID_ACCOUNT_AND_BY_ID_OBJET = "SELECT * FROM INVENTAIRE WHERE id_global = ? AND id_objet = ?";
 	private final static String QUERY_INSERT = "INSERT INTO INVENTAIRE (id_objet, id_global, qte) values (?, ?, ?)";
 	private final static String QUERY_UPDATE = "UPDATE INVENTAIRE SET qte = ? WHERE id_global = ? AND id_objet = ?";
@@ -90,7 +90,14 @@ public class InventaireDao {
 			// résultats
 			while (rset.next()) {
 				inventaire = mappingInventaire(rset);
-				inventaires.add(inventaire);
+				
+				if (inventaire.getQte() <= 0){
+					if (inventaire.getId_objet() < 4) {
+						inventaires.add(inventaire);
+					}
+				} else {
+					inventaires.add(inventaire);
+				}
 			}
 			// erreurs
 		} catch (SQLException e) {
