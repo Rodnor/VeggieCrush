@@ -112,9 +112,21 @@ public class ReglesFrame {
 
 		JLabel lblFentreDeCraft = new JLabel("FenÃªtre de craft");
 		panel_1.add(lblFentreDeCraft, "cell 0 0,alignx left,aligny top");
+		
+		// Ajout du texte des rÃ¨gles du jeu
+				JTextPane regles2 = new JTextPane();
+				try {
+					StyledDocument document = (StyledDocument) regles2.getDocument();
+					document.insertString(document.getLength(),
+							"Le principe du craft est simple. Il vous faudra rÃ©colter le plus de plantes possibles dans l'onglet jeu afin de pouvoir les dépenser en fabriquant des potions et améliorations. Pour cela, il faut selectionner la recette de craft relative au jeu voulu en haut de l'écran. Lorsqu'un clic est effectué sur la recette voulue, les informations relatives a celle-ci s'affiche au dessous. Dans ces informations, on peut notamment retrouver le nombre de composants nécessaires pour réaliser la potion ou l'amélioration. Il suffit ensuite de reporter ces nombres dans les cases situées en bas de la fenêtre. Une fois cela réalisé, il suffira de cliquer sur le bouton 'CRAFT', juste au dessous, pour lancer la fabrication. Il aussi possible de consulter son inventaire afin de visualiser l'intégralité des plantes, potions et améliorations disponibles : pour cela il suffit de cliquer sur la caisse en bois. La fenêtre d'inventaire qui s'ouvre, se met a jour toute seule régulierement afin de permettre la visualisation des bonnes quantités.",
+							null);
+					document.insertString(document.getLength(), "Vous savez tout maintenant, bon craft !", null);
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				}
 
-		JTextPane textPane = new JTextPane();
-		panel_1.add(textPane, "cell 1 1,grow");
+				panel_1.add(regles2, "cell 1 1,grow");
+				regles2.setEditable(false);
 
 	}
 
