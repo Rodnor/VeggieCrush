@@ -54,7 +54,7 @@ public class ReglesFrame {
 		// Paramétrages de la fenêtre
 		frame = new JFrame("Règles du jeu");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setBounds(100, 100, 819, 774);
+		frame.setBounds(100, 100, 900, 774);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -118,9 +118,9 @@ public class ReglesFrame {
 				try {
 					StyledDocument document = (StyledDocument) regles2.getDocument();
 					document.insertString(document.getLength(),
-							"Le principe du craft est simple. Il vous faudra récolter le plus de plantes possibles dans l'onglet jeu afin de pouvoir les dépenser en fabriquant des potions et améliorations. Pour cela, il faut selectionner la recette de craft relative au jeu voulu en haut de l'écran. Lorsqu'un clic est effectué sur la recette voulue, les informations relatives à celle-ci s'affiche au dessous. Dans ces informations, on peut notamment retrouver le nombre de composants nécessaires pour réaliser la potion ou l'amélioration. Il suffit ensuite de reporter ces nombres dans les cases situées en bas de la fenêtre. Une fois cela réalisé, il suffira de cliquer sur le bouton 'CRAFT', juste au dessous, pour lancer la fabrication. Il aussi possible de consulter son inventaire afin de visualiser l'intégralité des plantes, potions et améliorations disponibles : pour cela il suffit de cliquer sur la caisse en bois. La fenétre d'inventaire qui s'ouvre, se met a jour toute seule régulierement afin de permettre la visualisation des bonnes quantités.",
+							"Le principe du craft est simple. Il vous faudra récolter le plus de plantes possibles dans l'onglet jeu afin de pouvoir les dépenser en fabriquant des potions et améliorations. Pour cela, il faut sélectionner la recette de craft relative au jeu voulu en haut de l'écran. Lorsqu'un clic est effectué sur la recette voulue, les informations relatives à celle-ci s'affiche au dessous. Dans ces informations, on peut notamment retrouver le nombre de composants nécessaires pour réaliser la potion ou l'amélioration. Il suffit ensuite de reporter ces nombres dans les cases situées en bas de la fenêtre. Une fois cela réalisé, il suffira de cliquer sur le bouton 'CRAFT', juste au dessous, pour lancer la fabrication. \n\nIl est aussi possible de consulter son inventaire afin de visualiser l'intégralité des plantes, potions et améliorations disponibles : pour cela il suffit de cliquer sur la caisse en bois. La fenétre d'inventaire qui s'ouvre, se met a jour toute seule régulierement afin de permettre la visualisation des bonnes quantités.",
 							null);
-					document.insertString(document.getLength(), "Vous savez tout maintenant, bon craft !", null);
+					document.insertString(document.getLength(), "\n\nVous savez tout maintenant, bon craft !", null);
 				} catch (BadLocationException e) {
 					e.printStackTrace();
 				}
