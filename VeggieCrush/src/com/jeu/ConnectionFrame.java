@@ -56,7 +56,7 @@ public class ConnectionFrame implements ActionListener {
 						// d'erreur est affiché
 					} else {
 						JOptionPane.showMessageDialog(null,
-								"Les serveurs du jeu sont inaccessible. Veuillez verifier votre connexion internet.",
+								"Les serveurs du jeu sont inaccessibles. Veuillez verifier votre connexion internet.",
 								"Echec de connexion", JOptionPane.ERROR_MESSAGE, null);
 					}
 				} catch (Exception e) {
