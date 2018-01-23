@@ -220,7 +220,7 @@ public class PanelJeu extends JPanel implements ActionListener {
 		add(btnJouer, "cell 1 7,alignx center,aligny bottom");
 
 		// On gère ici la fonctionnalité de mute pour la musique du panel de jeu
-		tglbtnMuteSound = new JToggleButton("Mute Sound");
+		tglbtnMuteSound = new JToggleButton("Couper musique");
 		// Ajout d'un listener sur le toggle bouton pour savoir s'il est enfoncé ou non
 		tglbtnMuteSound.addItemListener(new ItemListener() {
 			@Override

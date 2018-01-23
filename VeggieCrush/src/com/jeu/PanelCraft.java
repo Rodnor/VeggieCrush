@@ -481,7 +481,7 @@ public class PanelCraft extends JPanel implements ActionListener {
 		panel_btCraft.setLayout(new MigLayout("", "[grow][grow,right][grow,left][grow]", "[29px]"));
 
 		// bouton pour mute la musique
-		JToggleButton tglbtnMute = new JToggleButton("Mute Sound");
+		JToggleButton tglbtnMute = new JToggleButton("Couper musique");
 		tglbtnMute.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent ev) {
